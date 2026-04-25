@@ -1,0 +1,110 @@
+name: 00981A Daily Holdings Tracker
+
+on:
+  schedule:
+    # Taipei 07:00 = UTC 23:00 (previous day). Runs every day.
+    - cron: '0 23 * * *'
+  workflow_dispatch:
+    inputs:
+      etf:
+        description: 'ETF code'
+        required: false
+        default: '00981A'
+      date:
+        description: 'Override data date (YYYY-MM-DD), optional'
+        required: false
+        default: ''
+      force_report:
+        description: 'Force re-generate report'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      TZ: Asia/Taipei
+      PYTHONUNBUFFERED: "1"
+      GMAIL_SMTP_HOST: smtp.gmail.com
+      GMAIL_SMTP_PORT: "587"
+      GMAIL_SENDER_EMAIL: ${{ secrets.GMAIL_SENDER_EMAIL }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+      GMAIL_RECEIVER_EMAIL: ${{ secrets.GMAIL_RECEIVER_EMAIL }}
+      NOTIFY_ON_NO_UPDATE: "true"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests (fast unit checks)
+        run: pytest -q tests/
+
+      - name: Run agent
+        id: run_agent
+        run: |
+          ETF="${{ github.event.inputs.etf || '00981A' }}"
+          DATE_ARG=""
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            DATE_ARG="--date ${{ github.event.inputs.date }}"
+          fi
+          FORCE_ARG=""
+          if [ "${{ github.event.inputs.force_report }}" = "true" ]; then
+            FORCE_ARG="--force-report"
+          fi
+          python -m src.main --etf "$ETF" $DATE_ARG $FORCE_ARG
+
+      - name: Send failure email (best-effort)
+        if: failure()
+        run: |
+          # main.py already attempts to email on failure; this is a final safety net
+          # for cases where main.py never started (e.g., dependency install failed).
+          python - <<'PY' || true
+          import os, smtplib
+          from email.message import EmailMessage
+          from datetime import datetime
+          sender = os.getenv("GMAIL_SENDER_EMAIL")
+          pw = os.getenv("GMAIL_APP_PASSWORD")
+          rcpt = os.getenv("GMAIL_RECEIVER_EMAIL")
+          if not (sender and pw and rcpt):
+              print("Gmail not configured; skipping fallback failure email.")
+              raise SystemExit(0)
+          ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+          msg = EmailMessage()
+          msg["Subject"] = f"[00981A持股追蹤失敗] {ts} GitHub Actions job failed"
+          msg["From"] = sender
+          msg["To"] = rcpt
+          msg.set_content(
+              "GitHub Actions workflow failed before the agent could send its own "
+              "failure email. Check the workflow run logs for details.\n\n"
+              "本報告僅為系統錯誤通知，不構成投資建議。"
+          )
+          with smtplib.SMTP("smtp.gmail.com", 587, timeout=30) as s:
+              s.starttls(); s.login(sender, pw); s.send_message(msg)
+          print("Fallback failure email sent.")
+          PY
+
+      - name: Upload reports artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-${{ github.run_id }}
+          path: |
+            data/reports/
+            data/etf_holdings.sqlite
+          if-no-files-found: ignore
+          retention-days: 30

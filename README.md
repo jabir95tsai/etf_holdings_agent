@@ -1,0 +1,183 @@
+# 00981A ETF Holdings Daily Tracker
+
+每日自動抓取 **00981A 主動統一台股增長** 的最新持股，與前一筆可用持股比較，產生變化報告，並透過 Gmail 寄送通知。
+
+> ⚠️ 本專案僅為資料整理工具，**不會自動下單**，也**不提供任何投資建議**。所有報告結尾皆附免責聲明。
+
+---
+
+## 1. 專案用途
+
+- 每天台灣時間 **07:00** 自動執行
+- 抓取 00981A 最新持股（官方優先 → MoneyDJ → TWSE）
+- 與資料庫中前一筆可用日期做比較，分類：
+  - 新建倉 / 清倉 / 增持 / 減持 / 持平
+- 產出 Markdown + CSV 報告
+- 透過 Gmail SMTP 寄送報告 / 無新資料通知 / 失敗通知
+
+---
+
+## 2. 系統架構
+
+```
+GitHub Actions (cron 0 23 * * *  → Taipei 07:00)
+       │
+       ▼
+src/main.py
+  ├── scraper.py   ── 三段式 fallback：official → moneydj → twse
+  ├── parser.py    ── HTML / JSON → 標準持股 dict
+  ├── db.py        ── SQLite 持久化（holdings_daily / run_logs / alerts）
+  ├── comparer.py  ── 兩日快照差異分類
+  ├── reporter.py  ── Markdown / CSV 產出 + 資料品質檢查
+  └── notifier.py  ── Gmail SMTP 通知
+```
+
+---
+
+## 3. 資料來源
+
+| 來源 | 用途 | 備註 |
+|---|---|---|
+| 統一投信 (UPAMC) | 主來源 | 環境變數 `UPAMC_URL` 可覆蓋 |
+| MoneyDJ ETF 持股頁 | 第一備援 | `MONEYDJ_URL` |
+| TWSE ETF 投資組合 | 第二備援 | `TWSE_URL` |
+
+> 預設 URL 會試著抓 00981A 的官方頁面；若官方頁面變動或封鎖請以環境變數覆寫。每次抓取的原始 HTML/JSON 會存到 `data/raw/` 以便事後追查。
+
+---
+
+## 4. 本機執行
+
+```bash
+# 安裝相依
+python -m venv .venv
+. .venv/Scripts/activate           # PowerShell: .venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+
+# 設定環境變數
+cp .env.example .env
+# 編輯 .env，填入 Gmail App Password 等
+
+# 跑單元測試
+pytest -q
+
+# 正式執行
+python -m src.main --etf 00981A
+
+# 其他指令
+python -m src.main --etf 00981A --date 2026-04-24    # 指定資料日期
+python -m src.main --etf 00981A --dry-run            # 不寫 DB、不寄信
+python -m src.main --etf 00981A --notify-test        # 測試 Gmail SMTP
+python -m src.main --etf 00981A --force-report       # 強制重新產報告
+```
+
+---
+
+## 5. 設定 .env
+
+複製 `.env.example` 為 `.env`，填入：
+
+```env
+GMAIL_SMTP_HOST=smtp.gmail.com
+GMAIL_SMTP_PORT=587
+GMAIL_SENDER_EMAIL=your_email@gmail.com
+GMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx
+GMAIL_RECEIVER_EMAIL=receiver@gmail.com
+NOTIFY_ON_NO_UPDATE=true
+```
+
+`.env` 已在 `.gitignore`（請自行確認）— **絕對不要把 App Password commit 進 Git**。
+
+---
+
+## 6. 建立 Gmail App Password
+
+1. 前往 <https://myaccount.google.com/security>
+2. 確認帳戶已啟用 **兩步驟驗證 (2-Step Verification)**
+3. 進入 <https://myaccount.google.com/apppasswords>
+4. 應用程式選 **「Mail」**、裝置選 **「Other」** → 命名為 `etf-holdings-agent`
+5. Google 會給 16 碼密碼（範例：`abcd efgh ijkl mnop`）
+6. 把空白去掉後填入 `GMAIL_APP_PASSWORD`
+
+> 如果看不到 App Passwords 選項，代表 2FA 沒開或帳戶政策禁止。改用其他 Gmail 帳號或 Google Workspace 設定後再試。
+
+---
+
+## 7. 設定 GitHub Actions Secrets
+
+在 GitHub repo → **Settings → Secrets and variables → Actions → New repository secret**：
+
+| Secret 名稱 | 值 |
+|---|---|
+| `GMAIL_SENDER_EMAIL` | 寄件 Gmail（例：`me@gmail.com`） |
+| `GMAIL_APP_PASSWORD` | 16 碼 App Password |
+| `GMAIL_RECEIVER_EMAIL` | 收件信箱 |
+
+---
+
+## 8. 啟用每日 7:00 自動執行
+
+`.github/workflows/daily.yml` 已包含：
+
+```yaml
+on:
+  schedule:
+    - cron: '0 23 * * *'    # UTC 23:00 = 台北 07:00 (隔天)
+  workflow_dispatch: {}
+```
+
+push 到 GitHub `main` branch 後，排程就會生效。**第一次也建議手動觸發** workflow_dispatch 一次以驗證 Secrets 是否正確。
+
+> GitHub-hosted runner 的 cron 並非毫秒精準；通常會在排定時間後 0–15 分鐘內觸發，這是 GitHub 平台行為，不是程式 bug。
+
+---
+
+## 9. 查看 reports
+
+- 報告會寫到 `data/reports/`：
+  - `00981A_diff_YYYY-MM-DD.md`
+  - `00981A_diff_YYYY-MM-DD.csv`
+- GitHub Actions 每次執行也會把 `data/reports/` 與 `data/etf_holdings.sqlite` 上傳成 **artifact**（保留 30 天，可在 Actions run 頁面下載）
+
+---
+
+## 10. 查看 SQLite 資料
+
+```bash
+# 內建
+sqlite3 data/etf_holdings.sqlite "SELECT date, COUNT(*) FROM holdings_daily GROUP BY date ORDER BY date DESC LIMIT 5;"
+sqlite3 data/etf_holdings.sqlite "SELECT * FROM run_logs ORDER BY run_at DESC LIMIT 10;"
+sqlite3 data/etf_holdings.sqlite "SELECT * FROM alerts ORDER BY created_at DESC LIMIT 20;"
+```
+
+或用 [DB Browser for SQLite](https://sqlitebrowser.org/) 圖形化查看。
+
+---
+
+## 11. 常見錯誤排查
+
+| 症狀 | 可能原因 | 解法 |
+|---|---|---|
+| `Gmail not configured` warning | `.env` / Secrets 缺欄位 | 補 `GMAIL_SENDER_EMAIL` / `GMAIL_APP_PASSWORD` / `GMAIL_RECEIVER_EMAIL` |
+| `smtplib.SMTPAuthenticationError` | App Password 錯誤或帳號未開 2FA | 重新產生 App Password；確認 2FA |
+| 「尚無新資料」連續多天 | 官方頁面結構變動或當前為連假 | 看 `data/raw/` 最新 HTML，必要時更新 parser 或 URL |
+| `All data sources failed` | 三個來源都抓不到 | 檢查 GitHub Actions runner 的網路是否能訪問來源；或暫時改本機跑驗證 |
+| 持股檔數 0 | parser 對該頁面的表頭判讀失敗 | 把 `data/raw/` 內 HTML 複製到 `tests/` 寫一個新的 parser test，再修 `_HOLDINGS_HEADER_HINTS` / `_map_columns` |
+| 權重總和顯示 0% | 該來源的「比例」欄位以非 % 數字呈現 | 在 parser 加單位轉換；或更換主來源 |
+
+---
+
+## 12. 免責聲明
+
+**本工具僅作為個人資料整理用途，不構成任何投資建議。** 抓取資料的時效性、正確性、完整性受外部資料源限制，使用者應自行驗證並承擔投資決策的全部責任。本專案不會、也絕不應該被用來自動下單或執行任何金融交易。
+
+---
+
+## 後續可擴充功能（roadmap）
+
+- [ ] 支援多檔 ETF（00982A、00940 等）並排報告
+- [ ] 加入週/月變化彙整報告
+- [ ] 把 `alerts` 表改寫成 RSS 或 Slack 通知
+- [ ] 在 GitHub Pages 自動發布最新報告
+- [ ] 加入 Playwright fallback（若官方頁面改為 SPA）
+- [ ] 用 GitHub Actions matrix 把抓取與通知分階段（抓取失敗仍能寄通知）
