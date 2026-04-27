@@ -81,6 +81,20 @@ def _clean_name(name: Any) -> str | None:
     return name or None
 
 
+def _code_from_name(name: Any) -> str | None:
+    if name is None:
+        return None
+    m = re.search(r"\(([0-9A-Z]+(?:\.[A-Z]+)?)\)", str(name).upper())
+    return _clean_code(m.group(1)) if m else None
+
+
+def _clean_holding_name(name: Any) -> str | None:
+    cleaned = _clean_name(name)
+    if not cleaned:
+        return None
+    return re.sub(r"\s*\([0-9A-Za-z]+(?:\.[A-Za-z]+)?\)\s*$", "", cleaned).strip()
+
+
 # ---------- UPAMC (統一投信) ----------
 def parse_upamc_html(html: str) -> tuple[str | None, list[dict]]:
     """Parse 統一投信 holdings page. Best-effort table-based parser."""
@@ -269,7 +283,7 @@ def _map_columns(header: list[str]) -> dict[str, int]:
             idx["code"] = i
         elif h_clean in {"代號", "代碼"} and "code" not in idx:
             idx["code"] = i
-        elif any(k in h_clean for k in ("股票名稱", "證券名稱")):
+        elif any(k in h_clean for k in ("股票名稱", "證券名稱", "個股名稱")):
             idx["name"] = i
         elif h_clean == "名稱" and "name" not in idx:
             idx["name"] = i
@@ -285,9 +299,11 @@ def _row_from_cells(cells: list[str], col_idx: dict[str, int]) -> dict | None:
         i = col_idx.get(key)
         return cells[i] if i is not None and i < len(cells) else None
 
+    raw_name = get("name")
+    stock_code = _clean_code(get("code")) or _code_from_name(raw_name)
     return {
-        "stock_code": _clean_code(get("code")),
-        "stock_name": _clean_name(get("name")),
+        "stock_code": stock_code,
+        "stock_name": _clean_holding_name(raw_name),
         "weight_pct": _to_float(get("weight")),
         "shares": _to_int(get("shares")),
     }

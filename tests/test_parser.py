@@ -31,6 +31,26 @@ def test_parse_moneydj_uses_same_table_logic():
     assert "2412" in codes
 
 
+def test_parse_moneydj_extracts_code_from_name_cell():
+    html = """
+    <table>
+      <tr><td>個股名稱</td><td>投資比例(%)</td><td>持有股數</td></tr>
+      <tr><td>台積電(2330.TW)</td><td>9.46</td><td>9,693,000</td></tr>
+    </table>
+    """
+
+    _date, rows = parser.parse_moneydj_html(html)
+
+    assert rows == [
+        {
+            "stock_code": "2330",
+            "stock_name": "台積電",
+            "weight_pct": 9.46,
+            "shares": 9693000,
+        }
+    ]
+
+
 def test_parse_upamc_json_basic():
     payload = {
         "asOfDate": "2026/04/24",

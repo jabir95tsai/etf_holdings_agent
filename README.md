@@ -8,7 +8,7 @@
 
 ## 1. 專案用途
 
-- 每天台灣時間 **07:00** 自動執行
+- 每天台灣時間 **12:00** 自動執行
 - 抓取 00981A 最新持股（官方優先 → MoneyDJ → TWSE）
 - 與資料庫中前一筆可用日期做比較，分類：
   - 新建倉 / 清倉 / 增持 / 減持 / 持平
@@ -20,7 +20,7 @@
 ## 2. 系統架構
 
 ```
-GitHub Actions (cron 0 23 * * *  → Taipei 07:00)
+GitHub Actions (cron 0 4 * * *  → Taipei 12:00)
        │
        ▼
 src/main.py
@@ -60,9 +60,17 @@ cp .env.example .env
 
 # 跑單元測試
 pytest -q
+# 或使用隔離測試環境
+.\scripts\run_tests.ps1
 
 # 正式執行
 python -m src.main --etf 00981A
+# 測試環境 dry-run（不寫正式 DB、不寄信）
+.\scripts\run_agent_test.ps1
+# 測試寄信給自己（使用 .env 的 Gmail 憑證，但資料寫到 data/test）
+.\scripts\run_agent_test_email.ps1
+# 只寄 Gmail SMTP 測試信
+.\scripts\run_agent_test_email.ps1 -NotifyOnly
 
 # 其他指令
 python -m src.main --etf 00981A --date 2026-04-24    # 指定資料日期
@@ -70,6 +78,8 @@ python -m src.main --etf 00981A --dry-run            # 不寫 DB、不寄信
 python -m src.main --etf 00981A --notify-test        # 測試 Gmail SMTP
 python -m src.main --etf 00981A --force-report       # 強制重新產報告
 ```
+
+測試環境會透過 `ENV_FILE=.env.test` 載入設定，並使用 `data/test/` 底下的 SQLite、raw files、reports。`.env.test` 不包含 Gmail 密碼，預設不會寄信。若要測試實際寄信，使用 `run_agent_test_email.ps1`，它會讀取 `.env` 的 Gmail 憑證，但強制收件人為測試信箱、資料仍寫入 `data/test/`。
 
 ---
 
@@ -82,9 +92,14 @@ GMAIL_SMTP_HOST=smtp.gmail.com
 GMAIL_SMTP_PORT=587
 GMAIL_SENDER_EMAIL=your_email@gmail.com
 GMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx
-GMAIL_RECEIVER_EMAIL=receiver@gmail.com
+GMAIL_RECEIVER_EMAILS=receiver1@gmail.com,receiver2@gmail.com
 NOTIFY_ON_NO_UPDATE=true
+SOURCE_ORDER=moneydj,ezmoney,official,twse
 ```
+
+也可以沿用舊的 `GMAIL_RECEIVER_EMAIL`，同樣支援用逗號或分號分隔多個收件人。
+
+資料來源順序可用 `SOURCE_ORDER` 調整；預設會優先抓 MoneyDJ，若 MoneyDJ 失敗再使用 EzMoney / 官方 / TWSE 後援。若要擴充其他 ETF，可先用 `EZMONEY_FUND_CODE`、`EZMONEY_EXCEL_URL`、`EZMONEY_REFERER_URL`、`UPAMC_URL`、`MONEYDJ_URL`、`TWSE_URL` 覆寫來源。
 
 `.env` 已在 `.gitignore`（請自行確認）— **絕對不要把 App Password commit 進 Git**。
 
@@ -111,18 +126,20 @@ NOTIFY_ON_NO_UPDATE=true
 |---|---|
 | `GMAIL_SENDER_EMAIL` | 寄件 Gmail（例：`me@gmail.com`） |
 | `GMAIL_APP_PASSWORD` | 16 碼 App Password |
-| `GMAIL_RECEIVER_EMAIL` | 收件信箱 |
+| `GMAIL_RECEIVER_EMAILS` | 收件信箱，可用逗號分隔多個帳號 |
+
+若你已經有舊的 `GMAIL_RECEIVER_EMAIL` Secret，也可以直接把它的值改成 `first@gmail.com,second@gmail.com`，程式仍會讀取。
 
 ---
 
-## 8. 啟用每日 7:00 自動執行
+## 8. 啟用每日 12:00 自動執行
 
 `.github/workflows/daily.yml` 已包含：
 
 ```yaml
 on:
   schedule:
-    - cron: '0 23 * * *'    # UTC 23:00 = 台北 07:00 (隔天)
+    - cron: '0 4 * * *'     # UTC 04:00 = 台北 12:00
   workflow_dispatch: {}
 ```
 
@@ -158,7 +175,7 @@ sqlite3 data/etf_holdings.sqlite "SELECT * FROM alerts ORDER BY created_at DESC 
 
 | 症狀 | 可能原因 | 解法 |
 |---|---|---|
-| `Gmail not configured` warning | `.env` / Secrets 缺欄位 | 補 `GMAIL_SENDER_EMAIL` / `GMAIL_APP_PASSWORD` / `GMAIL_RECEIVER_EMAIL` |
+| `Gmail not configured` warning | `.env` / Secrets 缺欄位 | 補 `GMAIL_SENDER_EMAIL` / `GMAIL_APP_PASSWORD` / `GMAIL_RECEIVER_EMAILS` |
 | `smtplib.SMTPAuthenticationError` | App Password 錯誤或帳號未開 2FA | 重新產生 App Password；確認 2FA |
 | 「尚無新資料」連續多天 | 官方頁面結構變動或當前為連假 | 看 `data/raw/` 最新 HTML，必要時更新 parser 或 URL |
 | `All data sources failed` | 三個來源都抓不到 | 檢查 GitHub Actions runner 的網路是否能訪問來源；或暫時改本機跑驗證 |

@@ -1,4 +1,5 @@
 .env
+.env.test
 .venv/
 __pycache__/
 *.pyc
@@ -6,6 +7,12 @@ __pycache__/
 data/raw/*
 data/reports/*
 data/etf_holdings.sqlite
+data/test/*.sqlite
+data/test/raw/*
+data/test/reports/*
 !data/raw/.gitkeep
 !data/reports/.gitkeep
+!data/test/.gitkeep
+!data/test/raw/.gitkeep
+!data/test/reports/.gitkeep
 .DS_Store

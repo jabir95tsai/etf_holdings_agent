@@ -2,8 +2,8 @@ name: 00981A Daily Holdings Tracker
 
 on:
   schedule:
-    # Taipei 07:00 = UTC 23:00 (previous day). Runs every day.
-    - cron: '0 23 * * *'
+    # Taipei 12:00 = UTC 04:00. Runs every day.
+    - cron: '0 4 * * *'
   workflow_dispatch:
     inputs:
       etf:
@@ -33,8 +33,10 @@ jobs:
       GMAIL_SMTP_PORT: "587"
       GMAIL_SENDER_EMAIL: ${{ secrets.GMAIL_SENDER_EMAIL }}
       GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+      GMAIL_RECEIVER_EMAILS: ${{ secrets.GMAIL_RECEIVER_EMAILS }}
       GMAIL_RECEIVER_EMAIL: ${{ secrets.GMAIL_RECEIVER_EMAIL }}
       NOTIFY_ON_NO_UPDATE: "true"
+      SOURCE_ORDER: moneydj,ezmoney,official,twse
 
     steps:
       - name: Checkout
@@ -79,7 +81,7 @@ jobs:
           from datetime import datetime
           sender = os.getenv("GMAIL_SENDER_EMAIL")
           pw = os.getenv("GMAIL_APP_PASSWORD")
-          rcpt = os.getenv("GMAIL_RECEIVER_EMAIL")
+          rcpt = os.getenv("GMAIL_RECEIVER_EMAILS") or os.getenv("GMAIL_RECEIVER_EMAIL")
           if not (sender and pw and rcpt):
               print("Gmail not configured; skipping fallback failure email.")
               raise SystemExit(0)

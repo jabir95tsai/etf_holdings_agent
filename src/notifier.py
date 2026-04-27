@@ -23,7 +23,7 @@ def _build_message(
     msg = EmailMessage()
     msg["Subject"] = subject
     msg["From"] = cfg.sender or ""
-    msg["To"] = cfg.receiver or ""
+    msg["To"] = ", ".join(cfg.receivers)
     msg.set_content(body_text)
     if body_html:
         msg.add_alternative(body_html, subtype="html")
@@ -51,7 +51,7 @@ def send_email(
     """Send an email. Returns True on success, False otherwise. Never raises."""
     if not cfg.is_configured:
         logger.warning(
-            "Gmail not configured (sender/app_password/receiver missing). "
+            "Gmail not configured (sender/app_password/receivers missing). "
             "Skipping email."
         )
         return False

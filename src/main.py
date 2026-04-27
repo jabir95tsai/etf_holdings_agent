@@ -85,6 +85,9 @@ def run(cfg: AppConfig, args: argparse.Namespace) -> int:
             upamc_url=cfg.upamc_url,
             moneydj_url=cfg.moneydj_url,
             twse_url=cfg.twse_url,
+            ezmoney_excel_url=cfg.ezmoney_excel_url,
+            ezmoney_referer_url=cfg.ezmoney_referer_url,
+            source_order=cfg.source_order,
         )
         source_used = result.source
         scraped_date = result.data_date

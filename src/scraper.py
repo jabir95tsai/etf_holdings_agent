@@ -1,12 +1,11 @@
-"""Scrapers for 00981A holdings.
+"""Scrapers for ETF holdings.
 
-Strategy: try official (UPAMC) first, then MoneyDJ, then TWSE.
+Strategy: try configured sources in order.
 Saves raw payloads to data/raw/ for traceability.
 """
 
 from __future__ import annotations
 
-import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -24,6 +23,11 @@ USER_AGENT = (
     "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 )
 DEFAULT_TIMEOUT = 20
+DEFAULT_SOURCE_ORDER = ["moneydj", "ezmoney", "official", "twse"]
+EZMONEY_EXCEL_URL = (
+    "https://www.ezmoney.com.tw/ETF/Fund/AssetExcelNPOI?FundCode=49YTW"
+)
+EZMONEY_REFERER_URL = "https://www.ezmoney.com.tw/ETF/Fund/Info?FundCode=49YTW"
 
 
 @dataclass
@@ -38,6 +42,12 @@ class ScrapeResult:
     @property
     def ok(self) -> bool:
         return bool(self.rows)
+
+
+@dataclass(frozen=True)
+class SourceSpec:
+    name: str
+    scrape: Callable[[], ScrapeResult]
 
 
 def _save_raw(raw_dir: Path, source: str, etf_code: str, content: bytes, ext: str) -> Path:
@@ -124,19 +134,18 @@ def scrape_twse(etf_code: str, raw_dir: Path, url: str) -> ScrapeResult:
     return result
 
 
-EZMONEY_EXCEL_URL = (
-    "https://www.ezmoney.com.tw/ETF/Fund/AssetExcelNPOI?FundCode=49YTW"
-)
-
-
-def scrape_ezmoney_excel(etf_code: str, raw_dir: Path) -> ScrapeResult:
+def scrape_ezmoney_excel(
+    etf_code: str,
+    raw_dir: Path,
+    url: str = EZMONEY_EXCEL_URL,
+    referer_url: str = EZMONEY_REFERER_URL,
+) -> ScrapeResult:
     """Download ezmoney Excel holdings file (most reliable source)."""
-    url = EZMONEY_EXCEL_URL
     result = ScrapeResult(source="ezmoney", source_url=url, data_date=None, rows=[])
     try:
         headers = {
             "User-Agent": USER_AGENT,
-            "Referer": "https://www.ezmoney.com.tw/ETF/Fund/Info?FundCode=49YTW",
+            "Referer": referer_url,
         }
         resp = requests.get(url, headers=headers, verify=False,
                             timeout=DEFAULT_TIMEOUT)
@@ -167,25 +176,95 @@ def scrape_ezmoney_excel(etf_code: str, raw_dir: Path) -> ScrapeResult:
 
 
 # ---------- Orchestrator ----------
+def build_source_specs(
+    *,
+    etf_code: str,
+    raw_dir: Path,
+    upamc_url: str,
+    moneydj_url: str,
+    twse_url: str,
+    ezmoney_excel_url: str = EZMONEY_EXCEL_URL,
+    ezmoney_referer_url: str = EZMONEY_REFERER_URL,
+) -> dict[str, SourceSpec]:
+    return {
+        "ezmoney": SourceSpec(
+            "ezmoney",
+            lambda: scrape_ezmoney_excel(
+                etf_code,
+                raw_dir,
+                ezmoney_excel_url,
+                ezmoney_referer_url,
+            ),
+        ),
+        "official": SourceSpec(
+            "official",
+            lambda: scrape_upamc(etf_code, raw_dir, upamc_url),
+        ),
+        "moneydj": SourceSpec(
+            "moneydj",
+            lambda: scrape_moneydj(etf_code, raw_dir, moneydj_url),
+        ),
+        "twse": SourceSpec(
+            "twse",
+            lambda: scrape_twse(etf_code, raw_dir, twse_url),
+        ),
+    }
+
+
+def _ordered_sources(
+    specs: dict[str, SourceSpec],
+    source_order: list[str] | None,
+) -> list[SourceSpec]:
+    ordered: list[SourceSpec] = []
+    seen: set[str] = set()
+    for source_name in source_order or DEFAULT_SOURCE_ORDER:
+        key = source_name.strip().lower()
+        if not key or key in seen:
+            continue
+        spec = specs.get(key)
+        if spec is None:
+            logger.warning("Unknown source in SOURCE_ORDER ignored: %s", source_name)
+            continue
+        ordered.append(spec)
+        seen.add(key)
+    return ordered
+
+
 def scrape_holdings(
     etf_code: str,
     raw_dir: Path,
     upamc_url: str,
     moneydj_url: str,
     twse_url: str,
+    ezmoney_excel_url: str = EZMONEY_EXCEL_URL,
+    ezmoney_referer_url: str = EZMONEY_REFERER_URL,
+    source_order: list[str] | None = None,
 ) -> ScrapeResult:
-    """Try ezmoney Excel → UPAMC → MoneyDJ → TWSE."""
-    sources: list[Callable[[], ScrapeResult]] = [
-        lambda: scrape_ezmoney_excel(etf_code, raw_dir),
-        lambda: scrape_upamc(etf_code, raw_dir, upamc_url),
-        lambda: scrape_moneydj(etf_code, raw_dir, moneydj_url),
-        lambda: scrape_twse(etf_code, raw_dir, twse_url),
-    ]
+    """Try configured sources until one returns parseable rows."""
+    specs = build_source_specs(
+        etf_code=etf_code,
+        raw_dir=raw_dir,
+        upamc_url=upamc_url,
+        moneydj_url=moneydj_url,
+        twse_url=twse_url,
+        ezmoney_excel_url=ezmoney_excel_url,
+        ezmoney_referer_url=ezmoney_referer_url,
+    )
+    sources = _ordered_sources(specs, source_order)
+
+    if not sources:
+        return ScrapeResult(
+            source="other",
+            source_url="",
+            data_date=None,
+            rows=[],
+            errors=["No enabled data sources"],
+        )
 
     last: ScrapeResult | None = None
     accumulated_errors: list[str] = []
-    for fn in sources:
-        result = fn()
+    for source in sources:
+        result = source.scrape()
         accumulated_errors.extend(result.errors)
         if result.ok:
             result.errors = accumulated_errors

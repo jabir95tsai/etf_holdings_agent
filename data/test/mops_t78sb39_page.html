@@ -1,0 +1,1175 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>公開資訊觀測站</title>
+<link href="css/print_css1.css" rel="stylesheet" type="text/css" Media="Print"/>
+
+
+
+<link href="css/css2.css" rel="stylesheet" type="text/css" />
+<link href="css/clickmenu1.css"rel="stylesheet" type="text/css"/>
+
+
+
+
+
+<!--
+<link href="css/tag.css" rel="stylesheet" type="text/css" />
+<link href="css/tablea.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" language="JavaScript1.2" src="js/menu/stmenu.js"></script>
+-->
+<!-- 2021.09.07 start 拿掉舊插件  -->
+<!-- <script type="text/javascript" src="js/jquery-1.1.4.pack.js"></script>
+<script type="text/javascript" src="js/jquery.clickmenu.js"></script> -->
+<!-- 2021.09.07 end 拿掉舊插件  -->
+<!-- 2021.09.07 start -->
+<script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+
+
+<script type="text/javascript" src="js/mops2.js"></script>
+
+<!-- 2021.09.07 end -->
+
+
+
+
+</head>
+<body>
+<center>
+<table border="0"><tr><td align="left">
+
+
+<form name='fh' style='margin:0;' action='/mops/web/ajax_autoComplete' method='post' onsubmit='return false;'><input type='hidden' name='firstin' id='firstin' value = '1'><input type='hidden' name='TYPEK' id='TYPEK' value = 'all'><input type='hidden' name='step' id='step' value = '1'><input type='hidden' name='co_id' value = ''><input type='hidden' name = 'funcName' value = 't78sb39_new'><input type='hidden' name='searchtype' id='searchtype' value = ''><input type='hidden' name='inpuType' id='inpuType' value = 'keyword'><input type='hidden' name='auto-more' id='auto-more' value = ''><input type = 'hidden' name = 'keycon' value = ''><div id='head'><div id='head_02'><a href='/mops/web/index' alt='回首頁'><img src='images/blank.gif' width='232' height='52' border='0'></a></div><div id='head_03'><div id='search_bar'><div id='nav'><a style='color:yellow;text-decoration:none;'>全站搜尋</a></div><div id='search_b1' align='left'><table><tr><td align='left'><input name='keyword' type='text' class='textbox' id='keyword' size='45' oninput="document.getElementById('auto-more').value='';autoComplete(this.form , 'keyword' , 'auto-complete-data' , event);" onkeydown='chkKeyDown(this.form , this , "auto-complete-data" , event);' onkeyUp="document.getElementById('auto-more').value='';autoComplete(this.form , 'keyword' , 'auto-complete-data' , event);" onblur="setTimeout(function(){hideDiv('auto-complete-data');} , 200);" onClick="this.value='';document.getElementById('oldKeyWord').value='';hideDiv('auto-complete-data');" placeholder='請輸入公司代號、簡稱，或報表關鍵字' autocomplete='off'></td><td><input type='button' name='rulesubmit' id='rulesubmit' value=' 搜尋 ' onclick="document.fh.action='/mops/web/autoAction';document.fh.submit();"></td></tr></table></div><div id='search_txt' class='search_b2' style='z-index:1;'><table border='0'><tr><td><div style='background-image: url(images/map01.jpg) ; height: 19px; width:32px;background-position:-161px 0px;'></div></td><td><a href='javascript:void(0);' onClick='document.fh.keyword.value="營收";goaction("營收" , "0");'>營收</a><a href='javascript:void(0);' onClick='document.fh.keyword.value="除權息";goaction("除權息" , "0");'>除權息</a><a href='javascript:void(0);' onClick='document.fh.keyword.value="電子書";goaction("電子書" , "0");'>電子書</a><a href='javascript:void(0);' onClick='document.fh.keyword.value="法說會";goaction("法說會" , "0");'>法說會</a><a href='javascript:void(0);' onClick='document.fh.keyword.value="庫藏股";goaction("庫藏股" , "0");'>庫藏股</a><a href='javascript:void(0);' onClick='document.fh.keyword.value="董監持股";goaction("董監持股" , "0");'>董監持股</a><a href='javascript:void(0);' onClick='document.fh.keyword.value="獨立董事";goaction("獨立董事" , "0");'>獨立董事</a><a href='javascript:void(0);' onClick='document.fh.keyword.value="董監酬金";goaction("董監酬金" , "0");'>董監酬金</a><a href='javascript:void(0);' onClick='document.fh.keyword.value="ETF";goaction("ETF" , "0");'>ETF</a><a href='javascript:void(0);' onClick='document.fh.keyword.value="TDR";goaction("TDR" , "0");'>TDR</a></td></tr></table></div></div></div><div id='head_04'><a href='http://emops.twse.com.tw/emops_all.htm'><img src='images/blank.gif' width='89' height='32' border='0' /></a><p style='margin-left:11px;'><a href='/mops/web/ezsearch'><img src='images/blank.png' border='0'></a></p></div></div></form><input type='hidden' id='oldKeyWord'><div id='auto-complete-data'></div><div id='auto-complete-data2'></div><form name='fh2' style='margin:0;' action='' method='post' onsubmit='return false;'><input type='hidden' name='usually' id='usually' value = ''></form><script>window.onload=getMsg;    var MAR = document.querySelector("#marquee");     if(MAR){         var MARS = document.querySelectorAll("#marquee a");         for(var i=0;i<MARS.length;i++){             MARS[i].setAttribute("target","_blank");             MARS[i].setAttribute("style","margin-right:20px");         };         if(MARS.length<1){             MAR.parentNode.innerHTML = "<span style='color:#ff0;'>全站搜尋</span>";             MAR.setAttribute("scrollamount","0")         };     };</script><style>    #marquee,#marquee a{color: #ff0!important;}    #marquee a:hover{color: #ff0!important;text-decoration: none!important;}    #marquee a[href]{text-decoration: underline!important;}</style> 
+
+
+
+
+<div id="menu" class="clickMenu">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<!-- 2021.09.07 start -->
+		<!-- <script>
+			$(document).ready(function() {
+			
+				$('#list').clickMenu();
+				document.getElementById('list').style.display='block';
+			});
+		</script> -->
+		<!-- 2021.09.07 end  --> 
+		<tr>
+			<td id="menu1">
+				<ul id="list" style="display:none;">
+					<li class = "L00_Pop" id="mm0">常用報表
+					</li>
+					<li class = "L00_Pop" id="mm1">基本資料
+					</li>
+					<li class = "L00_Pop" id="mm2">彙總報表
+					</li>
+					<li class = "L00_Pop" id="mm3">股東會及股利
+					</li>
+					<li class = "L00_Pop" id="mm4">公司治理
+					</li>
+					<li class = "L00_Pop" id="mm5">財務報表
+					</li>
+					<li class = "L00_Pop" id="mm6">重大訊息與公告
+					</li>
+					<li class = "L00_Pop" id="mm7">營運概況
+					</li>
+					<li class = "L00_Pop" id="mm8">投資專區
+					</li>
+					<li class = "L00_Pop" id="mm9">認購（售）權證
+					</li>
+					<li class = "L00_Pop" id="mm10">債券
+					</li>
+					<li class = "L00_Pop" id="mm11">資產證券化
+					</li>
+
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+
+
+
+
+<div id="maincontent_in">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td >
+<div id="PageBody">
+<table><tr><td valign="top" style="height:400px">
+<div id="main" >
+
+
+
+<!-- 
+	程式名稱:submenu-8.htm
+	程式功能:投資專區左邊tree結構
+	修改紀錄:(格式=>西元日期+版次+程式設計師)
+	2025093069max:(T88K)新增 o_t78sb01_new、o_t78sb39_new、t78sb35_new、t78sb39_new, 修改名稱 t108sb30、t78sb32、t78sb33、t78sb34、t78sb37、t78sb38、t78sb40、o_t78sb32、o_t78sb33、o_t78sb32、o_t78sb44
+	2024123168terry:(T88K)新增 o_t78sb37、o_t78sb38、o_t78sb39、o_t78sb40、o_t78sb41、o_t78sb42、o_t78sb43、o_t78sb44
+	2024122467thomas:(T88K)新增 t78sb37、t78sb38、t78sb39_q1、t78sb39_q2、t78sb39_q3、t78sb39_q4、t78sb39_q5、t78sb40
+	2024101166bristol:(T88K)新增 t100sb16
+	2024100465bristol:(T88K)修改 t32sb01 樣式
+	2024060664bristol:(T88K)新增 t32sb01
+	2023122662bristol:(T88K)移除戰略新版
+	2022030761max:(T88K)新增 t213sb01
+	2021122960max:(T88K)新增 t211sb01 , t211sb05 並修改排序與名稱(重上)
+	2021122359max:(T88K)新增 t211sb01 , t211sb05 並修改排序與名稱(重上)
+	2021122358max:(T88K)新增 t211sb01 , t211sb05 並修改排序與名稱
+	2021090357max:(T88K)新增 t114sb10
+	2021081256awat:(T88K) 修正部份項目遺失
+	2021062955twse1097:(T88K)新增財務重點專區-t123sb32全體創新板上市公司，調整t132sb29戰略新板專區位置
+	2021061654vensan:(T88K)新增t132sb29戰略新板專區
+	2021051353vensan:(T88K)增加t123sb00_q1財務重點專區
+	2021042853awat:(T88K) 創新板公司專區
+	2019110851rrman:(T88K)增加「公開收購資訊專區」大項底下的 t162sb03「公開收購申報資料彙總表」
+	2019100750vensan:(T88K)調整投資專區->臺灣存託憑證專區 ,移除t132sb05 新增t132sb05_1 ~ t132sb05_7
+	2019090449thomas:(T88K)改字「國內公司普通股每股面額非新台幣10元資訊專區」改為「採彈性面額(每股面額非新台幣10元)公司專區」
+	2019041848thomas:(T88K)增加 t204sb01、t204sb02、t204sb03、t204sb04、t204sb05、t204sb06
+	2019041847vensan:(T88K)增加	t204sb07重大訊息 t204sb08公告查詢
+	2019013046vensan:(T88K)增加	投資專區/ETN資訊 -> 公開說明書(t204sb09)
+	2018082945vensan:(T88K)增加 o_t78sb34 櫃買指數/加掛外幣股票型期貨信託基金
+					「櫃買國外成分股及債券成分之指數股票型基金」改為「櫃買國外成分股及債券成分/加掛外幣之指數股票型基金」&&「櫃買槓桿/反向指數股票型基金」改為「櫃買槓桿/反向/加掛外幣指數股票型基金」
+	2017072744money:(T88K)修改ETF專區「上市ETF專區」「上櫃ETF專區」連結
+	2016122043oliver:(T88K)修改o_t78sb32  o_t78sb21  o_t78sb20  新增o_t78sb33
+	2016091342money:(T88K)修改原為「槓桿/反向指數股票型基金」改為「槓桿/反向/加掛外幣指數股票型基金」 原為「指數股票型期貨信託基金」改為「指數/加掛外幣股票型期貨信託基金」
+	2016080841thomas:(T88K)修改原為「國外成分證券指數股票型基金」，改為「國外成分/加掛外幣證券指數股票型基金」文字
+	2016071840thomas:(T88K)修改「ETF發行單位數異動查詢」文字 && 「國外成分證券指數股票型基金」文字
+	2016012639:edward:(T88K)增加t191sb01
+	2015122938:edward:(T88K)增加t189sb01
+	2015091137:edward:(T88K)增加o_t78sb36
+	2015081236:thomas:(T88K)修改原為「ETF發行單位數查詢」改為「ETF發行單位數異動查詢」。
+	2015062935:thomas:(T88K)增加t78sb36
+	2014112434:leo:(T88K)基金每日淨資產價t78sb01_q2 為 t78sb35
+	2014111433:peggy:(T88K)增加t78sb34
+	2014100132:thomas:(T88K)調整文字 原為「經營權異動資訊專區」，改為「經營權及營業範圍異(變)動專區」。
+	2014093031:edward:(T88K)增加 t123sb14_q1 及 t123sb22
+	2014092530:edward:(T88K)增加 t78sb33
+	2014070729:thomas:(T88K)新增投資專區, 財務重點專區, 興櫃公司選項
+	2014022728:kevin:(T88K)拿掉經營權異動資訊專區子選單
+	2014022527:kevin:(T88K)新增t132sb23,t132sb24,t132sb25, 投資專區彙總報表位置調整
+	2013123026:kevin:(T88K)增加t51sb09
+	2013121225:kevin:(T88K)新增經營權異動專區t174sb01_q1
+	2013071524:kevin:(T88K)新增o_t78sb05,o_t78sb32, 調整櫃買基金階層, 順序
+	2013062823:kevin:(T88K)新增t162sb02, t162sb01階層調整
+	2013050321:edward:(T88K)增加外國第一上市公司
+	2013043020:edward:(T88K)新增t168sb01
+	2012122519:leo:(T88K)新增t123sb14全體第一上市公司
+	2012122518:leo:(T88K)新增t123sb14全體第一上市公司
+	2012101817:leo:(T88K)新增庫藏股
+	2012081616:lucas:(T88K)新增t123sb01_TDR
+	2012062915:lucas:(T88K)新增t162sb01
+	2012011714:tobey:(T88K)新增o_t132sb17_q1
+	2011070711:tobey:(T88K)修改違反資訊申報、重大訊息及說明記者會規定專區 分為 上市 與 上櫃
+	2011092112:tobey:(T88K)新增封閉型、國內成分證券指數股票型基金項目
+
+-->
+<table width="176" border="0" cellpadding="0" cellspacing="0">
+<tr>
+	<td width="176"><span style="cursor: pointer; font-weight: bold; font-size: 13px;" onclick="showhide('level8','img-8')" id="menu1"> <img src="images/minus4.gif" id="img-8"/><a href="#">投資專區</a> </span> </td>
+</tr>
+<tr style="display: inline;" id="level8">
+	<td style="padding-left: 10px;">
+		<img src="images/minus3.gif" id="img-8001"/> <a onclick="showhide('level-8001','img-8001')" target="_self" href="#">銀行(金融控股公司<br/><span style="padding-left: 16px;">)大股東持股變動及</span><br/><span style="padding-left: 16px;">設質情形專區</span></a><br/>
+		<span style="display: none;" id="level-8001">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t142sb01">銀行(金融控股公司<br/><span style="padding-left: 30px;">)大股東持股變動情</span><br/><span style="padding-left: 30px;">形申報表查詢</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t142sb02">銀行(金融控股公司<br/><span style="padding-left: 30px;">)大股東設質情形申</span><br/><span style="padding-left: 30px;">報表查詢</span></a><br/>
+			</span>
+		</span>
+		
+		<!-- 20211223 MAX FRANCIS begin 新增 t211sb01 , t211sb05 並修改排序與名稱 -->
+		<!--
+		<img src="images/minus3.gif" id="img-8002"/> <a onclick="showhide('level-8002','img-8002')" target="_self" href="#">財務重點專區</a><br/>
+		<span style="display: none;" id="level-8002">
+			<span style="padding-left: 15px;">
+				<img src="images/minus3.gif" id="img-8002001"/> <a onclick="showhide('level-8002001','img-8002001')" target="_self" href="#">上市公司</a><br/>
+				<span style="display: none;" id="level-8002001">
+					<span style="padding-left: 30px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t123sb04_q1">股票停止買賣者</a><br/>
+					</span>
+					<span style="padding-left: 30px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t123sb05_q1">變更交易方法者</a><br/>
+					</span>
+					<span style="padding-left: 30px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t123sb06_q1">全體上市公司</a><br/>
+					</span>
+					<span style="padding-left: 30px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t123sb14">全體第一上市公司</a><br/>
+					</span>
+					<span style="padding-left: 30px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t123sb32">全體創新板上市公司</a><br/>
+					</span>				
+					<span style="padding-left: 30px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t123sb09_q1">按產業類別查詢</a><br/>
+					</span>
+					<span style="padding-left: 30px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t123sb10_q1">按個別公司查詢</a><br/>
+					</span>
+				</span>
+		</span>
+		
+		<span style="padding-left: 15px;">
+			<img src="images/minus3.gif" id="img-8002002"/> <a onclick="showhide('level-8002002','img-8002002')" target="_self" href="#">上櫃公司</a><br/>
+			<span style="display: none;" id="level-8002002">
+
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb04_q2">股票停止買賣者</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb05_q2">變更交易方法者</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb11_q1">管理股票</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb06_q2">全體上櫃公司</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb14_q1">全體第一上櫃公司</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb09_q2">按產業類別查詢</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb10_q2">按個別公司查詢</a><br/>
+				</span>
+
+			</span>
+		</span>
+		<span style="padding-left: 15px;">
+			<img src="images/minus3.gif" id="img-8002003"/> <a onclick="showhide('level-8002003','img-8002003')" target="_self" href="#">興櫃公司</a><br/>
+			<span style="display: none;" id="level-8002003">
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb04_q3">股票停止買賣者</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb06_q3">全體興櫃公司</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb22">全體外國興櫃公司</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb09_q3">按產業類別查詢</a><br/>
+				</span>
+				<span style="padding-left: 30px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t123sb10_q3">按個別公司查詢</a><br/>
+				</span>
+			</span>
+		</span>
+
+		<span style="padding-left: 15px;">
+			<img src="images/minus3.gif" id="img-8002004"/> <a target="_self" href="t123sb01_TDR" target="_self" href="#">TDR發行公司</a><br/>
+		</span>
+		
+		<span style="padding-left: 15px;">
+			<img src="images/pointer.gif" id="img-8002005"/><a target="_self" href="t123sb00_q1">財務重點專區</a><br/>
+		</span>
+		
+		</span>
+		-->
+		<img src="images/minus3.gif" id="img-8002"/> <a onclick="showhide('level-8002','img-8002')" target="_self" href="#">財務及交易資訊重點<br/><span style="padding-left: 15px;">專區</span></a><br/>
+		<span style="display: none;" id="level-8002">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t211sb01_q1" target="_self" href="#">財務資訊</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t211sb05" target="_self" href="#">交易資訊</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t123sb01_TDR" target="_self" href="#">TDR發行公司</a><br/>
+			</span>
+			<!--20220307:max:begin:新增程式t213sb01-->
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t213sb01" target="_self" href="#">定期公告財務資訊</a><br/>
+			</span>
+			<!--20220307:max:end:新增程式t213sb01-->
+		</span>
+		<!-- 20211223 MAX FRANCIS end 新增 t211sb01 , t211sb05 並修改排序與名稱 -->
+		<img src="images/minus3.gif" id="img-8003"/> <a onclick="showhide('level-8003','img-8003')" target="_self" href="#">受輔導專區</a><br/>
+		<span style="display: none;" id="level-8003">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t68sb01_q1">輔導中公司名單</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t68sb01_q2">外國企業輔導中公司<br/><span style="padding-left: 30px;">名單</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t68sb02">暫停或終止輔導公司<br/><span style="padding-left: 30px;">名單</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t68sh02">重大事項對公司財務<br/><span style="padding-left: 30px;">業務影響情形之公告</span><br/><span style="padding-left: 30px;">查詢</span></a><br/>
+			</span>
+
+		</span>
+
+		<img src="images/pointer.gif"/><a href="bfhtm_q2">募資計劃執行專區</a><br/>
+
+		<img src="images/pointer.gif"/><a href="t51sb09">採彈性面額(每股面額<br/><span style="padding-left: 16px;">非新台幣10元)公司專區</span></a><br/>
+
+		<img src="images/minus3.gif" id="img-8006"/><a onclick="showhide('level-8006','img-8006')" target="_self" href="#">外國企業第一上市櫃<br/><span style="padding-left: 15px;">專區</span></a><br/>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t132sb02">個別公司資訊</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/minus3.gif" id="img-8006002"/> <a onclick="showhide('level-8006002','img-8006002')" target="_self" href="#">彙總報表</a><br/>
+				<span style="display: none;" id="level-8006002">
+					<span style="padding-left: 35px;">
+						<img src="images/minus3.gif" id="img-8006002001"/><a onclick="showhide('level-8006002001','img-8006002001')" target="_self" href="#">採IFRSs後</a><br/>
+						<span style="display: none;" id="level-8006002001">
+							<span style="padding-left: 50px;">
+								<img src="images/pointer.gif"/><a target="_self" href="t132sb23">外國企業各季損<br/><span style="padding-left: 65px;">益表</span></a><br/>
+							</span>
+							<span style="padding-left: 50px;">
+								<img src="images/pointer.gif"/><a target="_self" href="t132sb24">外國企業各季資<br/><span style="padding-left: 65px;">產負債季節查詢</span><br/><span style="padding-left: 65px;">彙總表</span></a><br/>
+							</span>
+							<span style="padding-left: 50px;">
+								<img src="images/pointer.gif"/><a target="_self" href="t132sb25">外國企業財務分<br/><span style="padding-left: 65px;">析</span></a><br/>
+							</span>
+						</span>
+
+						<span style="padding-left: 35px;">
+							<img src="images/minus3.gif" id="img-8006002002"/><a onclick="showhide('level-8006002002','img-8006002002')" target="_self" href="#">採IFRSs前</a><br/>
+							<span style="display: none;" id="level-8006002002">
+								<span style="padding-left: 50px;">
+									<img src="images/pointer.gif"/><a target="_self" href="t132sb21_q1">外國企業各季損<br/><span style="padding-left: 65px;">益表</span></a><br/>
+								</span>
+								<span style="padding-left: 50px;">
+									<img src="images/pointer.gif"/><a target="_self" href="t132sb22_q1">外國企業各季資<br/><span style="padding-left: 65px;">產負債季節查詢</span><br/><span style="padding-left: 65px;">彙總表</span></a><br/>
+								</span>
+								<span style="padding-left: 50px;">
+									<img src="images/pointer.gif"/><a target="_self" href="t51sb02_q2">外國企業財務分<br/><span style="padding-left: 65px;">析</span></a><br/>
+								</span>
+							</span>
+						</span>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t51sb01_q1">外國企業基本資料<br/><span style="padding-left: 50px;">彙總表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t108sb26_q1">外國企業召開股東<br/><span style="padding-left: 50px;">常(臨時)會公告資</span><br/><span style="padding-left: 50px;">料</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t05st09_new_q1">外國企業股利分派<br/><span style="padding-left: 50px;">情形</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t108sb27_q1">外國企業除權息公<br/><span style="padding-left: 50px;">告</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t21sc04_ifrs_q1">外國企業每月營業<br/><span style="padding-left: 50px;">收入</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t138sb01_q1">外國企業自結損益</a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t100sb02_1_q1">外國企業法人說明<br/><span style="padding-left: 50px;">會一覽表</span></a><br/>
+					</span>
+					<!--20210903:max:begin:新增程式t114sb10-->
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t114sb10">外國企業營運地區<br/><span style="padding-left: 50px;">資訊</span></a><br/>
+					</span>
+					<!--20210903:max:end:新增程式t114sb10-->
+				</span>
+			</span>
+		</span>
+
+<!--20191007:vensan:begin:移除t132sb05,新增程式t132sb05_1 ,t132sb05_2 ,t132sb05_3 ,t132sb05_4 ,t132sb05_5 ,t132sb05_6 ,t132sb05_7-->
+		<!--
+		<img src="images/pointer.gif"/><a href="t132sb05">臺灣存託憑證專區</a><br/>
+		-->
+		<img src="images/minus3.gif" id="img-8008"/><a onclick="showhide('level-8008','img-8008')" target="_self" href="#">臺灣存託憑證專區</a><br/>
+		<span style="display: none;" id="level-8008">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t132sb05_1">個別公司資訊</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/minus3.gif" id="img-8008002"/> <a onclick="showhide('level-8008002','img-8008002')" target="_self" href="#">彙總報表</a><br/>
+				<span style="display: none;" id="level-8008002">
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t132sb05_2">臺灣存託憑證收盤<br/><span style="padding-left: 50px;">價彙總表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t132sb05_3">臺灣存託憑證發行<br/><span style="padding-left: 50px;">人簡明財務報表彙</span><br/><span style="padding-left: 50px;">總表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t132sb05_4">臺灣存託憑證發行<br/><span style="padding-left: 50px;">人財務報告更(補</span><br/><span style="padding-left: 50px;">)正查詢作業</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t132sb05_5">臺灣存託憑證發行<br/><span style="padding-left: 50px;">單位數一覽表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t132sb05_6">原股上市地財務報<br/><span style="padding-left: 50px;">告公告期限彙總表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t132sb05_7">臺灣存託憑證財務<br/><span style="padding-left: 50px;">重點專區</span></a><br/>
+					</span>
+				</span>
+			</span>
+		</span>
+<!--20191007:vensan:end:移除t132sb05,新增程式t132sb05_1 ,t132sb05_2 ,t132sb05_3 ,t132sb05_4 ,t132sb05_5 ,t132sb05_6 ,t132sb05_7-->
+
+		<img src="images/pointer.gif"/><a href="t132sb08">科技事業專區</a><br/>
+
+		<img src="images/pointer.gif"/><a href="t132sb26">創新板公司專區</a><br/>
+		<!--20231226:bristol:begin:移除戰略新版-->
+		<!--20210616:vensan:begin:新增程式t132sb29-->
+		<!--<img src="images/pointer.gif"/><a href="t132sb29">戰略新板專區</a><br/> -->
+		<!--20210616:vensan:end:新增程式t132sb29-->
+		<!--20231226:bristol:begin:移除戰略新版-->
+
+		<img src="images/minus3.gif" id="img-8011"/> <a onclick="showhide('level-8011','img-8011')" target="_self" href="#">私募專區</a><br/>
+		<span style="display: none;" id="level-8011">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t116sb01">私募資料查詢</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t116sb03">投保中心新聞稿查詢</a><br/>
+			</span>
+		</span>
+		<img src="images/pointer.gif"/><a href="t105sb01">債信專區</a><br/>
+		<img src="images/minus3.gif" id="img-8013"/> <a onclick="showhide('level-8013','img-8013')" target="_self" href="#">基金資訊</a><br/>
+		<span style="display: none;" id="level-8013">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t51sb11_q2">基金基本資料彙總表</a><br/>
+			</span>
+			<!--20110922:tobey:begin:新增封閉型(q1)及國內成分證券指數股票型基金(q2)-->
+			<!--
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb01">基金每日淨資產價值<br/><span style="padding-left: 30px;">彙總表</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb03">基金每月持股前五大<br/><span style="padding-left: 30px;">個股彙總表</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb04">基金每季投資個股彙<br/><span style="padding-left: 30px;">總表</span></a><br/>
+			</span>
+
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb02">基金每週投資產業類<br/><span style="padding-left: 30px;">股比例彙總表</span></a><br/>
+			</span>
+			-->
+			<span style="padding-left: 15px;">
+				<img src="images/minus3.gif" id="img-8013002"/><a onclick="showhide('level-8013002','img-8013002')" target="_self" href="#">封閉型基金</a><br/>
+				<span style="display: none;" id="level-8013002">
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb01_q1">基金每日淨資產價<br/><span style="padding-left: 50px;">值彙總表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb02_q1">基金每週投資產業<br/><span style="padding-left: 50px;">類股比例彙總表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb03_q1">基金每月持股前五<br/><span style="padding-left: 50px;">大個股彙總表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb04_q1">基金每季投資個股<br/><span style="padding-left: 50px;">彙總表</span></a><br/>
+					</span>
+				</span>
+			</span>
+
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整成 t78sb35_new-->
+				<!--
+				<img src="images/minus3.gif" id="img-8013003"/><a onclick="showhide('level-8013003','img-8013003')" target="_self" href="#">國內成分證券指數股<br/><span style="padding-left: 35px;">票型基金</span></a><br/>
+				<span style="display: none;" id="level-8013003">
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb35">基金每日淨資產價<br/><span style="padding-left: 50px;">值</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb02_q2">基金每週投資產業<br/><span style="padding-left: 50px;">類股比例</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb03_q2">基金每月持股前五<br/><span style="padding-left: 50px;">大個股</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb04_q2">基金每季持股明細<br/><span style="padding-left: 50px;">表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb05">基金淨值及指數歷<br/><span style="padding-left: 50px;">史表現比較表</span></a><br/>
+					</span>
+				</span>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb35_new">國內成分股票/債<br/><span style="padding-left: 30px;">券指數股票型基金</span></a><br/>
+				<!--20250930:max:end:調整成 t78sb35_new-->
+			</span>
+			<!--20110922:tobey:end:新增封閉型(q1)及國內成分證券指數股票型基金(q2)-->
+			<span style="padding-left: 15px;">
+				<!--20110922:tobey:begin:修改標題-->
+				<!--				<img src="images/pointer.gif"/><a target="_self" href="t78sb30">國內連結式指數股票<br/><span style="padding-left: 30px;">型基金彙總表</span></a><br/>-->
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb30">連結式指數股票型基<br/><span style="padding-left: 30px;">金</span></a><br/>
+				<!--20110922:tobey:end:修改標題-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20110922:tobey:begin:修改標題-->
+				<!--				<img src="images/pointer.gif"/><a target="_self" href="t78sb31">境外指數股票型基金<br/><span style="padding-left: 30px;">彙總表</span></a><br/>-->
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb31">境外指數股票型基金</a><br/>
+					<!--20110922:tobey:end:修改標題-->
+			</span>
+			<!--20110922:tobey:begin:新增項目-->
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 t78sb32 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb32">國外成分股票/債券指數<br/><span style="padding-left: 30px;">券指數股票型基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb32">國外成分股票/債券指數<br/><span style="padding-left: 30px;">股票型基金(含加掛外幣)</span></a><br/>
+				<!--20250930:max:end:調整 t78sb32 名稱-->
+			</span>
+			<!--20110922:tobey:end:新增項目-->
+
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb33">槓桿型及反向型指<br/><span style="padding-left: 30px;">數股票型基金</span></a><br/>
+			</span>
+			<!--20141114 PEGGY:begin:新增項目t78sb34-->
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb34">指數股票型期貨信<br/><span style="padding-left: 30px;">託基金</span></a><br/>
+			</span>
+			<!--20141114 PEGGY:end:新增項目t78sb34-->
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 t78sb37 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb37">國內成分證券平衡型<br/><span style="padding-left: 30px;">指數股票型基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb37">國內成分平衡型<br/><span style="padding-left: 30px;">指數股票型基金</span></a><br/>
+				<!--20250930:max:end:調整 t78sb37 名稱-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 t78sb38 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb38">國外成分證券平衡型<br/><span style="padding-left: 30px;">指數股票型基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb38">國外成分平衡型<br/><span style="padding-left: 30px;">指數股票型基金</span></a><br/>
+				<!--20250930:max:end:調整 t78sb38 名稱-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整成 t78sb39_new-->
+				<!--
+				<img src="images/minus3.gif" id="img-8012009"/><a onclick="showhide('level-8012009','img-8012009')" target="_self" href="#">國內成分證券主動式<br/><span style="padding-left: 35px;">交易所交易基金</span></a><br/>
+				<span style="display: none;" id="level-8012009">
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb39_q1">基金每日淨資產價<br/><span style="padding-left: 50px;">值</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb39_q2">基金每週投資產業<br/><span style="padding-left: 50px;">類股比例</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb39_q3">基金每月持股前五<br/><span style="padding-left: 50px;">大個股</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb39_q4">基金每季持股明細<br/><span style="padding-left: 50px;">表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb39_q5">基金淨值及指數歷<br/><span style="padding-left: 50px;">史表現比較表</span></a><br/>
+					</span>
+				</span>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb39_new">國內成分股票/債<br/><span style="padding-left: 30px;">券主動式交易所交易基金</span></a><br/>
+				<!--20250930:max:begin:調整成 t78sb39_new-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 t78sb40 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb40">國外成分證券主動式<br/><span style="padding-left: 30px;">交易所交易基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb40">國外成分股票/債<br/><span style="padding-left: 30px;">券主動式交易所交易基金</span></a><br/>
+				<!--20250930:max:begin:調整 t78sb40 名稱-->
+			</span>
+
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb21">最近三月歷史重大訊<br/><span style="padding-left: 30px;">息</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t78sb20">歷史重大訊息</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="o_t51sb11">櫃買基金基本資料彙<br/><span style="padding-left: 30px;">總表</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整成 o_t78sb01_new-->
+				<!--
+				<img src="images/minus3.gif" id="img-8013004"/><a onclick="showhide('level-8013004','img-8013004')" target="_self" href="#">櫃買國內成分股及債<br/><span style="padding-left: 35px;">券成分之指數股票型</span><br/><span style="padding-left: 35px;">基金</span></a><br/>
+				<span style="display: none;" id="level-8013004">
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb01">櫃買基金每日淨資<br/><span style="padding-left: 50px;">產價值彙總表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb02">櫃買基金每週投資<br/><span style="padding-left: 50px;">產業類股比例彙總</span><br/><span style="padding-left: 50px;">表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb03">櫃買基金每月持股<br/><span style="padding-left: 50px;">前五大個股彙總表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb05">櫃買基金淨值及指<br/><span style="padding-left: 50px;">數歷史表現比較表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb04">櫃買基金每季投資<br/><span style="padding-left: 50px;">個股彙總表</span></a><br/>
+					</span>
+				</span>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb01_new">櫃買國內成分股票<br/><span style="padding-left: 30px;">/債券指數股票型基金</span></a><br/>
+				<!--20250930:max:end:調整成 o_t78sb01_new-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 o_t78sb32 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb32">櫃買國外成分股/<br/><span style="padding-left: 30px;">及債券成分/加掛</span><br/><span style="padding-left: 30px;">外幣之指數股票型基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb32">櫃買國外成分股票<br/><span style="padding-left: 30px;">/債券指數股票型</span><br/><span style="padding-left: 30px;">基金(含加掛外幣)</span></a><br/>
+				<!--20250930:max:end:調整 o_t78sb32 名稱-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 o_t78sb33 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb33">櫃買槓桿/反向/<br/><span style="padding-left: 30px;">加掛外幣指數</span><br/><span style="padding-left: 30px;">股票型基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb33">櫃買槓桿型及反向<br/><span style="padding-left: 30px;">型指數股票型基金</span></a><br/>
+				<!--20250930:max:end:調整 o_t78sb33 名稱-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 o_t78sb37 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb37">櫃買國內成分證券<br/><span style="padding-left: 30px;">平衡型指數</span><br/><span style="padding-left: 30px;">股票型基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb37">櫃買國內成分<br/><span style="padding-left: 30px;">平衡型指數</span><br/><span style="padding-left: 30px;">股票型基金</span></a><br/>
+				<!--20250930:max:end:調整 o_t78sb37 名稱-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 o_t78sb38 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb38">櫃買國外成分證券<br/><span style="padding-left: 30px;">平衡型指數</span><br/><span style="padding-left: 30px;">股票型基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb38">櫃買國外成分<br/><span style="padding-left: 30px;">平衡型指數</span><br/><span style="padding-left: 30px;">股票型基金</span></a><br/>
+				<!--20250930:max:end:調整 o_t78sb38 名稱-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整成 o_t78sb39_new-->
+				<!--
+				<img src="images/minus3.gif" id="img-8013005"/><a onclick="showhide('level-8013005','img-8013005')" target="_self" href="#">櫃買國內成分股及債<br/><span style="padding-left: 35px;">券成分主動式交易所</span><br/><span style="padding-left: 35px;">交易基金</span></a><br/>
+				<span style="display: none;" id="level-8013005">
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb39">基金每日淨資產價<br/><span style="padding-left: 50px;">值</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb40">基金每週投資產業<br/><span style="padding-left: 50px;">類股比例</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb41">基金每月持股前五<br/><span style="padding-left: 50px;">大個股</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb42">基金每季持股明細<br/><span style="padding-left: 50px;">表</span></a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb43">基金淨值及指數歷<br/><span style="padding-left: 50px;">史表現比較表</span></a><br/>
+					</span>
+				</span>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb39_new\">櫃買國內成分股票<br/><span style="padding-left: 30px;">/債券主動式交易所</span><br/><span style="padding-left: 30px;">交易基金</span></a><br/>
+				<!--20250930:max:end:調整成 o_t78sb39_new-->
+			</span>
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 o_t78sb44 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb44">櫃買國外成分股及<br/><span style="padding-left: 30px;">債券成分主動式</span><br/><span style="padding-left: 30px;">交易所交易基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb44">櫃買國外成分股票<br/><span style="padding-left: 30px;">/債券主動式交易所</span><br/><span style="padding-left: 30px;">交易基金</span></a><br/>
+				<!--20250930:max:end:調整 o_t78sb44 名稱-->
+			</span>
+					
+			<span style="padding-left: 15px;">
+				<!--20250930:max:begin:調整 o_t78sb34 名稱-->
+				<!--
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb34">櫃買指數/加掛外<br/><span style="padding-left: 30px;">幣股票型期貨</span><br/><span style="padding-left: 30px;">信託基金</span></a><br/>
+				-->
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb34">櫃買指數股票型期<br/><span style="padding-left: 30px;">貨信託基金</span></a><br/>
+				<!--20250930:max:end:調整 o_t78sb34 名稱-->
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb21">櫃買基金最近三月歷<br/><span style="padding-left: 30px;">史重大訊息</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="o_t78sb20">櫃買基金歷史<br/><span style="padding-left: 30px;">重大訊息</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t108sb30">ETF、ETN及REITs<br/><span style="padding-left: 30px;">公告彙總查詢</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t57sb01_q6">基金財務報告書</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t57sb01_q7">基金公開說明書</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/minus3.gif" id="img-8013002"/><a onclick="showhide('level-8013019','img-8013019')" target="_self" href="#">ETF發行單位(轉換)<br/><span style="padding-left: 30px;">數異動查詢</span></a><br/>
+				<span style="display: none;" id="level-8013019">
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="t78sb36">上市ETF</a><br/>
+					</span>
+					<span style="padding-left: 35px;">
+						<img src="images/pointer.gif"/><a target="_self" href="o_t78sb36">上櫃ETF</a><br/>
+					</span>
+				</span>
+			</span>
+		</span>
+		
+		<img src="images/minus3.gif" id="img-8014"/> <a onclick="showhide('level-8014','img-8014')" target="_self" href="#">投資專區／ETN資訊</a><br/>
+		<span style="display: none;" id="level-8014">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/> <a target="_self" href="t204sb05">ETN個別基本資料查詢</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/> <a target="_self" href="t204sb06">ETN彙總基本資料查詢</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/> <a target="_self" href="t204sb01">每日指標價值</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/> <a target="_self" href="t204sb03">每月資金運用情形</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/> <a target="_self" href="t204sb04">歷史表現表</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/> <a target="_self" href="t204sb07">重大訊息</a><br/>
+			</span>
+				<span style="padding-left: 15px;">
+			<img src="images/pointer.gif"/> <a target="_self" href="t204sb08">公告查詢</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/> <a target="_self" href="t204sb09">公開說明書</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/> <a target="_self" href="t204sb02">發行單位數異動查詢</a><br/>
+			</span>
+		</span>
+		<!-- 20160126 EDWARD DORIA begin:增加t191sb01
+		<img src="images/minus3.gif" id="img-8012"/> <a onclick="showhide('level-8012','img-8012')" target="_self" href="#">證券商信用評等專區</a><br/>
+		<span style="display: none;" id="level-8012">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t109sb03_w1">證券商代號查詢</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t109sb02_w1">證券商信用評等資料<br/><span style="padding-left: 30px;">查詢</span></a><br/>
+			</span>
+		</span>
+		-->
+
+		<img src="images/minus3.gif" id="img-8015"/> <a onclick="showhide('level-8015','img-8015')" target="_self" href="#">信用評等專區</a><br/>
+		<span style="display: none;" id="level-8015">
+			<img src="images/minus3.gif" id="img-8015001"/> <a onclick="showhide('level-8015001','img-8015001')" target="_self" href="#">證券商信用評等專區</a><br/>
+			<span style="display: none;" id="level-8015001">
+				<span style="padding-left: 15px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t109sb03_w1">證券商代號查詢</a><br/>
+				</span>
+				<span style="padding-left: 15px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t109sb02_w1">證券商信用評等資料<br/><span style="padding-left: 30px;">查詢</span></a><br/>
+				</span>
+			</span>
+			<img src="images/minus3.gif" id="img-8015002"/> <a target="_self" href="t191sb01">上市公司信用評等專區</a><br/>
+		</span>
+
+		<img src="images/minus3.gif" id="img-8016"/> <a onclick="showhide('level-8016','img-8016')" target="_self" href="#">證券商資本適足比率<br/><span style="padding-left: 16px;">及風險管理資訊專區</span></a><br/>
+		<span style="display: none;" id="level-8016">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t122sb01_q1">證券商風險管理相關<br/><span style="padding-left: 30px;">品質化資訊查詢</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t17sc13_1_w1">證券商資本適足比率<br/><span style="padding-left: 30px;">資訊查詢</span></a><br/>
+			</span>
+		</span>
+		<img src="images/minus3.gif" id="img-8017"/> <a onclick="showhide('level-8017','img-8017')" target="_self" href="#">ETF專區</a><br/>
+			<span style="display: none;" id="level-8017">
+				<span style="padding-left: 15px;">
+					<img src="images/pointer.gif"/><a target="_self" href="http://www.twse.com.tw/zh/ETF/news">上市ETF專區</a><br/>
+				</span>
+				<span style="padding-left: 15px;">
+					<img src="images/pointer.gif"/><a target="_blank" href="http://www.tpex.org.tw/web/link/index.php?l=zh-tw&t=545&s=6">上櫃ETF專區</a><br/>
+				</span>
+			</span>
+
+		<img src="images/pointer.gif"/><a href="t168sb01">金管會證券期貨局<br/><span style="padding-left: 16px;">裁罰案件專區</span></a><br/>
+
+		<img src="images/minus3.gif" id="img-8019"/> <a onclick="showhide('level-8019','img-8019')" target="_self" href="#">違反資訊申報、重大訊<br/><span style="padding-left: 16px;">息及說明記者會規定專<br/></span><span style="padding-left: 16px;">區</span></a><br/>
+		<span style="display: none;" id="level-8019">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t132sb17">上市公司</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="o_t132sb17">上櫃公司</a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="o_t132sb17_q1">興櫃公司</a><br/>
+			</span>
+		</span>
+		<img src="images/pointer.gif"/><a href="t32sb01">各主管機關裁罰案件<br/><span style="padding-left: 16px;">專區</span></a><br/>
+
+		<img src="images/minus3.gif" id="img-8020"/><a onclick="showhide('level-8018','img-8020')" href="#">公開收購資訊專區</a><br/>
+			<span style="display: none;" id="level-8020">
+				<span style="padding-left: 15px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t162sb01">公開收購資料查詢</a><br/>
+				</span>
+				<span style="padding-left: 15px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t162sb02">公開收購統計彙總表</a><br/>
+				</span>
+				<span style="padding-left: 15px;">
+					<img src="images/pointer.gif"/><a target="_self" href="t162sb03">公開收購申報資料彙總表</a><br/>
+				</span>		
+			</span>
+		<img src="images/minus3.gif" id="img-8021"/><a onclick="showhide('level-8021','img-8021')" href="#">庫藏股資訊專區</a><br/>
+		<span style="display: none;" id="level-8021">
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t35sb01_q1">庫藏股買回基本資料<br/><span style="padding-left: 32px;">查詢</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t35sb01_q2">庫藏買回達一定標準<br/><span style="padding-left: 32px;">查詢</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t35sb01_q3">期間屆滿(執行完畢)<br/><span style="padding-left: 32px;">公告事項查詢</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t35sb06">庫藏股轉讓予員工基<br/><span style="padding-left: 32px;">本資料查詢</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t35sb07">董事會決議變更買回<br/><span style="padding-left: 32px;">股份轉讓員工辦法之<br/></span><span style="padding-left: 32px;">公告事項查詢</span></a><br/>
+			</span>
+			<span style="padding-left: 15px;">
+				<img src="images/pointer.gif"/><a target="_self" href="t35sc09">庫藏股統計彙總表<br/></a><br/>
+			</span>
+		</span>
+		<img src="images/pointer.gif"/><a href="t174sb01_q1">經營權及營業範圍異<br/><span style="padding-left: 16px;">(變)動專區<br/></span></a><br/>
+		<img src="images/pointer.gif"/><a href="t189sb01">企業併購法資訊專區</a><br/>
+		<img src="images/pointer.gif"/><a href="t100sb16">提升企業價值計畫專區</a><br/>
+	</td>
+</tr>
+</table>
+
+
+</div>
+</td><td valign="top">
+
+<div id='sw'><div id='pic' name="pic"  hspace="0" vspace="0" border="0" align="top" style="cursor: hand; background: url(images/map2.gif) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; height: 324px; width:14px;background-position:-542px 0px;" onclick="closex();"></div></div>
+</td><td valign="top">
+<div id="nav02">
+<div class="t0"></div>
+
+
+<div class="t01" id='caption'><br>&nbsp;&nbsp;&nbsp;國內成分股票/債券主動式交易所交易基金</div>
+
+<div id="bar01">
+
+
+
+<form id="form1" name="form1" action="/mops/web/ajax_t78sb39_new" onsubmit="return false;" method="post">
+<input type="hidden" id="subMenuID" value="[8,8013]">
+
+<table width="775" border="0" cellpadding="0" cellspacing="0" >
+<tr>
+	
+	<td class="bar01a_2" valign="top" borde="0" width="5px"><div style="background: url(images/map2.gif) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; height: 58px; width:6px;background-position:-6px 0px;"></div></td>
+	
+	
+	<td class="bar01b_2" valign="top"><!--
+程式設計師:vensan
+程式名稱:query-159.htm
+修改紀錄:(格式=>西元日期+版次+程式設計師)
+2025093010max:(T88K)新增
+2025082010vensan:(T88G)新增
+-->
+
+<!-- 申報資料 資料日期 年 月 日 季 -->
+		<input type="hidden" name="step" value="1">
+		<input type="hidden" name="firstin" value="ture">
+		<input type="hidden" name="off" value="1">
+		<table border="0" cellspacing="0" cellpadding="2">
+		<tr>
+			<td><div id="div4" style="background: url(images/map2.gif) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; height: 11px; width:11px;background-position:-345px 0px;"></div></td><td>申報資料</td>
+			<td><div id="search_bar1">
+				<div class="search">
+					<select id="type" name="type" onChange="changeId();">
+						<option value="0" selected></option>
+						<option value="01">1&nbsp;&nbsp;基金每日淨資產價值</option>
+						<option value="02">2&nbsp;&nbsp;基金每週投資產業類股比例</option>
+						<option value="03">3&nbsp;&nbsp;基金每月持股前五大個股</option>
+						<option value="05">4&nbsp;&nbsp;基金每季持股明細表</option>
+						<option value="04">5&nbsp;&nbsp;基金淨值與績效指標歷史表現比較表</option>
+					</select>
+				</div>
+			</div></td>
+			</tr>
+			<tr>
+			<td><div id="div4" style="background: url(images/map2.gif) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; height: 11px; width:11px;background-position:-345px 0px;"></div></td><td>資料日期</td>
+			<td><div id="search_bar1">
+				<div class="search">
+					<span id="y">
+					</span>
+					<span id="m">
+					</span>
+					<span id="d">
+					</span>
+					<span id="s" onkeydown="{if(event.keyCode==13){ajax1(document.form1,'table01');}}">
+					</span>
+				</div>
+			</div></td>
+		</tr>
+		</table>
+<script>
+var now;
+var num;
+var thisYear;
+var year;
+var month;
+var date;
+var thisMonth;
+var thisDay;
+var day=0;
+
+function changeId()
+{	
+	now=new Date();
+	num=document.getElementById("type").value;
+	year=num+"year";
+	month=num+"month";
+	
+	thisMonth = now.getMonth();
+	thisDay = now.getDate();
+
+		if(num==0){
+			document.getElementById("y").style.display='none';
+			document.getElementById("m").style.display='none';
+			document.getElementById("d").style.display='none';
+			document.getElementById("s").style.display='none';
+		}
+		else{
+			document.getElementById("y").style.display='';
+			document.getElementById("y").innerHTML="民國<select name=\"yy\" id=\"yy\"></select>年";
+			if(now.getYear()>=2000)
+				thisYear = now.getYear();
+			else
+				thisYear = now.getYear()+1900;
+			var y=document.getElementById("yy");
+			for(var j=0;j<=10;j++)
+			{	
+				var new_option_year = new Option((thisYear-j-1911),(thisYear-j-1911));	
+				y.options.add(new_option_year);
+			}
+			
+			
+			if (num==1||num==2||num==3||num==4){
+				document.getElementById("s").style.display='none';
+				document.getElementById("m").style.display='';
+				if(num==1){
+					document.getElementById("d").style.display='';
+					document.getElementById("m").innerHTML="<select name=\"mm\" id=\"mm\"></select>月";
+					date=1+"date";
+					document.getElementById("d").innerHTML="<select name=\"dd\" id=\"dd\"></select>日";
+					var d=document.getElementById("dd");
+					for(var l=1;l<=31;l++){
+						if (l<10)
+							var new_option_date = new Option(l,("0"+l));
+						else
+							var new_option_date = new Option(l,l);
+						d.options.add(new_option_date);
+					}
+				}else{
+					document.getElementById("d").style.display='none';
+					document.getElementById("m").innerHTML="<select name=\"mm\" id=\"mm\"></select>月";
+				}
+				var m=document.getElementById("mm");
+				for(var k=1;k<=12;k++){
+					if (k<10)
+						var new_option_month = new Option(k,("0"+k));
+					else
+						var new_option_month = new Option(k,k);
+					m.options.add(new_option_month);
+				}
+				document.getElementById("mm").options[thisMonth].selected = true;
+				if (num == 1) {
+					document.getElementById("dd").options[thisDay-1].selected = true;
+				}
+			}
+
+			if (num==5){
+				document.getElementById("m").style.display='none';
+				document.getElementById("d").style.display='none';
+				document.getElementById("s").style.display='';
+				season=6+"season";
+				document.getElementById("s").innerHTML="<select name=\"ss\" id=\"ss\"></select>季";
+				var s=document.getElementById("ss");
+				for(var m=1;m<=4;m++){
+						var new_option_season = new Option(m,("0"+m));
+					s.options.add(new_option_season);
+				}
+			}
+				
+			
+			document.getElementById("yy").options[0].selected = true;
+
+		}
+}
+</script></td>
+	
+	<td align="right" class="bar01b_2">&nbsp;</td>
+	<td align="right" class="bar01b_2" valign="top">
+		<table border="0" cellspacing="0" cellpadding="2">
+		<tr>
+			<td>&nbsp;&nbsp;&nbsp;</td>
+			<td ><div id="search_bar1">
+				<div class="search">
+				
+				
+				<input type="button" value=" 查詢 " onclick="javascript:doAction();ajax1(document.form1,'table01');"/>
+				</div>
+			</div></td>
+		</tr>
+		</table>
+	</td>
+	
+	<td class="bar01a_2" valign="top" width="5px"><div style="background: url(images/map2.gif) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; height: 58px; width:6px;background-position:-78px 0px;"></div></td>
+
+</tr>
+</table>
+</form>
+
+</div>
+
+
+<div id="table_ess">
+  <table id="showTable9" border="0" cellspacing="0" cellpadding="2">
+    <tr>
+      
+	  
+	  <th align="left" width="80px"><a href="javascript:print();"><img src="images/bu_01.gif" alt="列印網頁" border=0></img></a></th><th width="80px"><a href="javascript:outputNewWindow();"><img src="images/bu_02.gif" alt="開新視窗" border=0></img></a></th><th width="80px"><a href="javascript:reportError();"><img src="images/bu_04.gif" alt="問題回報" border=0></img></a></th><th width="80px"><a id='ajax_back_button' href="javascript:void(0)" onclick="ajax_back();" style="visibility:hidden;"></a></th>
+      <th><table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          
+		  <td width="900px"></td>
+        </tr>
+      </table></th>
+    </tr>
+  </table>
+</div>
+
+
+<div id="zoom"><div id="table01"></div>
+
+  <br></div>
+</td></tr></table>
+</DIV></tr>
+</table>
+</div>
+
+
+<div id="footer">
+   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th>
+		<div class="text1" id="text1" align="center">
+			<a href='https://www.stockvote.com.tw/' target='_blank'>電子投票</a>│
+			<a href='http://www.sfb.gov.tw/Layout/main_ch/index.aspx?frame=5' target='_blank'>不繼續公開發行</a>│
+			<a href='/server-java/t39sb01' target='_blank'>市場公告</a>│
+			
+			
+			
+			<a href='https://webline.sfi.org.tw/CGE/' target='_blank'>公司治理評鑑</a>│
+
+
+			
+			
+			
+			<a href='/mops/web/t146sb08'>網站地圖</a>│
+			<a href='/nas/MOPS_HandBook.doc' target='_MOPS_handbook'>網站使用說明</a>
+			<div class="text1" id="text1" align="center" height="80">
+			<a href=#>投資人服務中心(02)2792-8188</a> <u><a href='http://Suggestionbox.twse.com.tw' target='_blank'>聯絡我們</a></u>
+			</div>
+
+			
+			
+			
+			
+			
+			
+			
+			
+		</div>
+	</th>
+  </tr>
+</table>
+</div>
+</td></tr></table></center>
+<div id="quicksearch9" style="position:absolute;z-index:3;overflow:auto;width:620px;max-height:200px;display:none;"></div>
+
+</body>
+
+<script>
+	function doAction() {
+		if (document.form1.step!=null && document.form1.step!=undefined && document.form1.step.value!='')
+		{
+			if (document.form1.step.value!='0')
+			{
+				document.form1.step.value='1';
+			}
+		}
+		if (document.form1.firstin!=null && document.form1.firstin!=undefined && document.form1.firstin.value!='')
+		{
+			document.form1.firstin.value='1';
+		}
+		var name=document.fh.funcName.value;
+		document.form1.action='/mops/web/ajax_'+name;
+	}
+	function checkAutoRunScript(){
+		if (document.autoForm!=null && document.autoForm!=undefined && document.autoForm.run.value==''){
+			//document.autoForm.run.value='Y';
+			ajax1(document.autoForm,'table01');
+			document.querySelector('form[name=autoForm]').remove();
+		}
+
+		//if (document.autoRunScript!=null && document.autoRunScript!=undefined && document.autoRunScript.run.value!=''){
+		//	var s = document.autoRunScript.run.value;
+		//	document.autoRunScript.run.value = '';
+		//	new function(){
+		//		eval(s);
+		//	};
+		//}
+		if (document.autoRunScript!=null && document.autoRunScript!=undefined && document.autoRunScript.run!=null && document.autoRunScript.run.value!=''){
+			let s = document.autoRunScript.run.value;
+			s = htmlEncode(s);
+
+			let script = document.createElement("script");
+			script.innerText = s;
+			document.body.appendChild(script);
+
+			document.querySelector('form[name=autoRunScript] > input[name=run]').remove()
+		}
+	}
+
+	setInterval("checkAutoRunScript()",100);
+</script>
+<script>
+	function htmlEncode(value){
+		return value;
+	}
+	function listinnerli(){
+		if(document.querySelector('#mm0'))document.querySelector('#mm0').innerHTML = menu0;
+		if(document.querySelector('#mm1'))document.querySelector('#mm1').innerHTML = menu1;
+		if(document.querySelector('#mm2'))document.querySelector('#mm2').innerHTML = menu2;
+		if(document.querySelector('#mm3'))document.querySelector('#mm3').innerHTML = menu3;
+		if(document.querySelector('#mm4'))document.querySelector('#mm4').innerHTML = menu4;
+		if(document.querySelector('#mm5'))document.querySelector('#mm5').innerHTML = menu5;
+		if(document.querySelector('#mm6'))document.querySelector('#mm6').innerHTML = menu6;
+		if(document.querySelector('#mm7'))document.querySelector('#mm7').innerHTML = menu7;
+		if(document.querySelector('#mm8'))document.querySelector('#mm8').innerHTML = menu8;
+		if(document.querySelector('#mm9'))document.querySelector('#mm9').innerHTML = menu9;
+		if(document.querySelector('#mm10'))document.querySelector('#mm10').innerHTML = menu10;
+		if(document.querySelector('#mm11'))document.querySelector('#mm11').innerHTML = menu11;
+		if(document.querySelector('#mm12'))document.querySelector('#mm12').innerHTML = menu12;
+	}
+	window.onload = listinnerli;
+</script>
+
+</html>
