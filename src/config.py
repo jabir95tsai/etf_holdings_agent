@@ -93,7 +93,7 @@ def load_config(etf_code: str = "00981A") -> AppConfig:
         ),
         twse_url=os.getenv(
             "TWSE_URL",
-            "https://www.twse.com.tw/zh/ETFortfolio/etfPortfolio?etfCode=00981A",
+            "https://www.ezmoney.com.tw/ETF/Fund/Info?FundCode=49YTW",
         ),
     )
 

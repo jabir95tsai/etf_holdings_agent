@@ -301,3 +301,62 @@ def _extract_date_from_text(text: str) -> str | None:
         if d:
             return d
     return None
+
+
+# ---------- ezmoney Excel ----------
+def parse_ezmoney_xlsx(path_or_bytes) -> tuple[str | None, list[dict]]:
+    """Parse the ezmoney AssetExcelNPOI file.
+
+    Structure (as observed 2026-04):
+      Row 0 : 資料日期：115/04/24
+      Row 19: header — 股票代號 | 股票名稱 | 持股 | 持股比例
+      Row 20+: data rows
+    """
+    import io
+    import openpyxl
+
+    if isinstance(path_or_bytes, (bytes, bytearray)):
+        wb = openpyxl.load_workbook(io.BytesIO(path_or_bytes))
+    else:
+        wb = openpyxl.load_workbook(path_or_bytes)
+
+    ws = wb.active
+    all_rows = list(ws.iter_rows(values_only=True))
+
+    data_date: str | None = None
+    # Row 0 contains 資料日期：YY/MM/DD
+    if all_rows:
+        cell0 = str(all_rows[0][0] or "")
+        data_date = _extract_date_from_text(cell0)
+
+    # Find the header row (contains 股票代號)
+    header_idx = None
+    for i, row in enumerate(all_rows):
+        row_text = " ".join(str(c) for c in row if c)
+        if "股票代號" in row_text or "代號" in row_text:
+            header_idx = i
+            break
+
+    if header_idx is None:
+        return data_date, []
+
+    rows: list[dict] = []
+    for row in all_rows[header_idx + 1:]:
+        if not any(row):
+            continue
+        code = _clean_code(row[0] if len(row) > 0 else None)
+        name = _clean_name(row[1] if len(row) > 1 else None)
+        shares_raw = row[2] if len(row) > 2 else None
+        weight_raw = row[3] if len(row) > 3 else None
+
+        if not code and not name:
+            continue
+
+        rows.append({
+            "stock_code": code,
+            "stock_name": name,
+            "shares": _to_int(shares_raw),
+            "weight_pct": _to_float(weight_raw),
+        })
+
+    return data_date, rows

@@ -53,7 +53,8 @@ def _http_get(url: str, **kwargs) -> requests.Response:
         "Accept-Language": "zh-TW,zh;q=0.9,en;q=0.8",
     }
     headers.update(kwargs.pop("headers", {}) or {})
-    resp = requests.get(url, headers=headers, timeout=DEFAULT_TIMEOUT, **kwargs)
+    resp = requests.get(url, headers=headers, timeout=DEFAULT_TIMEOUT,
+                        verify=False, **kwargs)
     resp.raise_for_status()
     return resp
 
@@ -110,9 +111,8 @@ def scrape_twse(etf_code: str, raw_dir: Path, url: str) -> ScrapeResult:
             raw = _save_raw(raw_dir, "twse", etf_code, resp.content, "json")
             data_date, rows = parser.parse_twse_json(resp.text)
         else:
-            # Some TWSE pages render HTML with embedded data
             raw = _save_raw(raw_dir, "twse", etf_code, resp.content, "html")
-            data_date, rows = parser.parse_moneydj_html(resp.text)  # generic table parser
+            data_date, rows = parser.parse_moneydj_html(resp.text)
         result.raw_path = raw
         result.data_date = data_date
         result.rows = rows
@@ -124,6 +124,48 @@ def scrape_twse(etf_code: str, raw_dir: Path, url: str) -> ScrapeResult:
     return result
 
 
+EZMONEY_EXCEL_URL = (
+    "https://www.ezmoney.com.tw/ETF/Fund/AssetExcelNPOI?FundCode=49YTW"
+)
+
+
+def scrape_ezmoney_excel(etf_code: str, raw_dir: Path) -> ScrapeResult:
+    """Download ezmoney Excel holdings file (most reliable source)."""
+    url = EZMONEY_EXCEL_URL
+    result = ScrapeResult(source="ezmoney", source_url=url, data_date=None, rows=[])
+    try:
+        headers = {
+            "User-Agent": USER_AGENT,
+            "Referer": "https://www.ezmoney.com.tw/ETF/Fund/Info?FundCode=49YTW",
+        }
+        resp = requests.get(url, headers=headers, verify=False,
+                            timeout=DEFAULT_TIMEOUT)
+        resp.raise_for_status()
+
+        # Extract date from Content-Disposition filename if present
+        cd = resp.headers.get("Content-Disposition", "")
+        filename_date: str | None = None
+        import re
+        m = re.search(r"(\d{8})\.xlsx", cd)
+        if m:
+            ds = m.group(1)
+            from .parser import _normalize_date
+            filename_date = _normalize_date(f"{ds[:4]}-{ds[4:6]}-{ds[6:]}")
+
+        raw = _save_raw(raw_dir, "ezmoney", etf_code, resp.content, "xlsx")
+        data_date, rows = parser.parse_ezmoney_xlsx(resp.content)
+
+        result.raw_path = raw
+        result.data_date = data_date or filename_date
+        result.rows = rows
+        if not rows:
+            result.errors.append("ezmoney Excel returned no parseable rows")
+    except Exception as e:
+        logger.warning("ezmoney Excel scrape failed: %s", e)
+        result.errors.append(f"ezmoney: {e}")
+    return result
+
+
 # ---------- Orchestrator ----------
 def scrape_holdings(
     etf_code: str,
@@ -132,8 +174,9 @@ def scrape_holdings(
     moneydj_url: str,
     twse_url: str,
 ) -> ScrapeResult:
-    """Try official → moneydj → twse. Return first successful result."""
+    """Try ezmoney Excel → UPAMC → MoneyDJ → TWSE."""
     sources: list[Callable[[], ScrapeResult]] = [
+        lambda: scrape_ezmoney_excel(etf_code, raw_dir),
         lambda: scrape_upamc(etf_code, raw_dir, upamc_url),
         lambda: scrape_moneydj(etf_code, raw_dir, moneydj_url),
         lambda: scrape_twse(etf_code, raw_dir, twse_url),
