@@ -140,7 +140,7 @@ def _fmt_money(v) -> str:
 def _fmt_money_compact(v) -> str:
     if v is None:
         return "-"
-    sign = "+" if v > 0 else ""
+    sign = "+" if v > 0 else "-" if v < 0 else ""
     abs_v = abs(v)
     if abs_v >= 100_000_000:
         return f"{sign}{abs_v / 100_000_000:.2f} 億"
