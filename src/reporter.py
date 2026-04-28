@@ -572,7 +572,7 @@ def _render_email_top_holdings(rows: list[dict]) -> str:
         _section_start("前十大持股"),
         "<tr style='background:#f8f8f6;'>",
         _th("排名", right=True), _th("變動", right=True), _th("代號"), _th("名稱"), _th("今日權重", right=True),
-        _th("前次權重", right=True), _th("bp 變化", right=True),
+        _th("前次權重", right=True), _th("變化", right=True),
         "</tr>",
     ]
     for i, r in enumerate(rows):
@@ -581,7 +581,7 @@ def _render_email_top_holdings(rows: list[dict]) -> str:
         out.append(
             "<tr>"
             + _td(r.get("current_rank"), right=True, mono=True, border=border)
-            + _td(_rank_badge(r), right=True, mono=True, color=_rank_badge_color(r), border=border)
+            + _td_html(_rank_badge_html(r), right=True, mono=True, border=border)
             + _td(r.get("stock_code"), border=border)
             + _td(r.get("stock_name"), border=border)
             + _td(_fmt_pct(r.get("current_weight_pct")), right=True, mono=True, color="#111111", border=border)
@@ -615,6 +615,25 @@ def _rank_badge_color(row: dict) -> str:
     if badge.startswith("▼"):
         return "#dc2626"
     return "#999999"
+
+
+def _rank_badge_html(row: dict) -> str:
+    badge = _rank_badge(row)
+    if badge.startswith("▲") or badge == "NEW":
+        bg = "#dcfce7"
+        color = "#166534"
+    elif badge.startswith("▼"):
+        bg = "#fee2e2"
+        color = "#991b1b"
+    else:
+        bg = "#f1f5f9"
+        color = "#64748b"
+    return (
+        f"<span style='display:inline-block;min-width:28px;text-align:center;"
+        f"background:{bg};color:{color};font-size:11px;font-weight:600;"
+        "padding:2px 5px;border-radius:4px;'>"
+        f"{_html(badge)}</span>"
+    )
 
 
 def _render_email_quality(qc: QualityCheck) -> str:
@@ -736,6 +755,22 @@ def _td(
     return (
         f"<td align='{align}' style='font-size:13px;color:{color};{font}"
         f"padding:8px 8px;{border}'>{_html(value)}</td>"
+    )
+
+
+def _td_html(
+    value_html: str,
+    *,
+    right: bool = False,
+    mono: bool = False,
+    color: str = "#333333",
+    border: str = "",
+) -> str:
+    align = "right" if right else "left"
+    font = "font-family:'Courier New',monospace;" if mono else ""
+    return (
+        f"<td align='{align}' style='font-size:13px;color:{color};{font}"
+        f"padding:8px 8px;{border}'>{value_html}</td>"
     )
 
 
