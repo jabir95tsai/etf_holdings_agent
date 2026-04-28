@@ -11,9 +11,8 @@ CHANGE_INCREASED = "Increased"
 CHANGE_DECREASED = "Decreased"
 CHANGE_UNCHANGED = "Unchanged"
 
-# Tolerances for "Unchanged"
-WEIGHT_EPS = 0.005   # 0.005 percentage point ≈ 0.5 bp
-SHARES_EPS = 0       # any non-zero share delta counts
+# Any non-zero share delta counts as a real holding change.
+SHARES_EPS = 0
 
 
 @dataclass
@@ -115,10 +114,6 @@ def compare(
                 ctype = CHANGE_INCREASED
             elif delta_shares is not None and delta_shares < -SHARES_EPS:
                 ctype = CHANGE_DECREASED
-            elif delta_weight is not None and delta_weight > WEIGHT_EPS:
-                ctype = CHANGE_INCREASED
-            elif delta_weight is not None and delta_weight < -WEIGHT_EPS:
-                ctype = CHANGE_DECREASED
             else:
                 ctype = CHANGE_UNCHANGED
 
@@ -149,8 +144,12 @@ def compare(
     # Sort
     report.new_positions.sort(key=lambda r: -(r.current_weight_pct or 0))
     report.sold_out.sort(key=lambda r: -(r.previous_weight_pct or 0))
-    report.increased.sort(key=lambda r: -(r.delta_weight_bp or r.delta_shares or 0))
-    report.decreased.sort(key=lambda r: (r.delta_weight_bp or r.delta_shares or 0))
+    report.increased.sort(
+        key=lambda r: (-(r.delta_shares or 0), -abs(r.delta_weight_bp or 0))
+    )
+    report.decreased.sort(
+        key=lambda r: ((r.delta_shares or 0), -abs(r.delta_weight_bp or 0))
+    )
 
     # Rank by abs delta
     by_w = sorted(

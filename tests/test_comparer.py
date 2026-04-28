@@ -39,12 +39,27 @@ def test_classifies_new_sold_inc_dec_unchanged():
 
 def test_increased_decreased_sort_order():
     previous = [_row("A", "A", 100, 1.0), _row("B", "B", 100, 1.0)]
-    current = [_row("A", "A", 200, 2.0), _row("B", "B", 150, 1.5)]
+    current = [_row("A", "A", 200, 1.1), _row("B", "B", 150, 2.5)]
 
     diff = comparer.compare(previous, current, "x", "y")
-    # Largest weight increase first
+    # Largest share increase first; weight moves are only supporting context.
     assert diff.increased[0].stock_code == "A"
     assert diff.increased[1].stock_code == "B"
+
+
+def test_weight_only_change_is_unchanged():
+    previous = [_row("2330", "台積電", 100_000, 8.0)]
+    current = [_row("2330", "台積電", 100_000, 9.0)]
+
+    diff = comparer.compare(previous, current, "2026-04-27", "2026-04-28")
+
+    assert not diff.increased
+    assert not diff.decreased
+    assert len(diff.unchanged) == 1
+    row = diff.unchanged[0]
+    assert row.stock_code == "2330"
+    assert row.delta_shares == 0
+    assert abs(row.delta_weight_bp - 100.0) < 1e-6
 
 
 def test_top_holdings_change_ranks_currently_held_top_n():
