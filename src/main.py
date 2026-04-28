@@ -17,6 +17,7 @@ from .reporter import (
     QualityCheck,
     build_summary,
     quality_check,
+    render_email_html,
     render_failure_md,
     render_markdown,
     render_no_update_md,
@@ -219,11 +220,20 @@ def run(cfg: AppConfig, args: argparse.Namespace) -> int:
     summary = build_summary(diff, len(current_rows_db), len(previous_rows))
 
     if not args.dry_run:
+        html = render_email_html(
+            etf_code=cfg.etf_code,
+            run_at=run_at,
+            diff=diff,
+            current_rows=current_rows_db,
+            previous_rows=previous_rows,
+            qc=qc,
+            source_used=source_used,
+        )
         notifier.send_email(
             cfg.gmail,
             subject=notifier.subject_diff(cfg.etf_code, current_date or "N/A", summary),
             body_text=md,
-            body_html=notifier.md_to_simple_html(md),
+            body_html=html,
             attachments=[md_path],
         )
         db.log_run(
