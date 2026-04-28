@@ -420,17 +420,9 @@ def _render_email_kpis(summary: dict) -> str:
         (
             "增 / 減持",
             (
-                "<table cellpadding='0' cellspacing='0' border='0' "
-                "style=\"font-family:'Courier New',monospace;font-size:18px;font-weight:600;line-height:1.35;\">"
-                "<tr>"
-                "<td style='color:#16a34a;padding:0 8px 1px 0;'>增</td>"
-                f"<td align='right' style='color:#16a34a;padding:0 0 1px 0;'>{summary['increased_count']}</td>"
-                "</tr>"
-                "<tr>"
-                "<td style='color:#dc2626;padding:1px 8px 0 0;'>減</td>"
-                f"<td align='right' style='color:#dc2626;padding:1px 0 0 0;'>{summary['decreased_count']}</td>"
-                "</tr>"
-                "</table>"
+                f"<span style='color:#16a34a;font-size:18px;'>增 {summary['increased_count']}</span>"
+                "<span style='color:#cccccc;font-size:16px;padding:0 5px;'>/</span>"
+                f"<span style='color:#dc2626;font-size:18px;'>減 {summary['decreased_count']}</span>"
             ),
             "檔異動",
             "#111111",
