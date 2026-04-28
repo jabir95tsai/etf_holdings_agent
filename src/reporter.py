@@ -389,11 +389,11 @@ def _render_email_brief(
     top_sell: DiffRow | None,
 ) -> str:
     buy_text = (
-        f"最大買進為 {top_buy.stock_code} {top_buy.stock_name}，估計 {_fmt_money_compact(top_buy.estimated_change_amount)}"
+        f"最大買進為 {top_buy.stock_code} {top_buy.stock_name}，{_estimated_text(top_buy)}"
         if top_buy else "今日無明顯買進金額"
     )
     sell_text = (
-        f"最大賣出為 {top_sell.stock_code} {top_sell.stock_name}，估計 {_fmt_money_compact(top_sell.estimated_change_amount)}"
+        f"最大賣出為 {top_sell.stock_code} {top_sell.stock_name}，{_estimated_text(top_sell)}"
         if top_sell else "今日無明顯賣出金額"
     )
     text = (
@@ -410,6 +410,12 @@ def _render_email_brief(
         f"<span style='font-weight:600;color:#111111;'>今日重點：</span>{_html(text)}"
         "</div></td></tr>"
     )
+
+
+def _estimated_text(row: DiffRow) -> str:
+    if row.estimated_change_amount is None:
+        return "估值待補"
+    return f"估計 {_fmt_money_compact(row.estimated_change_amount)}"
 
 
 def _render_email_kpis(summary: dict) -> str:
@@ -444,10 +450,21 @@ def _render_email_kpis(summary: dict) -> str:
 
 
 def _top_amount(rows: list[DiffRow], *, reverse: bool) -> DiffRow | None:
-    rows = [r for r in rows if r.estimated_change_amount is not None]
-    if not rows:
+    rows_with_amount = [r for r in rows if r.estimated_change_amount is not None]
+    if rows_with_amount:
+        return sorted(
+            rows_with_amount,
+            key=lambda r: r.estimated_change_amount or 0,
+            reverse=reverse,
+        )[0]
+    rows_with_shares = [r for r in rows if _effective_shares_value(r) is not None]
+    if not rows_with_shares:
         return None
-    return sorted(rows, key=lambda r: r.estimated_change_amount or 0, reverse=reverse)[0]
+    return sorted(
+        rows_with_shares,
+        key=lambda r: _effective_shares_value(r) or 0,
+        reverse=reverse,
+    )[0]
 
 
 def _render_email_highlights(top_buy: DiffRow | None, top_sell: DiffRow | None) -> str:
@@ -470,7 +487,13 @@ def _highlight_cell(
 ) -> str:
     pad = "padding-left:6px;" if left_pad else "padding-right:6px;"
     name = f"{row.stock_code or ''} {row.stock_name or ''}" if row else "-"
-    amount = _fmt_money_compact(row.estimated_change_amount if row else None)
+    amount = (
+        _fmt_money_compact(row.estimated_change_amount)
+        if row and row.estimated_change_amount is not None
+        else "估值待補"
+        if row
+        else "無紀錄"
+    )
     detail = ""
     if row:
         shares = _effective_shares_text(row)
@@ -496,6 +519,16 @@ def _effective_shares_text(row: DiffRow) -> str:
     if row.change_type == "Sold Out" and row.previous_shares is not None:
         return _fmt_delta_int(-row.previous_shares)
     return "-"
+
+
+def _effective_shares_value(row: DiffRow) -> int | None:
+    if row.delta_shares is not None:
+        return row.delta_shares
+    if row.change_type == "New Position" and row.current_shares is not None:
+        return row.current_shares
+    if row.change_type == "Sold Out" and row.previous_shares is not None:
+        return -row.previous_shares
+    return None
 
 
 def _render_email_position_table(

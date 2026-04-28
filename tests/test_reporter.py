@@ -79,3 +79,30 @@ def test_render_email_html_marks_stale_data_and_empty_state():
     assert "非新資料" in html
     assert "今日無減持紀錄" in html
     assert "今日無清倉紀錄" in html
+
+
+def test_render_email_html_falls_back_when_sell_price_missing():
+    previous = [_row("6488", "環球晶", 333000, 0.09)]
+    current = []
+    diff = comparer.compare(previous, current, "2026-04-27", "2026-04-28")
+    qc = reporter.quality_check(
+        rows=current,
+        scrape_ok=True,
+        is_new_data=True,
+        source_used="moneydj",
+        has_data_date=True,
+    )
+
+    html = reporter.render_email_html(
+        etf_code="00981A",
+        run_at=datetime(2026, 4, 28, 12, 0),
+        diff=diff,
+        current_rows=current,
+        previous_rows=previous,
+        qc=qc,
+        source_used="moneydj",
+    )
+
+    assert "最大賣出標的" in html
+    assert "6488 環球晶" in html
+    assert "估值待補" in html
