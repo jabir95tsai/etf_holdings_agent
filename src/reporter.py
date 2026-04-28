@@ -123,6 +123,19 @@ def _fmt_delta_int(v) -> str:
     return f"{sign}{int(v):,}"
 
 
+def _fmt_price(v) -> str:
+    if v is None:
+        return "-"
+    return f"{v:.2f}"
+
+
+def _fmt_money(v) -> str:
+    if v is None:
+        return "-"
+    sign = "+" if v > 0 else ""
+    return f"{sign}{v:,.0f}"
+
+
 # ---------- Summary ----------
 def build_summary(
     diff: DiffReport,
@@ -199,12 +212,13 @@ def render_markdown(
 
     lines.append("## 二、新建倉")
     if diff.new_positions:
-        lines.append("| 股票代號 | 股票名稱 | 今日權重 | 今日股數 |")
-        lines.append("|---|---|---:|---:|")
+        lines.append("| 股票代號 | 股票名稱 | 今日權重 | 今日股數 | 收盤價 | 估計變化金額 |")
+        lines.append("|---|---|---:|---:|---:|---:|")
         for r in diff.new_positions:
             lines.append(
                 f"| {r.stock_code or '-'} | {r.stock_name or '-'} | "
-                f"{_fmt_pct(r.current_weight_pct)} | {_fmt_int(r.current_shares)} |"
+                f"{_fmt_pct(r.current_weight_pct)} | {_fmt_int(r.current_shares)} | "
+                f"{_fmt_price(r.close_price)} | {_fmt_money(r.estimated_change_amount)} |"
             )
     else:
         lines.append("無")
@@ -212,12 +226,13 @@ def render_markdown(
 
     lines.append("## 三、清倉")
     if diff.sold_out:
-        lines.append("| 股票代號 | 股票名稱 | 前次權重 | 前次股數 |")
-        lines.append("|---|---|---:|---:|")
+        lines.append("| 股票代號 | 股票名稱 | 前次權重 | 前次股數 | 收盤價 | 估計變化金額 |")
+        lines.append("|---|---|---:|---:|---:|---:|")
         for r in diff.sold_out:
             lines.append(
                 f"| {r.stock_code or '-'} | {r.stock_name or '-'} | "
-                f"{_fmt_pct(r.previous_weight_pct)} | {_fmt_int(r.previous_shares)} |"
+                f"{_fmt_pct(r.previous_weight_pct)} | {_fmt_int(r.previous_shares)} | "
+                f"{_fmt_price(r.close_price)} | {_fmt_money(r.estimated_change_amount)} |"
             )
     else:
         lines.append("無")
@@ -263,14 +278,15 @@ def _render_change_table(rows: list[DiffRow]) -> list[str]:
     if not rows:
         return ["無"]
     out = [
-        "| 股票代號 | 股票名稱 | 前次股數 | 今日股數 | 股數變化 | 前次權重 | 今日權重 | 權重變化 bp |",
-        "|---|---|---:|---:|---:|---:|---:|---:|",
+        "| 股票代號 | 股票名稱 | 前次股數 | 今日股數 | 股數變化 | 收盤價 | 估計變化金額 | 前次權重 | 今日權重 | 權重變化 bp |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for r in rows:
         out.append(
             f"| {r.stock_code or '-'} | {r.stock_name or '-'} | "
             f"{_fmt_int(r.previous_shares)} | {_fmt_int(r.current_shares)} | "
             f"{_fmt_delta_int(r.delta_shares)} | "
+            f"{_fmt_price(r.close_price)} | {_fmt_money(r.estimated_change_amount)} | "
             f"{_fmt_pct(r.previous_weight_pct)} | {_fmt_pct(r.current_weight_pct)} | "
             f"{_fmt_bp(r.delta_weight_bp)} |"
         )
@@ -290,6 +306,8 @@ def write_csv(path: Path, diff: DiffReport) -> None:
         "current_weight_pct",
         "delta_weight_pct",
         "delta_weight_bp",
+        "close_price",
+        "estimated_change_amount",
         "abs_delta_weight_rank",
         "abs_delta_shares_rank",
     ]

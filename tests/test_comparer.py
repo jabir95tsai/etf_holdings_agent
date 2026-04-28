@@ -62,6 +62,29 @@ def test_weight_only_change_is_unchanged():
     assert abs(row.delta_weight_bp - 100.0) < 1e-6
 
 
+def test_enrich_with_prices_adds_estimated_amount_for_changes():
+    previous = [_row("2330", "台積電", 100_000, 8.0)]
+    current = [_row("2330", "台積電", 120_000, 8.5)]
+    diff = comparer.compare(previous, current, "2026-04-27", "2026-04-28")
+
+    comparer.enrich_with_prices(diff, {"2330": 1000.0})
+
+    row = diff.increased[0]
+    assert row.close_price == 1000.0
+    assert row.estimated_change_amount == 20_000_000.0
+
+
+def test_enrich_with_prices_handles_new_and_sold_amounts():
+    previous = [_row("2454", "聯發科", 10_000, 1.0)]
+    current = [_row("2330", "台積電", 20_000, 2.0)]
+    diff = comparer.compare(previous, current, "2026-04-27", "2026-04-28")
+
+    comparer.enrich_with_prices(diff, {"2330": 1000.0, "2454": 1200.0})
+
+    assert diff.new_positions[0].estimated_change_amount == 20_000_000.0
+    assert diff.sold_out[0].estimated_change_amount == -12_000_000.0
+
+
 def test_top_holdings_change_ranks_currently_held_top_n():
     previous = [
         _row("2330", "台積電", 100, 30.0),

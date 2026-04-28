@@ -27,6 +27,8 @@ class DiffRow:
     delta_weight_pct: float | None
     delta_weight_bp: float | None
     change_type: str
+    close_price: float | None = None
+    estimated_change_amount: float | None = None
     abs_delta_weight_rank: int | None = None
     abs_delta_shares_rank: int | None = None
 
@@ -77,6 +79,34 @@ def _safe_sub(a, b):
     if a is None or b is None:
         return None
     return a - b
+
+
+def _effective_delta_shares(row: DiffRow) -> int | None:
+    if row.delta_shares is not None:
+        return row.delta_shares
+    if row.change_type == CHANGE_NEW:
+        return row.current_shares
+    if row.change_type == CHANGE_SOLD and row.previous_shares is not None:
+        return -row.previous_shares
+    return None
+
+
+def enrich_with_prices(
+    diff: DiffReport,
+    close_prices: dict[str, float],
+) -> DiffReport:
+    """Attach close price and estimated amount change to each diff row."""
+    for row in diff.all_rows:
+        code = row.stock_code or ""
+        close_price = close_prices.get(code)
+        delta_shares = _effective_delta_shares(row)
+        row.close_price = close_price
+        row.estimated_change_amount = (
+            delta_shares * close_price
+            if delta_shares is not None and close_price is not None
+            else None
+        )
+    return diff
 
 
 def compare(

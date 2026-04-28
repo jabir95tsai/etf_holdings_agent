@@ -10,7 +10,7 @@ from datetime import datetime
 
 import pytz
 
-from . import comparer, notifier, reporter, scraper
+from . import comparer, notifier, prices, reporter, scraper
 from .config import AppConfig, load_config, setup_logging
 from .db import HoldingsDB
 from .reporter import (
@@ -195,6 +195,10 @@ def run(cfg: AppConfig, args: argparse.Namespace) -> int:
         previous_date=previous_date,
         current_date=current_date,
     )
+    if current_date:
+        stock_codes = [r.stock_code for r in diff.all_rows if r.stock_code]
+        close_prices = prices.fetch_close_prices(current_date, stock_codes)
+        comparer.enrich_with_prices(diff, close_prices)
 
     md = render_markdown(
         etf_code=cfg.etf_code,
