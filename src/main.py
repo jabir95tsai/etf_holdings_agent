@@ -231,7 +231,12 @@ def run(cfg: AppConfig, args: argparse.Namespace) -> int:
         )
         notifier.send_email(
             cfg.gmail,
-            subject=notifier.subject_diff(cfg.etf_code, current_date or "N/A", summary),
+            subject=notifier.subject_diff(
+                cfg.etf_code,
+                current_date or "N/A",
+                summary,
+                is_new_data=qc.is_new_data,
+            ),
             body_text=md,
             body_html=html,
             attachments=[md_path],

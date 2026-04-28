@@ -70,9 +70,10 @@ def send_email(
 
 
 # ---------- Subject builders ----------
-def subject_diff(etf_code: str, date: str, summary: dict) -> str:
+def subject_diff(etf_code: str, date: str, summary: dict, *, is_new_data: bool = True) -> str:
+    prefix = "[非新資料] " if not is_new_data else ""
     return (
-        f"[{etf_code}持股變化] {date} "
+        f"{prefix}[{etf_code}持股變化] {date} "
         f"新建倉 {summary['new_count']} 檔、清倉 {summary['sold_count']} 檔、"
         f"增持 {summary['increased_count']} 檔、減持 {summary['decreased_count']} 檔"
     )
