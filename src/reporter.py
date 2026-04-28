@@ -571,7 +571,7 @@ def _render_email_top_holdings(rows: list[dict]) -> str:
     out = [
         _section_start("前十大持股"),
         "<tr style='background:#f8f8f6;'>",
-        _th("排名", right=True), _th("變動", right=True), _th("代號"), _th("名稱"), _th("今日權重", right=True),
+        _th("排名 / 代號"), _th("名稱"), _th("今日權重", right=True),
         _th("前次權重", right=True), _th("變化", right=True),
         "</tr>",
     ]
@@ -580,9 +580,7 @@ def _render_email_top_holdings(rows: list[dict]) -> str:
         bp = r.get("delta_weight_bp")
         out.append(
             "<tr>"
-            + _td(r.get("current_rank"), right=True, mono=True, border=border)
-            + _td_html(_rank_badge_html(r), right=True, mono=True, border=border)
-            + _td(r.get("stock_code"), border=border)
+            + _td_html(_rank_code_cell(r), mono=True, border=border)
             + _td(r.get("stock_name"), border=border)
             + _td(_fmt_pct(r.get("current_weight_pct")), right=True, mono=True, color="#111111", border=border)
             + _td(_fmt_pct(r.get("previous_weight_pct")), right=True, mono=True, color="#aaaaaa", border=border)
@@ -591,6 +589,18 @@ def _render_email_top_holdings(rows: list[dict]) -> str:
         )
     out.append("</table></td></tr>")
     return "".join(out)
+
+
+def _rank_code_cell(row: dict) -> str:
+    rank = row.get("current_rank")
+    code = row.get("stock_code") or "-"
+    return (
+        "<span style='display:inline-block;min-width:18px;color:#111111;text-align:right;"
+        f"margin-right:7px;'>{_html(rank)}</span>"
+        f"{_rank_badge_html(row)}"
+        "<span style='display:inline-block;margin-left:7px;color:#333333;'>"
+        f"{_html(code)}</span>"
+    )
 
 
 def _rank_badge(row: dict) -> str:

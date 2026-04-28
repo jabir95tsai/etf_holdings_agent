@@ -48,7 +48,7 @@ def test_render_email_html_contains_summary_and_compact_amounts():
     assert "最大買進標的" in html
     assert "+32 萬" in html
     assert "股數 / 估值" in html
-    assert "變動" in html
+    assert "排名 / 代號" in html
     assert "MoneyDJ" not in html  # source keeps the configured lowercase label
     assert "moneydj" in html
 
