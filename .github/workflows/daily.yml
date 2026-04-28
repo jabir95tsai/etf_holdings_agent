@@ -42,6 +42,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Restore database cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/etf_holdings.sqlite
+          key: etf-holdings-db-${{ github.run_id }}
+          restore-keys: |
+            etf-holdings-db-
+
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
@@ -69,6 +77,13 @@ jobs:
             FORCE_ARG="--force-report"
           fi
           python -m src.main --etf "$ETF" $DATE_ARG $FORCE_ARG
+
+      - name: Save database cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data/etf_holdings.sqlite
+          key: etf-holdings-db-${{ github.run_id }}
 
       - name: Send failure email (best-effort)
         if: failure()
