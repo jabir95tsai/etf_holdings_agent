@@ -135,3 +135,19 @@ def test_render_email_html_shows_negative_sold_out_amounts():
     )
 
     assert "-1.93 億" in html
+
+
+def test_render_no_update_html_is_styled_and_mobile_ready():
+    html = reporter.render_no_update_html(
+        etf_code="00981A",
+        run_at=datetime(2026, 4, 29, 17, 19),
+        db_latest_date="2026-04-28",
+        scraped_date="2026-04-28",
+        source_used="moneydj",
+    )
+
+    assert "尚無新資料" in html
+    assert "資料庫最新：2026-04-28" in html
+    assert "抓到資料：2026-04-28" in html
+    assert "@media only screen and (max-width:640px)" in html
+    assert "email-container" in html

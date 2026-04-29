@@ -20,6 +20,7 @@ from .reporter import (
     render_email_html,
     render_failure_md,
     render_markdown,
+    render_no_update_html,
     render_no_update_md,
     report_paths,
     write_csv,
@@ -150,11 +151,18 @@ def run(cfg: AppConfig, args: argparse.Namespace) -> int:
         write_markdown(md_path, md)
 
         if cfg.gmail.notify_on_no_update and not args.dry_run:
+            html = render_no_update_html(
+                etf_code=cfg.etf_code,
+                run_at=run_at,
+                db_latest_date=db_latest,
+                scraped_date=current_date,
+                source_used=source_used,
+            )
             notifier.send_email(
                 cfg.gmail,
                 subject=notifier.subject_no_update(cfg.etf_code, report_date),
                 body_text=md,
-                body_html=notifier.md_to_simple_html(md),
+                body_html=html,
                 attachments=[md_path],
             )
         if not args.dry_run:

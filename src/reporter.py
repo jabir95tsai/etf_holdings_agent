@@ -969,6 +969,78 @@ def render_no_update_md(
     )
 
 
+def render_no_update_html(
+    etf_code: str,
+    run_at: datetime,
+    db_latest_date: str | None,
+    scraped_date: str | None,
+    source_used: str,
+) -> str:
+    report_date = run_at.strftime("%Y-%m-%d")
+    run_time = run_at.strftime("%H:%M")
+    return (
+        "<!DOCTYPE html><html lang='zh-Hant'><head><meta charset='UTF-8'>"
+        "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+        f"<title>{_html(etf_code)} 尚無新資料</title>"
+        f"{_email_css()}</head>"
+        "<body style=\"margin:0;padding:0;background:#f5f5f0;"
+        "font-family:'Helvetica Neue',Arial,sans-serif;\">"
+        "<table class='email-outer' width='100%' cellpadding='0' cellspacing='0' border='0' "
+        "style='background:#f5f5f0;padding:24px 0;'><tr><td align='center'>"
+        "<table class='email-container' width='620' cellpadding='0' cellspacing='0' border='0' "
+        "style='width:620px;max-width:620px;background:#ffffff;border-radius:8px;overflow:hidden;'>"
+        "<tr><td class='mobile-pad' style='background:#111111;padding:24px 28px;'>"
+        "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
+        "<td class='header-meta'><span style='font-size:11px;font-weight:600;letter-spacing:.12em;"
+        "color:#888888;text-transform:uppercase;'>ETF 持股追蹤</span><br>"
+        f"<span style='font-size:22px;font-weight:600;color:#ffffff;'>{_html(etf_code)}</span>"
+        "<span style='background:#fff7ed;color:#c2410c;font-size:11px;font-weight:600;"
+        "padding:4px 7px;border-radius:4px;margin-left:8px;'>尚無新資料</span></td>"
+        f"<td class='header-date' align='right' valign='bottom'><span style='font-size:12px;color:#777777;'>檢查日期：{_html(report_date)}</span></td>"
+        "</tr></table>"
+        "<table width='100%' cellpadding='0' cellspacing='0' border='0' "
+        "style='margin-top:12px;border-top:1px solid #2a2a2a;padding-top:12px;'><tr>"
+        f"<td style='font-size:11px;color:#777777;'>資料庫最新：{_html(db_latest_date or 'N/A')}　抓到資料：{_html(scraped_date or 'N/A')}</td>"
+        f"<td align='right' style='font-size:11px;color:#777777;'>來源：{_html(source_used or 'N/A')}　執行：{_html(run_time)}</td>"
+        "</tr></table></td></tr>"
+        "<tr><td class='mobile-pad' style='padding:20px 28px 0;'>"
+        "<div style='background:#fff7ed;border-left:3px solid #f97316;"
+        "border-radius:0 6px 6px 0;padding:14px 16px;'>"
+        "<div style='font-size:10px;font-weight:600;letter-spacing:.08em;color:#c2410c;"
+        "text-transform:uppercase;margin-bottom:5px;'>資料狀態</div>"
+        "<div style='font-size:20px;font-weight:600;color:#111111;'>尚無新資料</div>"
+        "<div style='font-size:13px;color:#555555;line-height:1.7;margin-top:6px;'>"
+        f"本次抓到的資料日期仍是 {_html(scraped_date or 'N/A')}，"
+        f"與資料庫最新日期 {_html(db_latest_date or 'N/A')} 相同，因此沒有產生持股變化報告。"
+        "</div></div></td></tr>"
+        "<tr><td class='mobile-pad' style='padding:20px 28px 0;'>"
+        "<div style='font-size:10px;font-weight:600;letter-spacing:.1em;color:#888888;"
+        "text-transform:uppercase;border-bottom:1px solid #eeeeee;padding-bottom:8px;'>"
+        "<span style='border-bottom:2px solid #64748b;padding-bottom:7px;'>可能原因</span></div>"
+        "<table width='100%' cellpadding='0' cellspacing='0' border='0'>"
+        f"{_reason_row('今日為非交易日')}"
+        f"{_reason_row('ETF 官方或 MoneyDJ 尚未更新')}"
+        f"{_reason_row('資料來源同步時間較晚')}"
+        "</table></td></tr>"
+        "<tr><td class='mobile-pad' style='padding:20px 28px 24px;'>"
+        "<div style='border-top:1px solid #eeeeee;padding-top:16px;"
+        "font-size:11px;color:#aaaaaa;line-height:1.6;'>"
+        f"{_html(DISCLAIMER)}<br>"
+        f"自動產生 by Python · 資料來源：{_html(source_used or 'N/A')}"
+        "</div></td></tr></table></td></tr></table></body></html>"
+    )
+
+
+def _reason_row(text: str) -> str:
+    return (
+        "<tr><td style='font-size:13px;color:#333333;padding:9px 0;"
+        "border-bottom:1px solid #f0f0f0;'>"
+        "<span style='display:inline-block;background:#f1f5f9;color:#64748b;"
+        "font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;"
+        f"margin-right:8px;'>INFO</span>{_html(text)}</td></tr>"
+    )
+
+
 def render_failure_md(
     etf_code: str,
     run_at: datetime,
