@@ -25,7 +25,7 @@ permissions:
 jobs:
   run-agent:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 90
     env:
       TZ: Asia/Taipei
       PYTHONUNBUFFERED: "1"
@@ -35,7 +35,8 @@ jobs:
       GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
       GMAIL_RECEIVER_EMAILS: ${{ secrets.GMAIL_RECEIVER_EMAILS }}
       GMAIL_RECEIVER_EMAIL: ${{ secrets.GMAIL_RECEIVER_EMAIL }}
-      NOTIFY_ON_NO_UPDATE: "true"
+      NOTIFY_ON_NO_UPDATE: "false"
+      NO_UPDATE_RETRY_MINUTES: "60"
       SOURCE_ORDER: moneydj,ezmoney,official,twse
 
     steps:
@@ -67,16 +68,33 @@ jobs:
       - name: Run agent
         id: run_agent
         run: |
+          set -euo pipefail
           ETF="${{ github.event.inputs.etf || '00981A' }}"
-          DATE_ARG=""
+          ARGS=(--etf "$ETF")
           if [ -n "${{ github.event.inputs.date }}" ]; then
-            DATE_ARG="--date ${{ github.event.inputs.date }}"
+            ARGS+=(--date "${{ github.event.inputs.date }}")
           fi
-          FORCE_ARG=""
           if [ "${{ github.event.inputs.force_report }}" = "true" ]; then
-            FORCE_ARG="--force-report"
+            ARGS+=(--force-report)
           fi
-          python -m src.main --etf "$ETF" $DATE_ARG $FORCE_ARG
+
+          run_agent_once() {
+            local log_file="$1"
+            set +e
+            python -m src.main "${ARGS[@]}" 2>&1 | tee "$log_file"
+            local status="${PIPESTATUS[0]}"
+            set -e
+            return "$status"
+          }
+
+          run_agent_once run-agent-attempt-1.log
+
+          if grep -q '^\[no-update\]' run-agent-attempt-1.log &&
+             [ "${{ github.event.inputs.force_report }}" != "true" ]; then
+            echo "No new data yet. Retrying in ${NO_UPDATE_RETRY_MINUTES} minutes..."
+            sleep "$((NO_UPDATE_RETRY_MINUTES * 60))"
+            run_agent_once run-agent-attempt-2.log
+          fi
 
       - name: Save database cache
         if: always()
@@ -123,5 +141,6 @@ jobs:
           path: |
             data/reports/
             data/etf_holdings.sqlite
+            run-agent-attempt-*.log
           if-no-files-found: ignore
           retention-days: 30
