@@ -25,7 +25,7 @@ permissions:
 jobs:
   run-agent:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 540
     env:
       TZ: Asia/Taipei
       PYTHONUNBUFFERED: "1"
@@ -36,7 +36,8 @@ jobs:
       GMAIL_RECEIVER_EMAILS: ${{ secrets.GMAIL_RECEIVER_EMAILS }}
       GMAIL_RECEIVER_EMAIL: ${{ secrets.GMAIL_RECEIVER_EMAIL }}
       NOTIFY_ON_NO_UPDATE: "false"
-      NO_UPDATE_RETRY_MINUTES: "60"
+      NO_UPDATE_RETRY_MINUTES: "30"
+      NO_UPDATE_MAX_ATTEMPTS: "18"
       SOURCE_ORDER: moneydj,ezmoney,official,twse
 
     steps:
@@ -87,14 +88,31 @@ jobs:
             return "$status"
           }
 
-          run_agent_once run-agent-attempt-1.log
+          attempt=1
+          while [ "$attempt" -le "$NO_UPDATE_MAX_ATTEMPTS" ]; do
+            log_file="run-agent-attempt-${attempt}.log"
+            echo "Starting attempt ${attempt}/${NO_UPDATE_MAX_ATTEMPTS}..."
+            run_agent_once "$log_file"
 
-          if grep -q '^\[no-update\]' run-agent-attempt-1.log &&
-             [ "${{ github.event.inputs.force_report }}" != "true" ]; then
+            if ! grep -q '^\[no-update\]' "$log_file"; then
+              echo "New data found or report generated on attempt ${attempt}."
+              break
+            fi
+
+            if [ "${{ github.event.inputs.force_report }}" = "true" ]; then
+              echo "Force report requested; not retrying after no-update."
+              break
+            fi
+
+            if [ "$attempt" -eq "$NO_UPDATE_MAX_ATTEMPTS" ]; then
+              echo "No new data after ${NO_UPDATE_MAX_ATTEMPTS} attempts. Ending without email."
+              break
+            fi
+
             echo "No new data yet. Retrying in ${NO_UPDATE_RETRY_MINUTES} minutes..."
             sleep "$((NO_UPDATE_RETRY_MINUTES * 60))"
-            run_agent_once run-agent-attempt-2.log
-          fi
+            attempt=$((attempt + 1))
+          done
 
       - name: Save database cache
         if: always()
