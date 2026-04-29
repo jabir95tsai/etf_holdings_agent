@@ -49,6 +49,9 @@ def test_render_email_html_contains_summary_and_compact_amounts():
     assert "+32 萬" in html
     assert "股數 / 估值" in html
     assert "排名 / 代號" in html
+    assert "@media only screen and (max-width:640px)" in html
+    assert "mobile-hide" in html
+    assert "mobile-only" in html
     assert "MoneyDJ" not in html  # source keeps the configured lowercase label
     assert "moneydj" in html
 

@@ -323,12 +323,13 @@ def render_email_html(
     parts.append(
         "<!DOCTYPE html><html lang='zh-Hant'><head><meta charset='UTF-8'>"
         "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
-        f"<title>{_html(etf_code)} 每日持股變化報告</title></head>"
+        f"<title>{_html(etf_code)} 每日持股變化報告</title>"
+        f"{_email_css()}</head>"
         "<body style=\"margin:0;padding:0;background:#f5f5f0;"
         "font-family:'Helvetica Neue',Arial,sans-serif;\">"
-        "<table width='100%' cellpadding='0' cellspacing='0' border='0' "
+        "<table class='email-outer' width='100%' cellpadding='0' cellspacing='0' border='0' "
         "style='background:#f5f5f0;padding:24px 0;'><tr><td align='center'>"
-        "<table width='620' cellpadding='0' cellspacing='0' border='0' "
+        "<table class='email-container' width='620' cellpadding='0' cellspacing='0' border='0' "
         "style='width:620px;max-width:620px;background:#ffffff;border-radius:8px;overflow:hidden;'>"
     )
     parts.append(_render_email_header(etf_code, run_at, diff, source_used, report_date, qc.is_new_data))
@@ -342,7 +343,7 @@ def render_email_html(
     parts.append(_render_email_top_holdings(top_changes))
     parts.append(_render_email_quality(qc))
     parts.append(
-        "<tr><td style='padding:20px 28px 24px;'>"
+        "<tr><td class='mobile-pad' style='padding:20px 28px 24px;'>"
         "<div style='border-top:1px solid #eeeeee;padding-top:16px;"
         "font-size:11px;color:#aaaaaa;line-height:1.6;'>"
         f"{_html(DISCLAIMER)}<br>"
@@ -350,6 +351,30 @@ def render_email_html(
         "</div></td></tr></table></td></tr></table></body></html>"
     )
     return "".join(parts)
+
+
+def _email_css() -> str:
+    return (
+        "<style>"
+        ".mobile-only{display:none;max-height:0;overflow:hidden;mso-hide:all;}"
+        "@media only screen and (max-width:640px){"
+        ".email-outer{padding:10px 0!important;}"
+        ".email-container{width:100%!important;max-width:100%!important;border-radius:0!important;}"
+        ".mobile-pad{padding-left:14px!important;padding-right:14px!important;}"
+        ".header-meta,.header-date{display:block!important;width:100%!important;text-align:left!important;}"
+        ".header-date{padding-top:10px!important;}"
+        ".kpi-cell{display:block!important;width:100%!important;padding-right:0!important;padding-bottom:8px!important;}"
+        ".highlight-cell{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important;padding-bottom:8px!important;}"
+        ".quality-col{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important;}"
+        ".mobile-hide{display:none!important;width:0!important;max-height:0!important;overflow:hidden!important;}"
+        ".mobile-only{display:block!important;max-height:none!important;overflow:visible!important;mso-hide:none!important;}"
+        ".data-table td{font-size:12px!important;padding-left:6px!important;padding-right:6px!important;}"
+        ".data-table .name-cell{min-width:82px!important;}"
+        ".data-table .amount-cell{white-space:nowrap!important;}"
+        ".rank-code{white-space:nowrap!important;}"
+        "}"
+        "</style>"
+    )
 
 
 def _render_email_header(
@@ -366,13 +391,13 @@ def _render_email_header(
         if not is_new_data else ""
     )
     return (
-        "<tr><td style='background:#111111;padding:24px 28px;'>"
+        "<tr><td class='mobile-pad' style='background:#111111;padding:24px 28px;'>"
         "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
-        "<td><span style='font-size:11px;font-weight:600;letter-spacing:.12em;"
+        "<td class='header-meta'><span style='font-size:11px;font-weight:600;letter-spacing:.12em;"
         "color:#888888;text-transform:uppercase;'>ETF 持股報告</span><br>"
         f"<span style='font-size:22px;font-weight:600;color:#ffffff;'>{_html(etf_code)}</span>"
         f"<span style='font-size:15px;font-weight:600;color:#cfcfcf;margin-left:8px;'>每日持股變化</span>{stale_badge}</td>"
-        f"<td align='right' valign='bottom'><span style='font-size:12px;color:#777777;'>報告日期：{_html(report_date)}</span></td>"
+        f"<td class='header-date' align='right' valign='bottom'><span style='font-size:12px;color:#777777;'>報告日期：{_html(report_date)}</span></td>"
         "</tr></table>"
         "<table width='100%' cellpadding='0' cellspacing='0' border='0' "
         "style='margin-top:12px;border-top:1px solid #2a2a2a;padding-top:12px;'><tr>"
@@ -403,7 +428,7 @@ def _render_email_brief(
         f"{buy_text}；{sell_text}。"
     )
     return (
-        "<tr><td style='padding:18px 28px 0;'>"
+        "<tr><td class='mobile-pad' style='padding:18px 28px 0;'>"
         "<div style='background:#f8f8f6;border-left:3px solid #111111;"
         "border-radius:0 6px 6px 0;padding:12px 14px;"
         "font-size:13px;line-height:1.7;color:#333333;'>"
@@ -434,11 +459,11 @@ def _render_email_kpis(summary: dict) -> str:
             "#111111",
         ),
     ]
-    out = ["<tr><td style='padding:20px 28px 0;'><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"]
+    out = ["<tr><td class='mobile-pad' style='padding:20px 28px 0;'><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"]
     for i, (label, value, note, color) in enumerate(cells):
         pad = "padding-right:8px;" if i < len(cells) - 1 else ""
         out.append(
-            f"<td width='25%' style='{pad}'><table width='100%' cellpadding='0' cellspacing='0' border='0' "
+            f"<td class='kpi-cell' width='25%' style='{pad}'><table width='100%' cellpadding='0' cellspacing='0' border='0' "
             "style='background:#f8f8f6;border-radius:6px;'><tr><td style='padding:14px 16px;'>"
             f"<div style='font-size:10px;color:#999999;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;'>{_html(label)}</div>"
             f"<div style=\"font-size:24px;font-weight:600;color:{color};font-family:'Courier New',monospace;\">{value}</div>"
@@ -469,7 +494,7 @@ def _top_amount(rows: list[DiffRow], *, reverse: bool) -> DiffRow | None:
 
 def _render_email_highlights(top_buy: DiffRow | None, top_sell: DiffRow | None) -> str:
     return (
-        "<tr><td style='padding:12px 28px 0;'><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
+        "<tr><td class='mobile-pad' style='padding:12px 28px 0;'><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
         + _highlight_cell("最大買進標的", top_buy, "#f0fdf4", "#16a34a", "#166534")
         + _highlight_cell("最大賣出標的", top_sell, "#fef2f2", "#dc2626", "#991b1b", left_pad=True)
         + "</tr></table></td></tr>"
@@ -500,7 +525,7 @@ def _highlight_cell(
         weight = row.current_weight_pct if row.current_weight_pct is not None else row.previous_weight_pct
         detail = f"股數：{shares}　權重：{_fmt_pct(weight)}"
     return (
-        f"<td width='50%' style='{pad}'><table width='100%' cellpadding='0' cellspacing='0' border='0' "
+        f"<td class='highlight-cell' width='50%' style='{pad}'><table width='100%' cellpadding='0' cellspacing='0' border='0' "
         f"style='background:{bg};border-left:3px solid {border};border-radius:0 6px 6px 0;'>"
         "<tr><td style='padding:12px 14px;'>"
         f"<div style='font-size:10px;color:{label_color};text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;'>{_html(label)}</div>"
@@ -543,8 +568,9 @@ def _render_email_position_table(
     out = [
         _section_start(title),
         "<tr style='background:#f8f8f6;'>",
-        _th("代號"), _th("名稱"), _th("權重", right=True), _th("股數", right=True),
-        _th("估值變化", right=True),
+        _th("代號"), _th("名稱"), _th("權重", right=True, css_class="mobile-hide"),
+        _th("股數", right=True, css_class="mobile-hide"),
+        _th("估值變化", right=True, css_class="amount-cell"),
         "</tr>",
     ]
     for i, r in enumerate(rows):
@@ -556,14 +582,23 @@ def _render_email_position_table(
             f"<td style='font-size:13px;padding:8px 8px;{border}'>"
             f"<span style='background:{badge_bg};color:{badge_color};font-size:10px;font-weight:600;padding:2px 5px;border-radius:3px;margin-right:6px;'>{badge}</span>{_html(r.stock_code or '-')}"
             "</td>"
-            + _td(r.stock_name, border=border)
-            + _td(_fmt_pct(weight), right=True, mono=True, border=border)
-            + _td(_fmt_int(shares), right=True, mono=True, border=border)
-            + _td(_fmt_money_compact(r.estimated_change_amount), right=True, mono=True, color=_amount_color(r.estimated_change_amount), border=border)
+            + _td_html(_position_name_cell(r.stock_name, weight, shares), border=border, css_class="name-cell")
+            + _td(_fmt_pct(weight), right=True, mono=True, border=border, css_class="mobile-hide")
+            + _td(_fmt_int(shares), right=True, mono=True, border=border, css_class="mobile-hide")
+            + _td(_fmt_money_compact(r.estimated_change_amount), right=True, mono=True, color=_amount_color(r.estimated_change_amount), border=border, css_class="amount-cell")
             + "</tr>"
         )
     out.append("</table></td></tr>")
     return "".join(out)
+
+
+def _position_name_cell(name, weight, shares) -> str:
+    return (
+        f"<div>{_html(name)}</div>"
+        "<div class='mobile-only' style='display:none;max-height:0;overflow:hidden;"
+        "font-size:11px;color:#888888;line-height:1.45;margin-top:2px;'>"
+        f"權重 {_html(_fmt_pct(weight))} · 股數 {_html(_fmt_int(shares))}</div>"
+    )
 
 
 def _render_email_change_table(title: str, rows: list[DiffRow], color: str) -> str:
@@ -573,7 +608,7 @@ def _render_email_change_table(title: str, rows: list[DiffRow], color: str) -> s
         _section_start(title),
         "<tr style='background:#f8f8f6;'>",
         _th("代號"), _th("名稱"), _th("股數 / 估值", right=True),
-        _th("權重", right=True), _th("變化", right=True),
+        _th("權重", right=True, css_class="mobile-hide"), _th("變化", right=True),
         "</tr>",
     ]
     for i, r in enumerate(rows):
@@ -581,7 +616,7 @@ def _render_email_change_table(title: str, rows: list[DiffRow], color: str) -> s
         out.append(
             "<tr>"
             + _td(r.stock_code, border=border)
-            + _td(r.stock_name, border=border)
+            + _td_html(_change_name_cell(r), border=border, css_class="name-cell")
             + _td_stacked(
                 _fmt_delta_int(r.delta_shares),
                 _fmt_money_compact(r.estimated_change_amount),
@@ -590,12 +625,21 @@ def _render_email_change_table(title: str, rows: list[DiffRow], color: str) -> s
                 sub_color=_amount_color(r.estimated_change_amount),
                 border=border,
             )
-            + _td(_fmt_pct(r.current_weight_pct), right=True, mono=True, border=border)
+            + _td(_fmt_pct(r.current_weight_pct), right=True, mono=True, border=border, css_class="mobile-hide")
             + _td(_fmt_bp(r.delta_weight_bp), right=True, mono=True, color=_amount_color(r.delta_weight_bp), border=border)
             + "</tr>"
         )
     out.append("</table></td></tr>")
     return "".join(out)
+
+
+def _change_name_cell(row: DiffRow) -> str:
+    return (
+        f"<div>{_html(row.stock_name)}</div>"
+        "<div class='mobile-only' style='display:none;max-height:0;overflow:hidden;"
+        "font-size:11px;color:#888888;line-height:1.45;margin-top:2px;'>"
+        f"權重 {_html(_fmt_pct(row.current_weight_pct))}</div>"
+    )
 
 
 def _render_email_top_holdings(rows: list[dict]) -> str:
@@ -605,7 +649,7 @@ def _render_email_top_holdings(rows: list[dict]) -> str:
         _section_start("前十大持股"),
         "<tr style='background:#f8f8f6;'>",
         _th("排名 / 代號"), _th("名稱"), _th("今日權重", right=True),
-        _th("前次權重", right=True), _th("變化", right=True),
+        _th("前次權重", right=True, css_class="mobile-hide"), _th("變化", right=True),
         "</tr>",
     ]
     for i, r in enumerate(rows):
@@ -614,9 +658,9 @@ def _render_email_top_holdings(rows: list[dict]) -> str:
         out.append(
             "<tr>"
             + _td_html(_rank_code_cell(r), mono=True, border=border)
-            + _td(r.get("stock_name"), border=border)
+            + _td_html(_top_name_cell(r), border=border, css_class="name-cell")
             + _td(_fmt_pct(r.get("current_weight_pct")), right=True, mono=True, color="#111111", border=border)
-            + _td(_fmt_pct(r.get("previous_weight_pct")), right=True, mono=True, color="#aaaaaa", border=border)
+            + _td(_fmt_pct(r.get("previous_weight_pct")), right=True, mono=True, color="#aaaaaa", border=border, css_class="mobile-hide")
             + _td(_fmt_bp(bp), right=True, mono=True, color=_amount_color(bp), border=border)
             + "</tr>"
         )
@@ -624,11 +668,20 @@ def _render_email_top_holdings(rows: list[dict]) -> str:
     return "".join(out)
 
 
+def _top_name_cell(row: dict) -> str:
+    return (
+        f"<div>{_html(row.get('stock_name'))}</div>"
+        "<div class='mobile-only' style='display:none;max-height:0;overflow:hidden;"
+        "font-size:11px;color:#888888;line-height:1.45;margin-top:2px;'>"
+        f"前次 {_html(_fmt_pct(row.get('previous_weight_pct')))}</div>"
+    )
+
+
 def _rank_code_cell(row: dict) -> str:
     rank = row.get("current_rank")
     code = row.get("stock_code") or "-"
     return (
-        "<span style='display:inline-block;min-width:18px;color:#111111;text-align:right;"
+        "<span class='rank-code' style='display:inline-block;min-width:18px;color:#111111;text-align:right;"
         f"margin-right:7px;'>{_html(rank)}</span>"
         f"{_rank_badge_html(row)}"
         "<span style='display:inline-block;margin-left:7px;color:#333333;'>"
@@ -698,12 +751,12 @@ def _render_email_quality(qc: QualityCheck) -> str:
         ),
     ]
     return (
-        "<tr><td style='padding:24px 28px 0;'>"
+        "<tr><td class='mobile-pad' style='padding:24px 28px 0;'>"
         "<div style='font-size:10px;font-weight:600;letter-spacing:.1em;color:#888888;text-transform:uppercase;border-bottom:1px solid #eeeeee;padding-bottom:8px;'>"
         "<span style='border-bottom:2px solid #64748b;padding-bottom:7px;'>資料品質</span></div>"
         "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
-        f"<td width='50%' style='vertical-align:top;padding-right:12px;'>{_quality_table(left)}</td>"
-        f"<td width='50%' style='vertical-align:top;padding-left:12px;'>{_quality_table(right)}</td>"
+        f"<td class='quality-col' width='50%' style='vertical-align:top;padding-right:12px;'>{_quality_table(left)}</td>"
+        f"<td class='quality-col' width='50%' style='vertical-align:top;padding-left:12px;'>{_quality_table(right)}</td>"
         "</tr></table></td></tr>"
     )
 
@@ -737,11 +790,11 @@ def _quality_table(rows: list[tuple[str, str]]) -> str:
 def _section_start(title: str) -> str:
     accent = _section_accent(title)
     return (
-        "<tr><td style='padding:24px 28px 0;'>"
+        "<tr><td class='mobile-pad' style='padding:24px 28px 0;'>"
         "<div style='font-size:10px;font-weight:600;letter-spacing:.1em;color:#888888;text-transform:uppercase;"
         "border-bottom:1px solid #eeeeee;padding-bottom:8px;margin-bottom:4px;'>"
         f"<span style='border-bottom:2px solid {accent};padding-bottom:7px;'>{_html(title)}</span></div>"
-        "<table width='100%' cellpadding='0' cellspacing='0' border='0'>"
+        "<table class='data-table' width='100%' cellpadding='0' cellspacing='0' border='0'>"
     )
 
 
@@ -780,9 +833,10 @@ def _empty_message(title: str) -> str:
     return "目前無資料"
 
 
-def _th(label: str, *, right: bool = False) -> str:
+def _th(label: str, *, right: bool = False, css_class: str = "") -> str:
     align = "right" if right else "left"
-    return f"<td align='{align}' style='font-size:11px;color:#999999;padding:7px 8px;'>{_html(label)}</td>"
+    class_attr = f" class='{css_class}'" if css_class else ""
+    return f"<td{class_attr} align='{align}' style='font-size:11px;color:#999999;padding:7px 8px;'>{_html(label)}</td>"
 
 
 def _td(
@@ -792,11 +846,13 @@ def _td(
     mono: bool = False,
     color: str = "#333333",
     border: str = "",
+    css_class: str = "",
 ) -> str:
     align = "right" if right else "left"
     font = "font-family:'Courier New',monospace;" if mono else ""
+    class_attr = f" class='{css_class}'" if css_class else ""
     return (
-        f"<td align='{align}' style='font-size:13px;color:{color};{font}"
+        f"<td{class_attr} align='{align}' style='font-size:13px;color:{color};{font}"
         f"padding:8px 8px;{border}'>{_html(value)}</td>"
     )
 
@@ -808,11 +864,13 @@ def _td_html(
     mono: bool = False,
     color: str = "#333333",
     border: str = "",
+    css_class: str = "",
 ) -> str:
     align = "right" if right else "left"
     font = "font-family:'Courier New',monospace;" if mono else ""
+    class_attr = f" class='{css_class}'" if css_class else ""
     return (
-        f"<td align='{align}' style='font-size:13px;color:{color};{font}"
+        f"<td{class_attr} align='{align}' style='font-size:13px;color:{color};{font}"
         f"padding:8px 8px;{border}'>{value_html}</td>"
     )
 
