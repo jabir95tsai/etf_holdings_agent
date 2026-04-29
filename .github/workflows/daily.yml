@@ -2,8 +2,8 @@ name: 00981A Daily Holdings Tracker
 
 on:
   schedule:
-    # Taipei 12:00 = UTC 04:00. Runs every day.
-    - cron: '0 4 * * *'
+    # Taipei 15:00 = UTC 07:00. Runs every day.
+    - cron: '0 7 * * *'
   workflow_dispatch:
     inputs:
       etf:
