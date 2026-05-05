@@ -2,7 +2,7 @@
 
 ## 專案用途
 
-每日自動追蹤 **00981A** 持股變化，與前一筆 DB snapshot 比較，寄 Gmail 報告。不自動下單，不提供投資建議。
+每日自動追蹤設定清單中的 ETF 持股變化，目前為 **00981A / 0050 / 006208**。每檔 ETF 會與自己的前一筆 DB snapshot 比較，寄 Gmail 報告。不自動下單，不提供投資建議。
 
 ## 架構
 
@@ -25,7 +25,7 @@ src/notifier.py      # Gmail SMTP 寄信
 | `GMAIL_SENDER_EMAIL` | 寄件帳號 |
 | `GMAIL_APP_PASSWORD` | 16 碼 App Password |
 | `GMAIL_RECEIVER_EMAILS` | 收件人，逗號/分號分隔 |
-| `NOTIFY_ON_NO_UPDATE` | 無新資料時也寄信（預設 true） |
+| `NOTIFY_ON_NO_UPDATE` | 無新資料時也寄信（程式預設 true；GitHub Actions production 設為 false） |
 | `SOURCE_ORDER` | 來源順序（預設 moneydj,ezmoney,official,twse） |
 | `ENV_FILE` | 指定要載入的 .env 路徑（測試用） |
 
@@ -64,8 +64,9 @@ python -m src.main --etf 00981A --force-report
 ## GitHub Actions
 
 - 排程：UTC 07:00 = Taipei 15:00，每天執行
-- 最多重試 18 次（間隔 30 分鐘），等新資料出現
-- SQLite 透過 `actions/cache` 跨 run 保存
+- 預設以 matrix 跑 `00981A`、`0050`、`006208`；手動觸發可指定單一 ETF
+- 無新資料時不寄信，最多重試 18 次（間隔 30 分鐘），等新資料出現
+- SQLite 透過 `actions/cache` 跨 run 保存，cache key 依 ETF 分開（`etf-holdings-db-${matrix.etf}-...`）
 - Secrets：`GMAIL_SENDER_EMAIL`、`GMAIL_APP_PASSWORD`、`GMAIL_RECEIVER_EMAILS`
 
 ## 資料路徑
