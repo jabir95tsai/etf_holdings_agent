@@ -22,8 +22,17 @@ DEFAULT_RAW_DIR = PROJECT_ROOT / "data" / "raw"
 DEFAULT_REPORT_DIR = PROJECT_ROOT / "data" / "reports"
 DEFAULT_SOURCE_ORDER = ["moneydj", "ezmoney", "official", "twse"]
 
+# EZMoney uses internal FundCodes that differ from ETF codes.
+# Add entries here when you need EZMoney support for a new ETF.
+# Unknown ETFs fall back to moneydj/official/twse (ezmoney skipped).
+EZMONEY_FUND_CODES: dict[str, str] = {
+    "00981A": "49YTW",
+}
+
 TIMEZONE = os.getenv("TIMEZONE", "Asia/Taipei")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
+
+logger = logging.getLogger(__name__)
 
 
 def _bool(name: str, default: bool = False) -> bool:
@@ -88,7 +97,10 @@ class AppConfig:
 
 def load_config(etf_code: str = "00981A") -> AppConfig:
     configured_etf = os.getenv("ETF_CODE", etf_code)
-    ezmoney_fund_code = os.getenv("EZMONEY_FUND_CODE", "49YTW")
+
+    # EZMoney FundCode: env override → lookup table → None (skip ezmoney)
+    ezmoney_fund_code: str | None = os.getenv("EZMONEY_FUND_CODE") or EZMONEY_FUND_CODES.get(configured_etf)
+
     db_path = Path(os.getenv("DB_PATH", str(DEFAULT_DB_PATH)))
     raw_dir = Path(os.getenv("RAW_DIR", str(DEFAULT_RAW_DIR)))
     report_dir = Path(os.getenv("REPORT_DIR", str(DEFAULT_REPORT_DIR)))
@@ -109,6 +121,12 @@ def load_config(etf_code: str = "00981A") -> AppConfig:
         notify_on_no_update=_bool("NOTIFY_ON_NO_UPDATE", True),
     )
 
+    # Build source_order: remove ezmoney if no fund code is known
+    source_order = _list(os.getenv("SOURCE_ORDER"), DEFAULT_SOURCE_ORDER)
+    if not ezmoney_fund_code and "ezmoney" in source_order:
+        source_order = [s for s in source_order if s != "ezmoney"]
+        logger.debug("ezmoney skipped for %s: no FundCode mapping", configured_etf)
+
     return AppConfig(
         etf_code=configured_etf,
         db_path=db_path,
@@ -118,27 +136,27 @@ def load_config(etf_code: str = "00981A") -> AppConfig:
         gmail=gmail,
         upamc_url=os.getenv(
             "UPAMC_URL",
-            "https://www.uitc.com.tw/ETF/ETFHolding?etfId=00981A",
+            f"https://www.uitc.com.tw/ETF/ETFHolding?etfId={configured_etf}",
         ),
         moneydj_url=os.getenv(
             "MONEYDJ_URL",
-            "https://www.moneydj.com/etf/x/Basic/Basic0007B.xdjhtm?etfid=00981A.TW",
+            f"https://www.moneydj.com/etf/x/Basic/Basic0007B.xdjhtm?etfid={configured_etf}.TW",
         ),
         twse_url=os.getenv(
             "TWSE_URL",
-            "https://www.ezmoney.com.tw/ETF/Fund/Info?FundCode=49YTW",
+            f"https://www.ezmoney.com.tw/ETF/Fund/Info?FundCode={ezmoney_fund_code or configured_etf}",
         ),
         ezmoney_excel_url=os.getenv(
             "EZMONEY_EXCEL_URL",
             "https://www.ezmoney.com.tw/ETF/Fund/AssetExcelNPOI"
             f"?FundCode={ezmoney_fund_code}",
-        ),
+        ) if ezmoney_fund_code else "",
         ezmoney_referer_url=os.getenv(
             "EZMONEY_REFERER_URL",
             "https://www.ezmoney.com.tw/ETF/Fund/Info"
             f"?FundCode={ezmoney_fund_code}",
-        ),
-        source_order=_list(os.getenv("SOURCE_ORDER"), DEFAULT_SOURCE_ORDER),
+        ) if ezmoney_fund_code else "",
+        source_order=source_order,
     )
 
 

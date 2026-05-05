@@ -24,10 +24,6 @@ USER_AGENT = (
 )
 DEFAULT_TIMEOUT = 20
 DEFAULT_SOURCE_ORDER = ["moneydj", "ezmoney", "official", "twse"]
-EZMONEY_EXCEL_URL = (
-    "https://www.ezmoney.com.tw/ETF/Fund/AssetExcelNPOI?FundCode=49YTW"
-)
-EZMONEY_REFERER_URL = "https://www.ezmoney.com.tw/ETF/Fund/Info?FundCode=49YTW"
 
 
 @dataclass
@@ -137,8 +133,8 @@ def scrape_twse(etf_code: str, raw_dir: Path, url: str) -> ScrapeResult:
 def scrape_ezmoney_excel(
     etf_code: str,
     raw_dir: Path,
-    url: str = EZMONEY_EXCEL_URL,
-    referer_url: str = EZMONEY_REFERER_URL,
+    url: str,
+    referer_url: str,
 ) -> ScrapeResult:
     """Download ezmoney Excel holdings file (most reliable source)."""
     result = ScrapeResult(source="ezmoney", source_url=url, data_date=None, rows=[])
@@ -183,8 +179,8 @@ def build_source_specs(
     upamc_url: str,
     moneydj_url: str,
     twse_url: str,
-    ezmoney_excel_url: str = EZMONEY_EXCEL_URL,
-    ezmoney_referer_url: str = EZMONEY_REFERER_URL,
+    ezmoney_excel_url: str = "",
+    ezmoney_referer_url: str = "",
 ) -> dict[str, SourceSpec]:
     return {
         "ezmoney": SourceSpec(
@@ -236,8 +232,8 @@ def scrape_holdings(
     upamc_url: str,
     moneydj_url: str,
     twse_url: str,
-    ezmoney_excel_url: str = EZMONEY_EXCEL_URL,
-    ezmoney_referer_url: str = EZMONEY_REFERER_URL,
+    ezmoney_excel_url: str = "",
+    ezmoney_referer_url: str = "",
     source_order: list[str] | None = None,
 ) -> ScrapeResult:
     """Try configured sources until one returns parseable rows."""

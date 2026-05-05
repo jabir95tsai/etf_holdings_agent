@@ -1,4 +1,4 @@
-name: 00981A Daily Holdings Tracker
+name: ETF Holdings Daily Tracker
 
 on:
   schedule:
@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       etf:
-        description: 'ETF code'
+        description: 'ETF code (leave blank to run all)'
         required: false
-        default: '00981A'
+        default: ''
       date:
         description: 'Override data date (YYYY-MM-DD), optional'
         required: false
@@ -23,9 +23,29 @@ permissions:
   contents: read
 
 jobs:
+  # Determines which ETFs to run: all by default, or the one specified via workflow_dispatch.
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          ETF_INPUT="${{ github.event.inputs.etf }}"
+          if [ -z "$ETF_INPUT" ]; then
+            echo 'matrix={"etf":["00981A","0050","006208"]}' >> "$GITHUB_OUTPUT"
+          else
+            echo "matrix={\"etf\":[\"$ETF_INPUT\"]}" >> "$GITHUB_OUTPUT"
+          fi
+
   run-agent:
+    needs: setup
     runs-on: ubuntu-latest
     timeout-minutes: 540
+    strategy:
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      fail-fast: false   # one ETF failing should not cancel the others
+
     env:
       TZ: Asia/Taipei
       PYTHONUNBUFFERED: "1"
@@ -48,9 +68,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: data/etf_holdings.sqlite
-          key: etf-holdings-db-${{ github.run_id }}
+          key: etf-holdings-db-${{ matrix.etf }}-${{ github.run_id }}
           restore-keys: |
-            etf-holdings-db-
+            etf-holdings-db-${{ matrix.etf }}-
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -70,7 +90,7 @@ jobs:
         id: run_agent
         run: |
           set -euo pipefail
-          ETF="${{ github.event.inputs.etf || '00981A' }}"
+          ETF="${{ matrix.etf }}"
           ARGS=(--etf "$ETF")
           if [ -n "${{ github.event.inputs.date }}" ]; then
             ARGS+=(--date "${{ github.event.inputs.date }}")
@@ -119,13 +139,11 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: data/etf_holdings.sqlite
-          key: etf-holdings-db-${{ github.run_id }}
+          key: etf-holdings-db-${{ matrix.etf }}-${{ github.run_id }}
 
       - name: Send failure email (best-effort)
         if: failure()
         run: |
-          # main.py already attempts to email on failure; this is a final safety net
-          # for cases where main.py never started (e.g., dependency install failed).
           python - <<'PY' || true
           import os, smtplib
           from email.message import EmailMessage
@@ -133,16 +151,17 @@ jobs:
           sender = os.getenv("GMAIL_SENDER_EMAIL")
           pw = os.getenv("GMAIL_APP_PASSWORD")
           rcpt = os.getenv("GMAIL_RECEIVER_EMAILS") or os.getenv("GMAIL_RECEIVER_EMAIL")
+          etf = os.getenv("MATRIX_ETF", "ETF")
           if not (sender and pw and rcpt):
               print("Gmail not configured; skipping fallback failure email.")
               raise SystemExit(0)
           ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
           msg = EmailMessage()
-          msg["Subject"] = f"[00981A持股追蹤失敗] {ts} GitHub Actions job failed"
+          msg["Subject"] = f"[{etf}持股追蹤失敗] {ts} GitHub Actions job failed"
           msg["From"] = sender
           msg["To"] = rcpt
           msg.set_content(
-              "GitHub Actions workflow failed before the agent could send its own "
+              f"GitHub Actions workflow failed for {etf} before the agent could send its own "
               "failure email. Check the workflow run logs for details.\n\n"
               "本報告僅為系統錯誤通知，不構成投資建議。"
           )
@@ -150,12 +169,14 @@ jobs:
               s.starttls(); s.login(sender, pw); s.send_message(msg)
           print("Fallback failure email sent.")
           PY
+        env:
+          MATRIX_ETF: ${{ matrix.etf }}
 
       - name: Upload reports artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: reports-${{ github.run_id }}
+          name: reports-${{ matrix.etf }}-${{ github.run_id }}
           path: |
             data/reports/
             data/etf_holdings.sqlite
