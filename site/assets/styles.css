@@ -515,6 +515,27 @@ footer {
   line-height: 1.6;
 }
 
+/* Tablet — fix awkward 3-col AI grid and tighten KPI */
+@media (max-width: 960px) {
+  .ai-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .kpi strong {
+    font-size: 26px;
+  }
+
+  .quality-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Phone — collapse most grids; KPI keeps 2 cols (1 col is too tall) */
 @media (max-width: 760px) {
   .topbar {
     min-height: 78px;
@@ -562,15 +583,28 @@ footer {
     margin-top: 14px;
   }
 
-  .kpi-grid,
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .kpi {
+    min-height: auto;
+    padding: 14px;
+  }
+
+  .kpi strong {
+    font-size: 24px;
+  }
+
   .highlight-grid,
   .ai-grid,
   .quality-list {
     grid-template-columns: 1fr;
   }
 
-  .kpi {
-    min-height: auto;
+  .ai-headline {
+    font-size: 15px;
   }
 
   .desktop-table {
@@ -583,5 +617,12 @@ footer {
 
   .panel {
     padding: 14px;
+  }
+}
+
+/* Very narrow phones (<360px, e.g. older iPhone SE) — fall back to single-column KPI */
+@media (max-width: 360px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
   }
 }
