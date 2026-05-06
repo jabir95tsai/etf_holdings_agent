@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-06T14:33:46",
+  "generated_at": "2026-05-06T15:44:51",
   "etf": {
     "code": "00981A",
     "name": "統一台灣高息動能"
@@ -19,7 +19,7 @@
   "source": {
     "source_used": "moneydj",
     "last_run": {
-      "run_at": "2026-05-06T14:33:39",
+      "run_at": "2026-05-06T15:44:42",
       "status": "ok",
       "message": "new=1 sold=0 inc=39 dec=2",
       "source_used": "moneydj",
@@ -151,12 +151,12 @@
         "delta_weight_pct": 0.22000000000000003,
         "delta_weight_bp": 22.000000000000004,
         "change_type": "Increased",
-        "close_price": 235.5,
-        "estimated_change_amount": 493843500.0,
+        "close_price": 226.0,
+        "estimated_change_amount": 473922000.0,
         "abs_delta_weight_rank": 9,
         "abs_delta_shares_rank": 3,
         "delta_shares_label": "+2,097,000",
-        "estimated_change_amount_label": "+4.94 億"
+        "estimated_change_amount_label": "+4.74 億"
       },
       {
         "stock_code": "2330",
@@ -205,12 +205,12 @@
         "delta_weight_pct": 0.19999999999999996,
         "delta_weight_bp": 19.999999999999996,
         "change_type": "Increased",
-        "close_price": 1220.0,
-        "estimated_change_amount": 290360000.0,
+        "close_price": 1315.0,
+        "estimated_change_amount": 312970000.0,
         "abs_delta_weight_rank": 12,
         "abs_delta_shares_rank": 8,
         "delta_shares_label": "+238,000",
-        "estimated_change_amount_label": "+2.90 億"
+        "estimated_change_amount_label": "+3.13 億"
       },
       {
         "stock_code": "3443",
@@ -313,12 +313,12 @@
         "delta_weight_pct": -0.020000000000000018,
         "delta_weight_bp": -2.0000000000000018,
         "change_type": "Increased",
-        "close_price": 177.5,
-        "estimated_change_amount": 17750000.0,
+        "close_price": 175.0,
+        "estimated_change_amount": 17500000.0,
         "abs_delta_weight_rank": 29,
         "abs_delta_shares_rank": 14,
         "delta_shares_label": "+100,000",
-        "estimated_change_amount_label": "+1775 萬"
+        "estimated_change_amount_label": "+1750 萬"
       },
       {
         "stock_code": "2308",
@@ -385,12 +385,12 @@
         "delta_weight_pct": 0.010000000000000009,
         "delta_weight_bp": 1.0000000000000009,
         "change_type": "Increased",
-        "close_price": 403.0,
-        "estimated_change_amount": 19344000.0,
+        "close_price": 406.0,
+        "estimated_change_amount": 19488000.0,
         "abs_delta_weight_rank": 32,
         "abs_delta_shares_rank": 18,
         "delta_shares_label": "+48,000",
-        "estimated_change_amount_label": "+1934 萬"
+        "estimated_change_amount_label": "+1949 萬"
       },
       {
         "stock_code": "2337",
@@ -439,12 +439,12 @@
         "delta_weight_pct": -0.1499999999999999,
         "delta_weight_bp": -14.999999999999991,
         "change_type": "Increased",
-        "close_price": 5000.0,
-        "estimated_change_amount": 175000000.0,
+        "close_price": 4950.0,
+        "estimated_change_amount": 173250000.0,
         "abs_delta_weight_rank": 14,
         "abs_delta_shares_rank": 21,
         "delta_shares_label": "+35,000",
-        "estimated_change_amount_label": "+1.75 億"
+        "estimated_change_amount_label": "+1.73 億"
       },
       {
         "stock_code": "3376",
@@ -547,12 +547,12 @@
         "delta_weight_pct": 0.06999999999999984,
         "delta_weight_bp": 6.999999999999984,
         "change_type": "Increased",
-        "close_price": 17790.0,
-        "estimated_change_amount": 266850000.0,
+        "close_price": 18700.0,
+        "estimated_change_amount": 280500000.0,
         "abs_delta_weight_rank": 21,
         "abs_delta_shares_rank": 27,
         "delta_shares_label": "+15,000",
-        "estimated_change_amount_label": "+2.67 億"
+        "estimated_change_amount_label": "+2.81 億"
       },
       {
         "stock_code": "3217",
@@ -565,12 +565,12 @@
         "delta_weight_pct": 0.0,
         "delta_weight_bp": 0.0,
         "change_type": "Increased",
-        "close_price": 174.0,
-        "estimated_change_amount": 2436000.0,
+        "close_price": 177.5,
+        "estimated_change_amount": 2485000.0,
         "abs_delta_weight_rank": 41,
         "abs_delta_shares_rank": 28,
         "delta_shares_label": "+14,000",
-        "estimated_change_amount_label": "+244 萬"
+        "estimated_change_amount_label": "+248 萬"
       },
       {
         "stock_code": "1590",
@@ -619,12 +619,12 @@
         "delta_weight_pct": 0.0,
         "delta_weight_bp": 0.0,
         "change_type": "Increased",
-        "close_price": 562.0,
-        "estimated_change_amount": 2810000.0,
+        "close_price": 574.0,
+        "estimated_change_amount": 2870000.0,
         "abs_delta_weight_rank": 42,
         "abs_delta_shares_rank": 31,
         "delta_shares_label": "+5,000",
-        "estimated_change_amount_label": "+281 萬"
+        "estimated_change_amount_label": "+287 萬"
       },
       {
         "stock_code": "3189",
@@ -645,24 +645,6 @@
         "estimated_change_amount_label": "+53 萬"
       },
       {
-        "stock_code": "6187",
-        "stock_name": "萬潤",
-        "previous_shares": 1222000,
-        "current_shares": 1223000,
-        "delta_shares": 1000,
-        "previous_weight_pct": 0.64,
-        "current_weight_pct": 0.63,
-        "delta_weight_pct": -0.010000000000000009,
-        "delta_weight_bp": -1.0000000000000009,
-        "change_type": "Increased",
-        "close_price": 1345.0,
-        "estimated_change_amount": 1345000.0,
-        "abs_delta_weight_rank": 34,
-        "abs_delta_shares_rank": 33,
-        "delta_shares_label": "+1,000",
-        "estimated_change_amount_label": "+134 萬"
-      },
-      {
         "stock_code": "2404",
         "stock_name": "漢唐",
         "previous_shares": 1091000,
@@ -675,10 +657,28 @@
         "change_type": "Increased",
         "close_price": 977.0,
         "estimated_change_amount": 977000.0,
+        "abs_delta_weight_rank": 34,
+        "abs_delta_shares_rank": 33,
+        "delta_shares_label": "+1,000",
+        "estimated_change_amount_label": "+98 萬"
+      },
+      {
+        "stock_code": "6187",
+        "stock_name": "萬潤",
+        "previous_shares": 1222000,
+        "current_shares": 1223000,
+        "delta_shares": 1000,
+        "previous_weight_pct": 0.64,
+        "current_weight_pct": 0.63,
+        "delta_weight_pct": -0.010000000000000009,
+        "delta_weight_bp": -1.0000000000000009,
+        "change_type": "Increased",
+        "close_price": 1215.0,
+        "estimated_change_amount": 1215000.0,
         "abs_delta_weight_rank": 35,
         "abs_delta_shares_rank": 34,
         "delta_shares_label": "+1,000",
-        "estimated_change_amount_label": "+98 萬"
+        "estimated_change_amount_label": "+122 萬"
       },
       {
         "stock_code": "1319",
@@ -699,42 +699,6 @@
         "estimated_change_amount_label": "+8 萬"
       },
       {
-        "stock_code": "6191",
-        "stock_name": "精成科",
-        "previous_shares": 3986000,
-        "current_shares": 3987000,
-        "delta_shares": 1000,
-        "previous_weight_pct": 0.15,
-        "current_weight_pct": 0.15,
-        "delta_weight_pct": 0.0,
-        "delta_weight_bp": 0.0,
-        "change_type": "Increased",
-        "close_price": 100.0,
-        "estimated_change_amount": 100000.0,
-        "abs_delta_weight_rank": 43,
-        "abs_delta_shares_rank": 36,
-        "delta_shares_label": "+1,000",
-        "estimated_change_amount_label": "+10 萬"
-      },
-      {
-        "stock_code": "2481",
-        "stock_name": "強茂",
-        "previous_shares": 3652000,
-        "current_shares": 3653000,
-        "delta_shares": 1000,
-        "previous_weight_pct": 0.14,
-        "current_weight_pct": 0.14,
-        "delta_weight_pct": 0.0,
-        "delta_weight_bp": 0.0,
-        "change_type": "Increased",
-        "close_price": 102.0,
-        "estimated_change_amount": 102000.0,
-        "abs_delta_weight_rank": 44,
-        "abs_delta_shares_rank": 37,
-        "delta_shares_label": "+1,000",
-        "estimated_change_amount_label": "+10 萬"
-      },
-      {
         "stock_code": "2439",
         "stock_name": "美律",
         "previous_shares": 16000,
@@ -747,28 +711,46 @@
         "change_type": "Increased",
         "close_price": 89.5,
         "estimated_change_amount": 89500.0,
-        "abs_delta_weight_rank": 45,
-        "abs_delta_shares_rank": 38,
+        "abs_delta_weight_rank": 43,
+        "abs_delta_shares_rank": 36,
         "delta_shares_label": "+1,000",
         "estimated_change_amount_label": "+9 萬"
       },
       {
-        "stock_code": "2357",
-        "stock_name": "華碩",
-        "previous_shares": 16000,
-        "current_shares": 17000,
+        "stock_code": "5347",
+        "stock_name": "世界",
+        "previous_shares": 62000,
+        "current_shares": 63000,
         "delta_shares": 1000,
         "previous_weight_pct": 0.0,
         "current_weight_pct": 0.0,
         "delta_weight_pct": 0.0,
         "delta_weight_bp": 0.0,
         "change_type": "Increased",
-        "close_price": 590.0,
-        "estimated_change_amount": 590000.0,
-        "abs_delta_weight_rank": 46,
-        "abs_delta_shares_rank": 39,
+        "close_price": 169.0,
+        "estimated_change_amount": 169000.0,
+        "abs_delta_weight_rank": 44,
+        "abs_delta_shares_rank": 37,
         "delta_shares_label": "+1,000",
-        "estimated_change_amount_label": "+59 萬"
+        "estimated_change_amount_label": "+17 萬"
+      },
+      {
+        "stock_code": "6191",
+        "stock_name": "精成科",
+        "previous_shares": 3986000,
+        "current_shares": 3987000,
+        "delta_shares": 1000,
+        "previous_weight_pct": 0.15,
+        "current_weight_pct": 0.15,
+        "delta_weight_pct": 0.0,
+        "delta_weight_bp": 0.0,
+        "change_type": "Increased",
+        "close_price": 100.0,
+        "estimated_change_amount": 100000.0,
+        "abs_delta_weight_rank": 45,
+        "abs_delta_shares_rank": 38,
+        "delta_shares_label": "+1,000",
+        "estimated_change_amount_label": "+10 萬"
       },
       {
         "stock_code": "2002",
@@ -783,28 +765,46 @@
         "change_type": "Increased",
         "close_price": 18.6,
         "estimated_change_amount": 18600.0,
-        "abs_delta_weight_rank": 47,
-        "abs_delta_shares_rank": 40,
+        "abs_delta_weight_rank": 46,
+        "abs_delta_shares_rank": 39,
         "delta_shares_label": "+1,000",
         "estimated_change_amount_label": "+2 萬"
       },
       {
-        "stock_code": "5347",
-        "stock_name": "世界",
-        "previous_shares": 62000,
-        "current_shares": 63000,
+        "stock_code": "2357",
+        "stock_name": "華碩",
+        "previous_shares": 16000,
+        "current_shares": 17000,
         "delta_shares": 1000,
         "previous_weight_pct": 0.0,
         "current_weight_pct": 0.0,
         "delta_weight_pct": 0.0,
         "delta_weight_bp": 0.0,
         "change_type": "Increased",
-        "close_price": 154.0,
-        "estimated_change_amount": 154000.0,
+        "close_price": 590.0,
+        "estimated_change_amount": 590000.0,
+        "abs_delta_weight_rank": 47,
+        "abs_delta_shares_rank": 40,
+        "delta_shares_label": "+1,000",
+        "estimated_change_amount_label": "+59 萬"
+      },
+      {
+        "stock_code": "2481",
+        "stock_name": "強茂",
+        "previous_shares": 3652000,
+        "current_shares": 3653000,
+        "delta_shares": 1000,
+        "previous_weight_pct": 0.14,
+        "current_weight_pct": 0.14,
+        "delta_weight_pct": 0.0,
+        "delta_weight_bp": 0.0,
+        "change_type": "Increased",
+        "close_price": 102.0,
+        "estimated_change_amount": 102000.0,
         "abs_delta_weight_rank": 48,
         "abs_delta_shares_rank": 41,
         "delta_shares_label": "+1,000",
-        "estimated_change_amount_label": "+15 萬"
+        "estimated_change_amount_label": "+10 萬"
       }
     ],
     "decreased": [
@@ -946,7 +946,7 @@
       "weight_pct": 9.25,
       "shares": 10714000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 2,
@@ -955,7 +955,7 @@
       "weight_pct": 8.17,
       "shares": 4505000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 3,
@@ -964,7 +964,7 @@
       "weight_pct": 5.87,
       "shares": 6131000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 4,
@@ -973,7 +973,7 @@
       "weight_pct": 5.28,
       "shares": 4363000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 5,
@@ -982,7 +982,7 @@
       "weight_pct": 5.1,
       "shares": 4623848,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 6,
@@ -991,7 +991,7 @@
       "weight_pct": 5.08,
       "shares": 6118000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 7,
@@ -1000,7 +1000,7 @@
       "weight_pct": 4.84,
       "shares": 12657000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 8,
@@ -1009,7 +1009,7 @@
       "weight_pct": 4.69,
       "shares": 8260000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 9,
@@ -1018,7 +1018,7 @@
       "weight_pct": 4.16,
       "shares": 2267000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 10,
@@ -1027,7 +1027,7 @@
       "weight_pct": 4.05,
       "shares": 3902000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 11,
@@ -1036,7 +1036,7 @@
       "weight_pct": 3.68,
       "shares": 1921000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 12,
@@ -1045,7 +1045,7 @@
       "weight_pct": 3.6,
       "shares": 10386000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 13,
@@ -1054,7 +1054,7 @@
       "weight_pct": 3.23,
       "shares": 473000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 14,
@@ -1063,7 +1063,7 @@
       "weight_pct": 3.23,
       "shares": 1769000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 15,
@@ -1072,7 +1072,7 @@
       "weight_pct": 2.3,
       "shares": 17220000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 16,
@@ -1081,7 +1081,7 @@
       "weight_pct": 2.21,
       "shares": 11059000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 17,
@@ -1090,7 +1090,7 @@
       "weight_pct": 1.75,
       "shares": 12918000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 18,
@@ -1099,7 +1099,7 @@
       "weight_pct": 1.53,
       "shares": 397000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 19,
@@ -1108,7 +1108,7 @@
       "weight_pct": 1.52,
       "shares": 3257000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 20,
@@ -1117,7 +1117,7 @@
       "weight_pct": 1.48,
       "shares": 46374000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 21,
@@ -1126,7 +1126,7 @@
       "weight_pct": 1.33,
       "shares": 1741000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 22,
@@ -1135,7 +1135,7 @@
       "weight_pct": 1.31,
       "shares": 930000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 23,
@@ -1144,7 +1144,7 @@
       "weight_pct": 1.28,
       "shares": 13977000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 24,
@@ -1153,7 +1153,7 @@
       "weight_pct": 1.08,
       "shares": 5359000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 25,
@@ -1162,7 +1162,7 @@
       "weight_pct": 0.92,
       "shares": 5558000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 26,
@@ -1171,7 +1171,7 @@
       "weight_pct": 0.9,
       "shares": 488000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 27,
@@ -1180,7 +1180,7 @@
       "weight_pct": 0.63,
       "shares": 6994000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 28,
@@ -1189,7 +1189,7 @@
       "weight_pct": 0.63,
       "shares": 1223000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 29,
@@ -1198,7 +1198,7 @@
       "weight_pct": 0.54,
       "shares": 7984000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 30,
@@ -1207,7 +1207,7 @@
       "weight_pct": 0.54,
       "shares": 1117000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 31,
@@ -1216,7 +1216,7 @@
       "weight_pct": 0.49,
       "shares": 3178000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 32,
@@ -1225,7 +1225,7 @@
       "weight_pct": 0.47,
       "shares": 296000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 33,
@@ -1234,7 +1234,7 @@
       "weight_pct": 0.43,
       "shares": 934000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 34,
@@ -1243,7 +1243,7 @@
       "weight_pct": 0.41,
       "shares": 1092000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 35,
@@ -1252,7 +1252,7 @@
       "weight_pct": 0.28,
       "shares": 2623000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 36,
@@ -1261,7 +1261,7 @@
       "weight_pct": 0.28,
       "shares": 510000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 37,
@@ -1270,7 +1270,7 @@
       "weight_pct": 0.18,
       "shares": 2956000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 38,
@@ -1279,7 +1279,7 @@
       "weight_pct": 0.15,
       "shares": 3987000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 39,
@@ -1288,7 +1288,7 @@
       "weight_pct": 0.14,
       "shares": 3653000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 40,
@@ -1297,7 +1297,7 @@
       "weight_pct": 0.13,
       "shares": 1711000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 41,
@@ -1306,7 +1306,7 @@
       "weight_pct": 0.11,
       "shares": 660000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 42,
@@ -1315,7 +1315,7 @@
       "weight_pct": 0.08,
       "shares": 376000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 43,
@@ -1324,7 +1324,7 @@
       "weight_pct": 0.06,
       "shares": 844000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 44,
@@ -1333,7 +1333,7 @@
       "weight_pct": 0.04,
       "shares": 5162000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 45,
@@ -1342,7 +1342,7 @@
       "weight_pct": 0.01,
       "shares": 510000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 46,
@@ -1351,7 +1351,7 @@
       "weight_pct": 0.01,
       "shares": 368000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 47,
@@ -1360,7 +1360,7 @@
       "weight_pct": 0.0,
       "shares": 63000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 48,
@@ -1369,7 +1369,7 @@
       "weight_pct": 0.0,
       "shares": 107000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 49,
@@ -1378,7 +1378,7 @@
       "weight_pct": 0.0,
       "shares": 17000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 50,
@@ -1387,7 +1387,7 @@
       "weight_pct": 0.0,
       "shares": 17000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "rank": 51,
@@ -1396,7 +1396,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     }
   ],
   "history": [
@@ -1405,7 +1405,7 @@
       "rows_count": 51,
       "weight_total": 93.45,
       "source_used": "moneydj",
-      "scraped_at": "2026-05-06T14:33:31"
+      "scraped_at": "2026-05-06T15:44:30"
     },
     {
       "date": "2026-05-04",
@@ -1439,7 +1439,7 @@
   "ai_analysis": {
     "provider": "rule_based",
     "model": null,
-    "generated_at": "2026-05-06T14:33:46",
+    "generated_at": "2026-05-06T15:44:51",
     "headline": "00981A 今日持股 51 檔，新建倉 1、清倉 0，增持 39、減持 2。",
     "bullets": [
       "最大買進觀察為 2330 台積電，估值變化 +15.19 億。",
