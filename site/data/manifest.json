@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-06T02:48:09",
+  "etfs": [
+    {
+      "code": "0050",
+      "name": "元大台灣50",
+      "latest_date": "2026-05-05",
+      "previous_date": "2026-05-04",
+      "path": "data/0050/latest.json"
+    },
+    {
+      "code": "006208",
+      "name": "富邦台50",
+      "latest_date": "2026-05-05",
+      "previous_date": "2026-05-04",
+      "path": "data/006208/latest.json"
+    },
+    {
+      "code": "00981A",
+      "name": "統一台灣高息動能",
+      "latest_date": "2026-04-29",
+      "previous_date": "2026-04-28",
+      "path": "data/00981A/latest.json"
+    }
+  ]
+}

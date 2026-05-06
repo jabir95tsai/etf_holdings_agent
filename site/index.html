@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ETF 持股變化 Dashboard</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ETF Holdings</p>
+        <h1>持股變化 Dashboard</h1>
+      </div>
+      <div class="topbar-actions">
+        <span id="authStatus" class="auth-status">本機收藏</span>
+        <button id="authButton" class="text-button" type="button">登入</button>
+        <button id="favoriteButton" class="icon-button" type="button" title="收藏 ETF" aria-label="收藏 ETF">
+          ☆
+        </button>
+      </div>
+    </header>
+
+    <main class="shell">
+      <nav id="etfTabs" class="tabs" aria-label="ETF 切換"></nav>
+
+      <section class="hero">
+        <div>
+          <p id="reportMeta" class="muted">讀取中</p>
+          <h2 id="etfTitle">ETF</h2>
+          <p id="brief" class="brief"></p>
+        </div>
+        <div class="quality-strip">
+          <span id="sourceBadge">來源</span>
+          <span id="qualityBadge">資料品質</span>
+        </div>
+      </section>
+
+      <section id="kpis" class="kpi-grid" aria-label="關鍵指標"></section>
+
+      <section class="highlight-grid" aria-label="今日亮點">
+        <article class="highlight buy">
+          <p>最大買進</p>
+          <h3 id="topBuyName">-</h3>
+          <strong id="topBuyAmount">-</strong>
+          <span id="topBuyMeta">-</span>
+        </article>
+        <article class="highlight sell">
+          <p>最大賣出</p>
+          <h3 id="topSellName">-</h3>
+          <strong id="topSellAmount">-</strong>
+          <span id="topSellMeta">-</span>
+        </article>
+      </section>
+
+      <section id="sections" class="sections"></section>
+
+      <section class="panel">
+        <div class="section-title neutral">
+          <h3>資料品質</h3>
+        </div>
+        <dl id="qualityList" class="quality-list"></dl>
+      </section>
+
+      <footer>
+        本網站僅為資料整理，不構成投資建議。資料來源以公開資訊與 MoneyDJ 抓取結果為準。
+      </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>

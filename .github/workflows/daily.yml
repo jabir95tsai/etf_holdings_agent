@@ -20,7 +20,7 @@ on:
         default: 'false'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   # Determines which ETFs to run: all by default, or the one specified via workflow_dispatch.
@@ -134,6 +134,9 @@ jobs:
             attempt=$((attempt + 1))
           done
 
+      - name: Export site data
+        run: python scripts/export_site_data.py --etf "${{ matrix.etf }}" --output-dir site/data
+
       - name: Save database cache
         if: always()
         uses: actions/cache/save@v4
@@ -183,3 +186,48 @@ jobs:
             run-agent-attempt-*.log
           if-no-files-found: ignore
           retention-days: 30
+
+      - name: Upload site data artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-data-${{ matrix.etf }}
+          path: site/data/${{ matrix.etf }}/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  publish-site-data:
+    needs: run-agent
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download site data artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: site-data-*
+          path: site-data-artifacts
+
+      - name: Publish site data to repo
+        run: |
+          set -euo pipefail
+          mkdir -p site/data
+          shopt -s nullglob
+          for artifact_dir in site-data-artifacts/site-data-*; do
+            etf="${artifact_dir##*/site-data-}"
+            mkdir -p "site/data/${etf}"
+            cp -R "${artifact_dir}/." "site/data/${etf}/"
+          done
+          python scripts/export_site_data.py --manifest-only --output-dir site/data
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- site/data; then
+            echo "No site data changes to commit."
+          else
+            git add site/data
+            git commit -m "Update static site data"
+            git push
+          fi
