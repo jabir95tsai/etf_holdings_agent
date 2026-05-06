@@ -234,6 +234,31 @@ function renderHighlights() {
   renderHighlight("topSell", state.data.highlights.top_sell);
 }
 
+function renderAiAnalysis() {
+  const analysis = state.data.ai_analysis;
+  const panel = $("aiPanel");
+  if (!analysis) {
+    panel.hidden = true;
+    return;
+  }
+
+  panel.hidden = false;
+  const provider =
+    analysis.provider === "openai"
+      ? `OpenAI · ${analysis.model || "model"}`
+      : "規則版";
+  $("aiMeta").textContent = `${provider} · 信心 ${analysis.confidence || "-"}`;
+  $("aiHeadline").textContent = analysis.headline || "目前沒有解讀。";
+  renderList("aiBullets", analysis.bullets);
+  renderList("aiWatchlist", analysis.watchlist);
+  renderList("aiRisks", analysis.risk_notes);
+}
+
+function renderList(id, items) {
+  const values = Array.isArray(items) && items.length ? items : ["-"];
+  $(id).innerHTML = values.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+}
+
 function sectionClass(kind) {
   if (kind === "buy") return "buy";
   if (kind === "sell") return "sell";
@@ -448,6 +473,7 @@ function render() {
   renderHeader();
   renderKpis();
   renderHighlights();
+  renderAiAnalysis();
   renderSections();
   renderQuality();
 }

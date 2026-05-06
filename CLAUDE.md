@@ -17,6 +17,7 @@ src/prices.py        # 收盤價 enrich（TWSE API）
 src/reporter.py      # Markdown / CSV / HTML email render
 src/notifier.py      # Gmail SMTP 寄信
 scripts/export_site_data.py # SQLite → site/data JSON
+scripts/generate_ai_analysis.py # site/data JSON → ai_analysis（OpenAI 或 rule-based）
 site/                # 靜態 dashboard（讀 site/data/*.json）
 ```
 
@@ -64,6 +65,7 @@ python -m src.main --etf 00981A --force-report
 
 # 匯出網站資料並本機預覽
 python scripts/export_site_data.py --skip-prices
+python scripts/generate_ai_analysis.py --force-rule-based
 cd site && python -m http.server 8765
 ```
 
@@ -74,6 +76,7 @@ cd site && python -m http.server 8765
 - 無新資料時不寄信，最多重試 18 次（間隔 30 分鐘），等新資料出現
 - SQLite 透過 `actions/cache` 跨 run 保存，cache key 依 ETF 分開（`etf-holdings-db-${matrix.etf}-...`）
 - 每檔 ETF 跑完後會匯出 `site/data/{ETF}/latest.json` artifact；`publish-site-data` job 會彙整後 commit 回 repo
+- 若有 `OPENAI_API_KEY` secret，會呼叫 OpenAI Responses API 產生 AI 解讀；沒有 key 時使用 rule-based fallback
 - Secrets：`GMAIL_SENDER_EMAIL`、`GMAIL_APP_PASSWORD`、`GMAIL_RECEIVER_EMAILS`
 
 ## 資料路徑

@@ -17,6 +17,7 @@
 - 產出 Markdown + CSV 報告
 - 透過 Gmail SMTP 寄送報告 / 無新資料通知 / 失敗通知
 - 匯出 `site/data/{ETF}/latest.json`，供公開靜態網站使用
+- 若設定 `OPENAI_API_KEY`，每日產生 AI 解讀；未設定時使用規則版解讀
 
 ---
 
@@ -36,6 +37,8 @@ src/main.py
 
 scripts/export_site_data.py
   └── SQLite → site/data JSON → site/index.html 讀取
+scripts/generate_ai_analysis.py
+  └── site/data JSON → ai_analysis 欄位
 ```
 
 ---
@@ -86,6 +89,7 @@ python -m src.main --etf 00981A --force-report       # 強制重新產報告
 
 # 匯出網站資料
 python scripts/export_site_data.py --skip-prices
+python scripts/generate_ai_analysis.py --force-rule-based
 
 # 本機預覽網站
 cd site
@@ -108,6 +112,9 @@ GMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx
 GMAIL_RECEIVER_EMAILS=receiver1@gmail.com,receiver2@gmail.com
 NOTIFY_ON_NO_UPDATE=true
 SOURCE_ORDER=moneydj,ezmoney,official,twse
+# 選填：產生 AI 解讀
+OPENAI_API_KEY=sk-...
+OPENAI_MODEL=gpt-5.2
 ```
 
 也可以沿用舊的 `GMAIL_RECEIVER_EMAIL`，同樣支援用逗號或分號分隔多個收件人。
@@ -140,6 +147,7 @@ SOURCE_ORDER=moneydj,ezmoney,official,twse
 | `GMAIL_SENDER_EMAIL` | 寄件 Gmail（例：`me@gmail.com`） |
 | `GMAIL_APP_PASSWORD` | 16 碼 App Password |
 | `GMAIL_RECEIVER_EMAILS` | 收件信箱，可用逗號分隔多個帳號 |
+| `OPENAI_API_KEY` | 選填；若提供，GitHub Actions 會產生 OpenAI 版 AI 解讀 |
 
 若你已經有舊的 `GMAIL_RECEIVER_EMAIL` Secret，也可以直接把它的值改成 `first@gmail.com,second@gmail.com`，程式仍會讀取。
 
@@ -180,7 +188,7 @@ push 到 GitHub `main` branch 後，排程就會生效。**第一次也建議手
 - `site/data/manifest.json`：ETF 清單
 - `site/data/{ETF}/latest.json`：各 ETF 最新報告資料
 
-GitHub Actions 會在每日抓取後匯出 JSON，將 `site/data` commit 回 repo。部署到 Vercel 時可直接把 `site/` 設為靜態輸出目錄。
+GitHub Actions 會在每日抓取後匯出 JSON，產生 `ai_analysis`，再將 `site/data` commit 回 repo。部署到 Vercel 時可直接把 `site/` 設為靜態輸出目錄。
 
 目前網站包含本機收藏功能（使用瀏覽器 localStorage）。若要啟用登入與雲端收藏，建立 Supabase 專案後把 public URL / anon key 填入 `site/config.js`：
 
@@ -262,6 +270,7 @@ sqlite3 data/etf_holdings.sqlite "SELECT * FROM alerts ORDER BY created_at DESC 
 - [ ] 部署公開 dashboard
 - [ ] Supabase Auth 登入與雲端收藏 ETF
 - [ ] 每日 AI 分析摘要
+- [x] AI 分析 JSON 欄位與網站區塊（未設定 key 時用規則版）
 - [ ] 加入週/月變化彙整報告
 - [ ] 把 `alerts` 表改寫成 RSS 或 Slack 通知
 - [ ] 加入 Playwright fallback（若官方頁面改為 SPA）

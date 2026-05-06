@@ -55,6 +55,8 @@ jobs:
       GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
       GMAIL_RECEIVER_EMAILS: ${{ secrets.GMAIL_RECEIVER_EMAILS }}
       GMAIL_RECEIVER_EMAIL: ${{ secrets.GMAIL_RECEIVER_EMAIL }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
       NOTIFY_ON_NO_UPDATE: "false"
       NO_UPDATE_RETRY_MINUTES: "30"
       NO_UPDATE_MAX_ATTEMPTS: "18"
@@ -136,6 +138,9 @@ jobs:
 
       - name: Export site data
         run: python scripts/export_site_data.py --etf "${{ matrix.etf }}" --output-dir site/data
+
+      - name: Generate AI analysis
+        run: python scripts/generate_ai_analysis.py --etf "${{ matrix.etf }}" --input-dir site/data
 
       - name: Save database cache
         if: always()
