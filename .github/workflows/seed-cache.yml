@@ -1,0 +1,52 @@
+name: Seed Per-ETF Cache (one-shot)
+
+# Bootstraps a new per-ETF cache by copying the legacy single-DB cache
+# to the new per-ETF key. Useful when the cache key schema changed and
+# restore-keys prefix matching pulled the wrong cache.
+#
+# Usage:
+#   gh workflow run seed-cache.yml -f source_key=etf-holdings-db-25367779545 -f target_etf=00981A
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_key:
+        description: 'Existing cache key to copy from (exact match)'
+        required: true
+        default: 'etf-holdings-db-25367779545'
+      target_etf:
+        description: 'ETF code for the destination per-ETF cache'
+        required: true
+        default: '00981A'
+
+permissions:
+  contents: read
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore source cache (exact key)
+        uses: actions/cache/restore@v4
+        id: restore
+        with:
+          path: data/etf_holdings.sqlite
+          key: ${{ github.event.inputs.source_key }}
+          fail-on-cache-miss: true
+
+      - name: Show DB summary
+        run: |
+          sudo apt-get -qq install -y sqlite3 >/dev/null
+          echo "DB size: $(stat -c %s data/etf_holdings.sqlite) bytes"
+          echo "Distinct (etf_code, date) tuples:"
+          sqlite3 data/etf_holdings.sqlite \
+            "SELECT etf_code, date, COUNT(*) FROM holdings_daily GROUP BY etf_code, date ORDER BY etf_code, date;"
+
+      - name: Save under new per-ETF cache key
+        uses: actions/cache/save@v4
+        with:
+          path: data/etf_holdings.sqlite
+          key: etf-holdings-db-${{ github.event.inputs.target_etf }}-${{ github.run_id }}
