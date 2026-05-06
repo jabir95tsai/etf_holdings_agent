@@ -77,6 +77,7 @@ cd site && python -m http.server 8765
 - SQLite 透過 `actions/cache` 跨 run 保存，cache key 依 ETF 分開（`etf-holdings-db-${matrix.etf}-...`）
 - 每檔 ETF 跑完後會匯出 `site/data/{ETF}/latest.json` artifact；`publish-site-data` job 會彙整後 commit 回 repo
 - 若有 `OPENAI_API_KEY` secret，會呼叫 OpenAI Responses API 產生 AI 解讀；沒有 key 時使用 rule-based fallback
+- `site.yml` 與 daily workflow 都可部署 `site/` 到 GitHub Pages；repo Pages Source 需設為 GitHub Actions
 - Secrets：`GMAIL_SENDER_EMAIL`、`GMAIL_APP_PASSWORD`、`GMAIL_RECEIVER_EMAILS`
 
 ## 資料路徑

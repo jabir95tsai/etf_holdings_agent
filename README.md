@@ -227,7 +227,12 @@ to authenticated
 using (auth.uid() = user_id);
 ```
 
-部署到 Vercel 時，repo 內的 `vercel.json` 已設定 `site/` 為輸出目錄，不需要 build command。
+部署方式：
+
+- **GitHub Pages**：repo 內已提供 `.github/workflows/site.yml`。在 GitHub repo → Settings → Pages 將 Source 設為 **GitHub Actions** 後，push 到 `main` 會自動部署 `site/`。
+- **Vercel**：repo 內的 `vercel.json` 已設定 `site/` 為輸出目錄，不需要 build command。
+
+每日資料 workflow 更新 `site/data` 後，也會直接重新部署 GitHub Pages。
 
 ---
 
