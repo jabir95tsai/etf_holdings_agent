@@ -451,9 +451,9 @@ def _render_email_kpis(summary: dict) -> str:
         (
             "增 / 減持",
             (
-                f"<span style='color:#16a34a;font-size:18px;'>增 {summary['increased_count']}</span>"
-                "<span style='color:#cccccc;font-size:16px;padding:0 5px;'>/</span>"
-                f"<span style='color:#dc2626;font-size:18px;'>減 {summary['decreased_count']}</span>"
+                f"<span style='color:#16a34a;font-size:16px;'>增 {summary['increased_count']}</span>"
+                "<span style='color:#cccccc;font-size:14px;padding:0 3px;'>/</span>"
+                f"<span style='color:#dc2626;font-size:16px;'>減 {summary['decreased_count']}</span>"
             ),
             "檔異動",
             "#111111",
@@ -463,10 +463,10 @@ def _render_email_kpis(summary: dict) -> str:
     for i, (label, value, note, color) in enumerate(cells):
         pad = "padding-right:8px;" if i < len(cells) - 1 else ""
         out.append(
-            f"<td class='kpi-cell' width='25%' style='{pad}'><table width='100%' cellpadding='0' cellspacing='0' border='0' "
+            f"<td class='kpi-cell' width='25%' valign='top' style='{pad}'><table width='100%' cellpadding='0' cellspacing='0' border='0' "
             "style='background:#f8f8f6;border-radius:6px;'><tr><td style='padding:14px 16px;'>"
             f"<div style='font-size:10px;color:#999999;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;'>{_html(label)}</div>"
-            f"<div style=\"font-size:24px;font-weight:600;color:{color};font-family:'Courier New',monospace;\">{value}</div>"
+            f"<div style=\"font-size:24px;font-weight:600;color:{color};font-family:'Courier New',monospace;white-space:nowrap;\">{value}</div>"
             f"<div style='font-size:11px;color:#aaaaaa;margin-top:3px;'>{_html(note)}</div>"
             "</td></tr></table></td>"
         )
