@@ -75,6 +75,7 @@ jobs:
           key: etf-holdings-db-${{ matrix.etf }}-${{ github.run_id }}
           restore-keys: |
             etf-holdings-db-${{ matrix.etf }}-
+            etf-holdings-db-
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
