@@ -15,14 +15,15 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from src import prices
-from src.comparer import DiffReport, DiffRow, compare, enrich_with_prices, top_holdings_change
-from src.config import DEFAULT_DB_PATH
-from src.reporter import build_summary, quality_check
+# Heavy imports (src.scraper -> bs4 etc.) are deferred to the functions that
+# need them, so --manifest-only mode runs with stdlib alone.
+if False:  # type-checker only
+    from src.comparer import DiffReport, DiffRow
 
 logger = logging.getLogger(__name__)
 
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "site" / "data"
+DEFAULT_DB_PATH = REPO_ROOT / "data" / "etf_holdings.sqlite"
 SCHEMA_VERSION = 1
 
 ETF_NAMES = {
@@ -221,12 +222,20 @@ def _holding_payload(row: dict[str, Any], rank: int) -> dict[str, Any]:
     }
 
 
+def _top_holdings_change(previous_rows, current_rows, n: int = 10):
+    from src.comparer import top_holdings_change
+
+    return top_holdings_change(previous_rows, current_rows, n=n)
+
+
 def _quality_payload(
     rows: list[dict[str, Any]],
     *,
     source_used: str,
     last_run: dict[str, Any] | None,
 ) -> dict[str, Any]:
+    from src.reporter import quality_check
+
     qc = quality_check(
         rows,
         scrape_ok=bool(rows),
@@ -295,6 +304,10 @@ def build_etf_payload(
     if not dates:
         return None
 
+    from src import prices
+    from src.comparer import compare, enrich_with_prices
+    from src.reporter import build_summary
+
     current_date = dates[0]
     previous_date = dates[1] if len(dates) > 1 else None
     current_rows = _holdings(conn, etf_code, current_date)
@@ -349,7 +362,7 @@ def build_etf_payload(
             "sold_out": [_diff_row_payload(row) for row in diff.sold_out],
             "increased": [_diff_row_payload(row) for row in diff.increased],
             "decreased": [_diff_row_payload(row) for row in diff.decreased],
-            "top_holdings": top_holdings_change(previous_rows, current_rows, n=10),
+            "top_holdings": _top_holdings_change(previous_rows, current_rows, n=10),
         },
         "current_holdings": [
             _holding_payload(row, rank)
