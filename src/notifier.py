@@ -6,11 +6,16 @@ import logging
 import smtplib
 from datetime import datetime
 from email.message import EmailMessage
+from email.utils import formataddr, formatdate, make_msgid
 from pathlib import Path
 
 from .config import GmailConfig
 
 logger = logging.getLogger(__name__)
+
+# Friendly From display name. Helps Gmail recognise this as a known sender
+# rather than a bare gmail-to-gmail message that triggers phishing heuristics.
+SENDER_DISPLAY_NAME = "FundFlow ETF Tracker"
 
 
 def _build_message(
@@ -22,8 +27,29 @@ def _build_message(
 ) -> EmailMessage:
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = cfg.sender or ""
+    sender_addr = cfg.sender or ""
+    # From with display name — improves Gmail trust signals.
+    msg["From"] = formataddr((SENDER_DISPLAY_NAME, sender_addr))
     msg["To"] = ", ".join(cfg.receivers)
+    if sender_addr:
+        msg["Reply-To"] = sender_addr
+    msg["Date"] = formatdate(localtime=True)
+    msg["Message-ID"] = make_msgid(domain="fundflow.local")
+    # Mark as auto-generated so Gmail / Apple Mail treat it as a system
+    # notification rather than a possible spoofed personal message.
+    msg["Auto-Submitted"] = "auto-generated"
+    msg["Precedence"] = "bulk"
+    msg["X-Auto-Response-Suppress"] = "All"
+    msg["X-Mailer"] = "ETF Holdings Agent"
+    if sender_addr:
+        # RFC 8058 one-click unsubscribe + mailto fallback.
+        msg["List-Id"] = (
+            f"FundFlow ETF Daily <fundflow.{sender_addr.replace('@', '.')}>"
+        )
+        msg["List-Unsubscribe"] = (
+            f"<mailto:{sender_addr}?subject=unsubscribe%20fundflow>"
+        )
+        msg["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click"
     msg.set_content(body_text)
     if body_html:
         msg.add_alternative(body_html, subtype="html")

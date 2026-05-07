@@ -511,27 +511,38 @@ def _highlight_cell(
     left_pad: bool = False,
 ) -> str:
     pad = "padding-left:6px;" if left_pad else "padding-right:6px;"
-    name = f"{row.stock_code or ''} {row.stock_name or ''}" if row else "-"
-    amount = (
-        _fmt_money_compact(row.estimated_change_amount)
-        if row and row.estimated_change_amount is not None
-        else "估值待補"
-        if row
-        else "無紀錄"
-    )
-    detail = ""
     if row:
+        name = f"{row.stock_code or ''} {row.stock_name or ''}".strip() or "—"
+        amount = (
+            _fmt_money_compact(row.estimated_change_amount)
+            if row.estimated_change_amount is not None
+            else "估值待補"
+        )
         shares = _effective_shares_text(row)
-        weight = row.current_weight_pct if row.current_weight_pct is not None else row.previous_weight_pct
+        weight = (
+            row.current_weight_pct
+            if row.current_weight_pct is not None
+            else row.previous_weight_pct
+        )
         detail = f"股數：{shares}　權重：{_fmt_pct(weight)}"
+    else:
+        # Render an equal-height placeholder so the two highlight cells
+        # always match vertically, regardless of whether one side has data.
+        name = "—"
+        amount = "無紀錄"
+        detail = "今日沒有明顯的金額變化"
     return (
-        f"<td class='highlight-cell' width='50%' style='{pad}'><table width='100%' cellpadding='0' cellspacing='0' border='0' "
-        f"style='background:{bg};border-left:3px solid {border};border-radius:0 6px 6px 0;'>"
-        "<tr><td style='padding:12px 14px;'>"
+        # height='100%' + valign='top' forces the inner card to fill the
+        # outer td (which is auto-sized to the taller sibling), so both
+        # cards always share the same height.
+        f"<td class='highlight-cell' width='50%' valign='top' style='{pad};height:1px;'>"
+        f"<table width='100%' height='100%' cellpadding='0' cellspacing='0' border='0' "
+        f"style='background:{bg};border-left:3px solid {border};border-radius:0 6px 6px 0;height:100%;'>"
+        "<tr><td valign='top' style='padding:12px 14px;'>"
         f"<div style='font-size:10px;color:{label_color};text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;'>{_html(label)}</div>"
-        f"<div style='font-size:13px;font-weight:600;color:#111111;'>{_html(name.strip() or '-')}</div>"
-        f"<div style=\"font-size:16px;font-weight:600;color:{border};font-family:'Courier New',monospace;\">{_html(amount)}</div>"
-        f"<div style='font-size:11px;color:#777777;margin-top:3px;'>{_html(detail)}</div>"
+        f"<div style='font-size:13px;font-weight:600;color:#111111;line-height:1.4;'>{_html(name)}</div>"
+        f"<div style=\"font-size:16px;font-weight:600;color:{border};font-family:'Courier New',monospace;line-height:1.3;\">{_html(amount)}</div>"
+        f"<div style='font-size:11px;color:#777777;margin-top:3px;line-height:1.4;'>{_html(detail)}</div>"
         "</td></tr></table></td>"
     )
 
