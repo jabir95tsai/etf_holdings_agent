@@ -25,7 +25,8 @@ permissions:
   id-token: write
 
 jobs:
-  # Determines which ETFs to run: all by default, or the one specified via workflow_dispatch.
+  # Determines which ETFs to run: 00981A by default. 0050 / 006208 are paused —
+  # they can still be run on demand via workflow_dispatch with `etf=0050` etc.
   setup:
     runs-on: ubuntu-latest
     outputs:
@@ -35,7 +36,7 @@ jobs:
         run: |
           ETF_INPUT="${{ github.event.inputs.etf }}"
           if [ -z "$ETF_INPUT" ]; then
-            echo 'matrix={"etf":["00981A","0050","006208"]}' >> "$GITHUB_OUTPUT"
+            echo 'matrix={"etf":["00981A"]}' >> "$GITHUB_OUTPUT"
           else
             echo "matrix={\"etf\":[\"$ETF_INPUT\"]}" >> "$GITHUB_OUTPUT"
           fi

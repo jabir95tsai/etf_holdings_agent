@@ -2,7 +2,7 @@
 
 ## 專案用途
 
-每日自動追蹤設定清單中的 ETF 持股變化，目前為 **00981A / 0050 / 006208**。每檔 ETF 會與自己的前一筆 DB snapshot 比較，寄 Gmail 報告。不自動下單，不提供投資建議。
+每日自動追蹤設定清單中的 ETF 持股變化，目前 cron 預設只跑 **00981A**（0050 / 006208 暫停，仍可手動 `gh workflow run daily.yml -f etf=0050` 觸發）。每檔 ETF 會與自己的前一筆 DB snapshot 比較，寄 Gmail 報告。不自動下單，不提供投資建議。
 
 ## 架構
 
@@ -72,7 +72,7 @@ cd site && python -m http.server 8765
 ## GitHub Actions
 
 - 排程：UTC 07:00 = Taipei 15:00，每天執行
-- 預設以 matrix 跑 `00981A`、`0050`、`006208`；手動觸發可指定單一 ETF
+- 預設 cron 只跑 `00981A`（`0050` / `006208` 暫停）；手動觸發可指定任一 ETF
 - 無新資料時不寄信，最多重試 18 次（間隔 30 分鐘），等新資料出現
 - SQLite 透過 `actions/cache` 跨 run 保存，cache key 依 ETF 分開（`etf-holdings-db-${matrix.etf}-...`）
 - 每檔 ETF 跑完後會匯出 `site/data/{ETF}/latest.json` artifact；`publish-site-data` job 會彙整後 commit 回 repo
