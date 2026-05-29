@@ -2,8 +2,11 @@ name: ETF Holdings Daily Tracker
 
 on:
   schedule:
-    # Taipei 15:00 = UTC 07:00. Runs every day.
-    - cron: '0 7 * * *'
+    # Two daily windows to catch fund-manager publish delays.
+    # MoneyDJ only exposes the latest snapshot, so a single afternoon run can
+    # miss days where the holdings JSON publishes after our scrape window.
+    - cron: '0 7 * * *'    # Taipei 15:00 (UTC 07:00) — primary
+    - cron: '0 13 * * *'   # Taipei 21:00 (UTC 13:00) — late catch-up
   workflow_dispatch:
     inputs:
       etf:
@@ -18,6 +21,12 @@ on:
         description: 'Force re-generate report'
         required: false
         default: 'false'
+
+# If the 15:00 run is still retrying when the 21:00 run starts, cancel the
+# stale one so the new window gets a fresh attempt with up-to-date data.
+concurrency:
+  group: daily-${{ github.workflow }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
