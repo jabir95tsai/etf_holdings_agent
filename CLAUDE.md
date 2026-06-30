@@ -13,7 +13,7 @@ src/scraper.py       # 四段式 fallback (moneydj → ezmoney → official → 
 src/parser.py        # HTML/JSON → 標準持股 list[dict]
 src/db.py            # SQLite (holdings_daily / run_logs / alerts)
 src/comparer.py      # 兩日快照差異分類（新建倉/清倉/增持/減持/持平）
-src/prices.py        # 收盤價 enrich（TWSE API）
+src/prices.py        # 收盤價 enrich（TWSE + TPEX，查不到時往前回溯交易日補價）
 src/reporter.py      # Markdown / CSV / HTML email render
 src/notifier.py      # Gmail SMTP 寄信
 scripts/export_site_data.py # SQLite → site/data JSON
