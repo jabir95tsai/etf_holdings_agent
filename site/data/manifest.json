@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-27T21:48:40",
+  "generated_at": "2026-07-28T11:41:29",
   "etfs": [
     {
       "code": "0050",
@@ -19,8 +19,8 @@
     {
       "code": "00981A",
       "name": "統一台灣高息動能",
-      "latest_date": "2026-07-27",
-      "previous_date": "2026-07-24",
+      "latest_date": "2026-07-28",
+      "previous_date": "2026-07-27",
       "path": "data/00981A/latest.json"
     }
   ]
