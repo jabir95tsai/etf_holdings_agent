@@ -71,10 +71,10 @@ cd site && python -m http.server 8765
 
 ## GitHub Actions
 
-- 排程：每天兩個 window — Taipei **15:00** + **21:00**（UTC 07:00 / 13:00）。早班抓不到當天資料時，晚班補抓 fund manager 較晚公告的版本
-- `concurrency: cancel-in-progress` — 21:00 啟動時若 15:00 的 retry 還在跑會被取消，避免兩個 job 同時搶 cache
+- 排程：週一至週五（營業日）三個 window — Taipei **15:00**、**18:00**、**21:00**（UTC 07:00 / 10:00 / 13:00）。
+- `concurrency: cancel-in-progress` — 避免重疊執行搶佔 cache
 - 預設 cron 只跑 `00981A`（`0050` / `006208` 暫停）；手動觸發可指定任一 ETF
-- 無新資料時不寄信，最多重試 18 次（間隔 30 分鐘），等新資料出現
+- 查無新資料時快速結束（不再 sleep 等待），單次執行耗時僅約 1~2 分鐘，節省 GitHub Actions 費用
 - SQLite 透過 `actions/cache` 跨 run 保存，cache key 依 ETF 分開（`etf-holdings-db-${matrix.etf}-...`）
 - 每檔 ETF 跑完後會匯出 `site/data/{ETF}/latest.json` artifact；`publish-site-data` job 會彙整後 commit 回 repo
 - 若有 `OPENAI_API_KEY` secret，會呼叫 OpenAI Responses API 產生 AI 解讀；沒有 key 時使用 rule-based fallback

@@ -2,11 +2,12 @@ name: ETF Holdings Daily Tracker
 
 on:
   schedule:
-    # Two daily windows to catch fund-manager publish delays.
-    # MoneyDJ only exposes the latest snapshot, so a single afternoon run can
-    # miss days where the holdings JSON publishes after our scrape window.
-    - cron: '0 7 * * *'    # Taipei 15:00 (UTC 07:00) — primary
-    - cron: '0 13 * * *'   # Taipei 21:00 (UTC 13:00) — late catch-up
+    # Weekday windows (Mon-Fri) to catch fund-manager publish timing:
+    # 15:00 Taipei (primary), 18:00 Taipei (after-hours update), 21:00 Taipei (late catch-up).
+    # Runs take ~1-2 min each. If no new data is published yet, it exits immediately without sleep.
+    - cron: '0 7 * * 1-5'    # Taipei 15:00 (UTC 07:00) Mon-Fri
+    - cron: '0 10 * * 1-5'   # Taipei 18:00 (UTC 10:00) Mon-Fri
+    - cron: '0 13 * * 1-5'   # Taipei 21:00 (UTC 13:00) Mon-Fri
   workflow_dispatch:
     inputs:
       etf:
@@ -22,8 +23,6 @@ on:
         required: false
         default: 'false'
 
-# If the 15:00 run is still retrying when the 21:00 run starts, cancel the
-# stale one so the new window gets a fresh attempt with up-to-date data.
 concurrency:
   group: daily-${{ github.workflow }}
   cancel-in-progress: true
@@ -53,7 +52,7 @@ jobs:
   run-agent:
     needs: setup
     runs-on: ubuntu-latest
-    timeout-minutes: 540
+    timeout-minutes: 15
     strategy:
       matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
       fail-fast: false   # one ETF failing should not cancel the others
@@ -70,8 +69,6 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
       NOTIFY_ON_NO_UPDATE: "false"
-      NO_UPDATE_RETRY_MINUTES: "30"
-      NO_UPDATE_MAX_ATTEMPTS: "18"
       SOURCE_ORDER: moneydj,ezmoney,official,twse
 
     steps:
@@ -114,45 +111,31 @@ jobs:
             ARGS+=(--force-report)
           fi
 
-          run_agent_once() {
-            local log_file="$1"
-            set +e
-            python -m src.main "${ARGS[@]}" 2>&1 | tee "$log_file"
-            local status="${PIPESTATUS[0]}"
-            set -e
-            return "$status"
-          }
+          log_file="run-agent.log"
+          set +e
+          python -m src.main "${ARGS[@]}" 2>&1 | tee "$log_file"
+          status="${PIPESTATUS[0]}"
+          set -e
 
-          attempt=1
-          while [ "$attempt" -le "$NO_UPDATE_MAX_ATTEMPTS" ]; do
-            log_file="run-agent-attempt-${attempt}.log"
-            echo "Starting attempt ${attempt}/${NO_UPDATE_MAX_ATTEMPTS}..."
-            run_agent_once "$log_file"
+          if [ "$status" -ne 0 ]; then
+            echo "Agent failed with exit code $status"
+            exit "$status"
+          fi
 
-            if ! grep -q '^\[no-update\]' "$log_file"; then
-              echo "New data found or report generated on attempt ${attempt}."
-              break
-            fi
-
-            if [ "${{ github.event.inputs.force_report }}" = "true" ]; then
-              echo "Force report requested; not retrying after no-update."
-              break
-            fi
-
-            if [ "$attempt" -eq "$NO_UPDATE_MAX_ATTEMPTS" ]; then
-              echo "No new data after ${NO_UPDATE_MAX_ATTEMPTS} attempts. Ending without email."
-              break
-            fi
-
-            echo "No new data yet. Retrying in ${NO_UPDATE_RETRY_MINUTES} minutes..."
-            sleep "$((NO_UPDATE_RETRY_MINUTES * 60))"
-            attempt=$((attempt + 1))
-          done
+          if grep -q '^\[no-update\]' "$log_file"; then
+            echo "No new data found for $ETF. Exiting fast without sleeping."
+            echo "has_update=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "New data processed and report generated for $ETF."
+            echo "has_update=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Export site data
+        if: steps.run_agent.outputs.has_update == 'true' || github.event.inputs.force_report == 'true'
         run: python scripts/export_site_data.py --etf "${{ matrix.etf }}" --output-dir site/data
 
       - name: Generate AI analysis
+        if: steps.run_agent.outputs.has_update == 'true' || github.event.inputs.force_report == 'true'
         run: python scripts/generate_ai_analysis.py --etf "${{ matrix.etf }}" --input-dir site/data
 
       - name: Save database cache
@@ -201,9 +184,9 @@ jobs:
           path: |
             data/reports/
             data/etf_holdings.sqlite
-            run-agent-attempt-*.log
+            run-agent.log
           if-no-files-found: ignore
-          retention-days: 30
+          retention-days: 3
 
       - name: Upload site data artifact
         if: always()
@@ -212,11 +195,11 @@ jobs:
           name: site-data-${{ matrix.etf }}
           path: site/data/${{ matrix.etf }}/
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 1
 
   publish-site-data:
     needs: run-agent
-    if: always()
+    if: needs.run-agent.result == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -232,6 +215,7 @@ jobs:
           path: site-data-artifacts
 
       - name: Publish site data to repo
+        id: commit_site_data
         run: |
           set -euo pipefail
           mkdir -p site/data
@@ -247,22 +231,27 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if git diff --quiet -- site/data; then
             echo "No site data changes to commit."
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
           else
             git add site/data
             git commit -m "Update static site data"
             git push
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Configure Pages
+        if: steps.commit_site_data.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
       - name: Upload Pages artifact
+        if: steps.commit_site_data.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
       - name: Deploy to GitHub Pages
+        if: steps.commit_site_data.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch'
         id: deployment
         uses: actions/deploy-pages@v4
