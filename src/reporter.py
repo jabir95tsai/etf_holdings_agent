@@ -16,37 +16,31 @@ logger = logging.getLogger(__name__)
 DISCLAIMER = "本報告僅為資料整理，不構成投資建議。"
 
 # ---------- Email theme (mirrors the web dashboard, email-safe) ----------
-# Email clients can't load external fonts, so we use a refined system stack.
-EMAIL_FONT = (
-    "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,"
-    "'Helvetica Neue',Arial,'PingFang TC','Microsoft JhengHei',sans-serif"
-)
-EMAIL_MONO = "'SF Mono',SFMono-Regular,ui-monospace,Consolas,Menlo,'Courier New',monospace"
+# Email clients can't load external fonts, so we use serif system fonts that
+# cover Traditional Chinese (Noto Serif TC where installed, else Songti/PMingLiU).
+EMAIL_FONT = "'Noto Serif TC','Songti TC','PMingLiU','MingLiU',Georgia,serif"
+EMAIL_MONO = "Consolas,SFMono-Regular,Menlo,ui-monospace,'Courier New',monospace"
 # Palette — same tokens as site/assets/styles.css.
-C_BG = "#eef1f7"
-C_PANEL = "#ffffff"
-C_INK = "#0f172a"
-C_INK_SOFT = "#334155"
-C_MUTED = "#64748b"
-C_FAINT = "#94a3b8"
-C_LINE = "#e8ecf3"
-C_SOFT = "#f6f8fc"
-C_GREEN = "#047857"
-C_GREEN_BG = "#e9f9f1"
-C_GREEN_BADGE_BG = "#dcfce7"
-C_GREEN_BADGE = "#166534"
-C_RED = "#dc2626"
-C_RED_BG = "#fdecec"
-C_RED_BADGE_BG = "#fee2e2"
-C_RED_BADGE = "#991b1b"
-C_BRAND = "#4f46e5"
-C_BRAND_BG = "#eef0ff"
-C_BRAND_INK = "#312e81"
-# Dark navy header gradient (with solid fallback for clients that drop gradients).
-HEADER_BG = (
-    "background:#0b1120;background-image:linear-gradient(110deg,"
-    "#0b1120 0%,#131a33 55%,#1b1f44 100%);"
-)
+C_BG = "#e9e8e3"
+C_PANEL = "#fcfcfa"
+C_INK = "#16171d"
+C_INK_SOFT = "#3c3f4a"
+C_MUTED = "#6b6e7a"
+C_FAINT = "#6b6e7a"
+C_LINE = "#e6e5e0"
+C_SOFT = "#f5f5f2"
+C_GREEN = "#0c7a55"
+C_GREEN_BG = "#e3f3ec"
+C_GREEN_BADGE_BG = "#e3f3ec"
+C_GREEN_BADGE = "#0c7a55"
+C_RED = "#c5322d"
+C_RED_BG = "#fbe9e7"
+C_RED_BADGE_BG = "#fbe9e7"
+C_RED_BADGE = "#a8231e"
+C_BRAND = "#3f3dbf"
+C_BRAND_BG = "#ecebfa"
+C_BRAND_INK = "#22206f"
+C_LINE_STRONG = "#d6d5ce"
 
 
 @dataclass
@@ -363,15 +357,15 @@ def render_email_html(
         "<table class='email-outer' width='100%' cellpadding='0' cellspacing='0' border='0' "
         f"style='background:{C_BG};padding:24px 0;'><tr><td align='center'>"
         "<table class='email-container' width='620' cellpadding='0' cellspacing='0' border='0' "
-        f"style='width:620px;max-width:620px;background:{C_PANEL};border-radius:16px;"
-        f"overflow:hidden;border:1px solid {C_LINE};box-shadow:0 12px 32px rgba(15,23,42,.1);'>"
+        f"style='width:620px;max-width:620px;background:{C_PANEL};border-radius:14px;"
+        f"overflow:hidden;border:1px solid {C_LINE};'>"
     )
     parts.append(_render_email_header(etf_code, run_at, diff, source_used, report_date, qc.is_new_data))
     parts.append(_render_email_brief(diff, summary, top_buy, top_sell))
     parts.append(_render_email_kpis(summary))
     parts.append(_render_email_highlights(top_buy, top_sell))
-    parts.append(_render_email_position_table("新建倉", diff.new_positions, "NEW", "#dcfce7", "#166534"))
-    parts.append(_render_email_position_table("清倉", diff.sold_out, "OUT", "#fee2e2", "#991b1b"))
+    parts.append(_render_email_position_table("新建倉", diff.new_positions, "NEW", "#e3f3ec", "#0c7a55"))
+    parts.append(_render_email_position_table("清倉", diff.sold_out, "OUT", "#fbe9e7", "#a8231e"))
     parts.append(_render_email_change_table("增持 Top 10", diff.increased[:10], C_GREEN))
     parts.append(_render_email_change_table("減持 Top 10", diff.decreased[:10], C_RED))
     parts.append(_render_email_top_holdings(top_changes))
@@ -422,23 +416,19 @@ def _render_email_header(
 ) -> str:
     stale_badge = (
         "<span style='background:#fff7ed;color:#c2410c;font-size:11px;"
-        "font-weight:600;padding:4px 9px;border-radius:999px;margin-left:8px;'>非新資料</span>"
+        "font-weight:600;padding:3px 9px;border-radius:999px;margin-left:8px;'>非新資料</span>"
         if not is_new_data else ""
     )
     return (
-        f"<tr><td class='mobile-pad' style='{HEADER_BG}padding:26px 28px;'>"
-        "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
-        "<td class='header-meta'><span style='font-size:11px;font-weight:700;letter-spacing:.16em;"
-        "color:#aeb6d8;text-transform:uppercase;'>● ETF 持股報告</span><br>"
-        f"<span style='font-size:23px;font-weight:700;color:#ffffff;'>{_html(etf_code)}</span>"
-        f"<span style='font-size:15px;font-weight:600;color:#c7cdf2;margin-left:8px;'>每日持股變化</span>{stale_badge}</td>"
-        f"<td class='header-date' align='right' valign='bottom'><span style='font-size:12px;color:#aeb6d8;'>報告日期：{_html(report_date)}</span></td>"
-        "</tr></table>"
-        "<table width='100%' cellpadding='0' cellspacing='0' border='0' "
-        "style='margin-top:14px;border-top:1px solid rgba(255,255,255,.1);padding-top:12px;'><tr>"
-        f"<td style='font-size:11px;color:#aeb6d8;'>比較基準：{_html(diff.current_date or 'N/A')} vs {_html(diff.previous_date or 'N/A')}</td>"
-        f"<td align='right' style='font-size:11px;color:#aeb6d8;'>來源：{_html(source_used or 'N/A')}　執行：{_html(run_at.strftime('%H:%M'))}</td>"
-        "</tr></table></td></tr>"
+        f"<tr><td class='mobile-pad' style='padding:28px 28px 20px;border-bottom:1px solid {C_LINE};'>"
+        f"<div style='font-family:{EMAIL_MONO};font-size:12px;letter-spacing:.04em;color:{C_MUTED};'>"
+        f"ETF 持股報告 · 報告日期 {_html(report_date)}{stale_badge}</div>"
+        f"<div style='margin:8px 0 6px;font-size:28px;line-height:1.25;font-weight:700;color:{C_INK};'>"
+        f"<span style='font-family:{EMAIL_MONO};color:{C_BRAND};margin-right:8px;'>{_html(etf_code)}</span>&nbsp;每日持股變化</div>"
+        f"<div style='font-size:13px;color:{C_MUTED};'>"
+        f"比較 {_html(diff.previous_date or 'N/A')} → {_html(diff.current_date or 'N/A')}"
+        f" · 來源 {_html(source_used or 'N/A')} · 執行 {_html(run_at.strftime('%H:%M'))}</div>"
+        "</td></tr>"
     )
 
 
@@ -464,9 +454,9 @@ def _render_email_brief(
     )
     return (
         "<tr><td class='mobile-pad' style='padding:20px 28px 0;'>"
-        f"<div style='background:{C_BRAND_BG};border-left:3px solid {C_BRAND};"
-        "border-radius:0 10px 10px 0;padding:14px 16px;"
-        f"font-size:13px;line-height:1.7;color:{C_INK_SOFT};'>"
+        f"<div style='background:{C_BRAND_BG};"
+        "border-radius:10px;padding:16px 18px;"
+        f"font-size:14px;line-height:1.85;color:{C_BRAND_INK};'>"
         f"<span style='font-weight:700;color:{C_BRAND_INK};'>今日重點：</span>{_html(text)}"
         "</div></td></tr>"
     )
@@ -479,35 +469,52 @@ def _estimated_text(row: DiffRow) -> str:
 
 
 def _render_email_kpis(summary: dict) -> str:
-    cells = [
-        ("今日持股", str(summary["current_count"]), f"前次 {summary['previous_count']} 檔", C_INK, C_BRAND),
-        ("新建倉", f"+{summary['new_count']}", "檔新增", C_GREEN, C_GREEN),
-        ("清倉", f"-{summary['sold_count']}", "檔出清", C_RED, C_RED),
-        (
-            "增 / 減持",
-            (
-                f"<span style='color:{C_GREEN};font-size:16px;'>增 {summary['increased_count']}</span>"
-                f"<span style='color:{C_FAINT};font-size:14px;padding:0 3px;'>/</span>"
-                f"<span style='color:{C_RED};font-size:16px;'>減 {summary['decreased_count']}</span>"
-            ),
-            "檔異動",
-            C_INK,
-            C_MUTED,
-        ),
+    """Holdings count plus a segmented bar of how the previous holdings changed."""
+    sold = summary["sold_count"]
+    increased = summary["increased_count"]
+    decreased = summary["decreased_count"]
+    new = summary["new_count"]
+    unchanged = max(0, (summary["previous_count"] or 0) - sold - increased - decreased)
+    segments = [
+        ("減持", decreased, C_RED),
+        ("清倉", sold, "#7c1d19"),
+        ("持平", unchanged, C_LINE_STRONG),
+        ("增持", increased, C_GREEN),
+        ("新建倉", new, C_BRAND),
     ]
-    out = ["<tr><td class='mobile-pad' style='padding:20px 28px 0;'><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"]
-    for i, (label, value, note, color, accent) in enumerate(cells):
-        pad = "padding-right:10px;" if i < len(cells) - 1 else ""
-        out.append(
-            f"<td class='kpi-cell' width='25%' valign='top' style='{pad}'><table width='100%' cellpadding='0' cellspacing='0' border='0' "
-            f"style='background:{C_SOFT};border:1px solid {C_LINE};border-left:3px solid {accent};border-radius:0 10px 10px 0;'><tr><td style='padding:14px 16px;'>"
-            f"<div style='font-size:10px;color:{C_MUTED};text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;'>{_html(label)}</div>"
-            f"<div style=\"font-size:24px;font-weight:600;color:{color};font-family:{EMAIL_MONO};white-space:nowrap;\">{value}</div>"
-            f"<div style='font-size:11px;color:{C_FAINT};margin-top:3px;'>{_html(note)}</div>"
-            "</td></tr></table></td>"
+    total = sum(count for _, count, _ in segments)
+    cells: list[str] = []
+    for _, count, color in segments:
+        if not count:
+            continue
+        if cells:
+            cells.append("<td width='4' style='font-size:0;line-height:0;'>&nbsp;</td>")
+        pct = max(2.0, count / total * 100)
+        cells.append(
+            f"<td width='{pct:.1f}%' height='12' style='background:{color};border-radius:6px;"
+            "font-size:0;line-height:0;'>&nbsp;</td>"
         )
-    out.append("</tr></table></td></tr>")
-    return "".join(out)
+    bar = (
+        "<table width='100%' cellpadding='0' cellspacing='0' border='0' "
+        f"style='margin-top:14px;border-collapse:separate;'><tr>{''.join(cells)}</tr></table>"
+        if cells else ""
+    )
+    legend = "&nbsp;&nbsp;&nbsp;".join(
+        f"<span style='color:{color};'>■</span> {_html(label)} "
+        f"<b style=\"font-family:{EMAIL_MONO};color:{C_INK};\">{count}</b>"
+        for label, count, color in segments
+    )
+    return (
+        "<tr><td class='mobile-pad' style='padding:16px 28px 0;'>"
+        "<table width='100%' cellpadding='0' cellspacing='0' border='0' "
+        f"style='border:1px solid {C_LINE};border-radius:12px;border-collapse:separate;'><tr><td style='padding:20px 22px;'>"
+        f"<div><span style=\"font-size:40px;line-height:1;font-weight:600;font-family:{EMAIL_MONO};"
+        f"color:{C_INK};\">{summary['current_count']}</span>"
+        f"<span style='font-size:14px;color:{C_MUTED};margin-left:10px;'>檔持股　前次 {summary['previous_count']} 檔</span></div>"
+        f"{bar}"
+        f"<div style='margin-top:12px;font-size:13px;line-height:2;color:{C_INK_SOFT};'>{legend}</div>"
+        "</td></tr></table></td></tr>"
+    )
 
 
 def _top_amount(rows: list[DiffRow], *, reverse: bool) -> DiffRow | None:
@@ -530,9 +537,9 @@ def _top_amount(rows: list[DiffRow], *, reverse: bool) -> DiffRow | None:
 
 def _render_email_highlights(top_buy: DiffRow | None, top_sell: DiffRow | None) -> str:
     return (
-        "<tr><td class='mobile-pad' style='padding:14px 28px 0;'><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
-        + _highlight_cell("▲ 最大買進標的", top_buy, C_GREEN_BG, C_GREEN, C_GREEN_BADGE)
-        + _highlight_cell("▼ 最大賣出標的", top_sell, C_RED_BG, C_RED, C_RED_BADGE, left_pad=True)
+        "<tr><td class='mobile-pad' style='padding:12px 28px 0;'><table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
+        + _highlight_cell("▲ 最大買進標的", top_buy, C_GREEN_BG, "#b9dccd", C_GREEN)
+        + _highlight_cell("▼ 最大賣出標的", top_sell, C_RED_BG, "#efc3bf", C_RED_BADGE, left_pad=True)
         + "</tr></table></td></tr>"
     )
 
@@ -541,12 +548,12 @@ def _highlight_cell(
     label: str,
     row: DiffRow | None,
     bg: str,
-    border: str,
-    label_color: str,
+    line: str,
+    accent: str,
     *,
     left_pad: bool = False,
 ) -> str:
-    pad = "padding-left:7px;" if left_pad else "padding-right:7px;"
+    pad = "padding-left:6px;" if left_pad else "padding-right:6px;"
     if row:
         name = f"{row.stock_code or ''} {row.stock_name or ''}".strip() or "—"
         amount = (
@@ -561,24 +568,29 @@ def _highlight_cell(
             else row.previous_weight_pct
         )
         detail = f"股數：{shares}　權重：{_fmt_pct(weight)}"
+        box = f"background:{bg};border:1px solid {line};"
+        name_color, amount_color = C_INK, accent
     else:
         # Render an equal-height placeholder so the two highlight cells
         # always match vertically, regardless of whether one side has data.
-        name = "—"
-        amount = "無紀錄"
-        detail = "今日沒有明顯的金額變化"
+        side = "買進" if "買進" in label else "賣出"
+        name = f"今日無{side}"
+        amount = "—"
+        detail = f"尚無{side}資料"
+        box = f"border:1px dashed {C_LINE_STRONG};"
+        name_color, amount_color = C_MUTED, C_LINE_STRONG
     return (
         # height='100%' + valign='top' forces the inner card to fill the
         # outer td (which is auto-sized to the taller sibling), so both
         # cards always share the same height.
         f"<td class='highlight-cell' width='50%' valign='top' style='{pad};height:1px;'>"
         f"<table class='highlight-inner' width='100%' height='100%' cellpadding='0' cellspacing='0' border='0' "
-        f"style='background:{bg};border-left:4px solid {border};border-radius:0 12px 12px 0;height:100%;'>"
-        "<tr><td valign='top' style='padding:14px 16px;'>"
-        f"<div style='font-size:10px;font-weight:700;color:{label_color};text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;'>{_html(label)}</div>"
-        f"<div style='font-size:14px;font-weight:700;color:{C_INK};line-height:1.4;'>{_html(name)}</div>"
-        f"<div style=\"font-size:18px;font-weight:600;color:{border};font-family:{EMAIL_MONO};line-height:1.3;margin-top:2px;\">{_html(amount)}</div>"
-        f"<div style='font-size:11px;color:{C_MUTED};margin-top:4px;line-height:1.4;'>{_html(detail)}</div>"
+        f"style='{box}border-radius:12px;border-collapse:separate;height:100%;'>"
+        "<tr><td valign='top' style='padding:16px 18px;'>"
+        f"<div style='font-size:12px;font-weight:700;color:{accent};letter-spacing:.04em;margin-bottom:6px;'>{_html(label)}</div>"
+        f"<div style='font-size:15px;font-weight:700;color:{name_color};line-height:1.4;'>{_html(name)}</div>"
+        f"<div style=\"font-size:22px;font-weight:600;color:{amount_color};font-family:{EMAIL_MONO};line-height:1.3;margin-top:2px;\">{_html(amount)}</div>"
+        f"<div style='font-size:12px;color:{C_MUTED};margin-top:4px;line-height:1.4;'>{_html(detail)}</div>"
         "</td></tr></table></td>"
     )
 
@@ -614,14 +626,14 @@ def _render_email_position_table(
         return _empty_email_section(title)
     out = [
         _section_start(title),
-        "<tr style='background:#f6f8fc;'>",
+        "<tr>",
         _th("代號"), _th("名稱"), _th("權重", right=True, css_class="mobile-hide"),
         _th("股數", right=True, css_class="mobile-hide"),
         _th("估值變化", right=True, css_class="amount-cell"),
         "</tr>",
     ]
     for i, r in enumerate(rows):
-        border = "border-bottom:1px solid #e8ecf3;" if i < len(rows) - 1 else ""
+        border = "border-bottom:1px solid #e6e5e0;" if i < len(rows) - 1 else ""
         shares = r.current_shares if r.change_type == "New Position" else r.previous_shares
         weight = r.current_weight_pct if r.change_type == "New Position" else r.previous_weight_pct
         out.append(
@@ -643,7 +655,7 @@ def _position_name_cell(name, weight, shares) -> str:
     return (
         f"<div>{_html(name)}</div>"
         "<div class='mobile-only' style='display:none;max-height:0;overflow:hidden;"
-        "font-size:11px;color:#64748b;line-height:1.45;margin-top:2px;'>"
+        "font-size:11px;color:#6b6e7a;line-height:1.45;margin-top:2px;'>"
         f"權重 {_html(_fmt_pct(weight))} · 股數 {_html(_fmt_int(shares))}</div>"
     )
 
@@ -653,13 +665,13 @@ def _render_email_change_table(title: str, rows: list[DiffRow], color: str) -> s
         return _empty_email_section(title)
     out = [
         _section_start(title),
-        "<tr style='background:#f6f8fc;'>",
+        "<tr>",
         _th("代號"), _th("名稱"), _th("股數 / 估值", right=True),
         _th("權重", right=True, css_class="mobile-hide"), _th("變化", right=True),
         "</tr>",
     ]
     for i, r in enumerate(rows):
-        border = "border-bottom:1px solid #e8ecf3;" if i < len(rows) - 1 else ""
+        border = "border-bottom:1px solid #e6e5e0;" if i < len(rows) - 1 else ""
         out.append(
             "<tr>"
             + _td(r.stock_code, border=border)
@@ -684,7 +696,7 @@ def _change_name_cell(row: DiffRow) -> str:
     return (
         f"<div>{_html(row.stock_name)}</div>"
         "<div class='mobile-only' style='display:none;max-height:0;overflow:hidden;"
-        "font-size:11px;color:#64748b;line-height:1.45;margin-top:2px;'>"
+        "font-size:11px;color:#6b6e7a;line-height:1.45;margin-top:2px;'>"
         f"權重 {_html(_fmt_pct(row.current_weight_pct))}</div>"
     )
 
@@ -694,13 +706,13 @@ def _render_email_top_holdings(rows: list[dict]) -> str:
         return _empty_email_section("前十大持股")
     out = [
         _section_start("前十大持股"),
-        "<tr style='background:#f6f8fc;'>",
+        "<tr>",
         _th("排名 / 代號"), _th("名稱"), _th("今日權重", right=True),
         _th("前次權重", right=True, css_class="mobile-hide"), _th("變化", right=True),
         "</tr>",
     ]
     for i, r in enumerate(rows):
-        border = "border-bottom:1px solid #e8ecf3;" if i < len(rows) - 1 else ""
+        border = "border-bottom:1px solid #e6e5e0;" if i < len(rows) - 1 else ""
         bp = r.get("delta_weight_bp")
         out.append(
             "<tr>"
@@ -719,7 +731,7 @@ def _top_name_cell(row: dict) -> str:
     return (
         f"<div>{_html(row.get('stock_name'))}</div>"
         "<div class='mobile-only' style='display:none;max-height:0;overflow:hidden;"
-        "font-size:11px;color:#64748b;line-height:1.45;margin-top:2px;'>"
+        "font-size:11px;color:#6b6e7a;line-height:1.45;margin-top:2px;'>"
         f"前次 {_html(_fmt_pct(row.get('previous_weight_pct')))}</div>"
     )
 
@@ -763,14 +775,14 @@ def _rank_badge_color(row: dict) -> str:
 def _rank_badge_html(row: dict) -> str:
     badge = _rank_badge(row)
     if badge.startswith("▲") or badge == "NEW":
-        bg = "#dcfce7"
-        color = "#166534"
+        bg = "#e3f3ec"
+        color = "#0c7a55"
     elif badge.startswith("▼"):
-        bg = "#fee2e2"
-        color = "#991b1b"
+        bg = "#fbe9e7"
+        color = "#a8231e"
     else:
-        bg = "#f1f5f9"
-        color = "#64748b"
+        bg = "#ebeae5"
+        color = "#6b6e7a"
     return (
         f"<span style='display:inline-block;min-width:30px;text-align:center;"
         f"background:{bg};color:{color};font-size:11px;font-weight:700;"
@@ -799,10 +811,8 @@ def _render_email_quality(qc: QualityCheck) -> str:
     ]
     return (
         "<tr><td class='mobile-pad' style='padding:26px 28px 0;'>"
-        f"<div style='border-bottom:1px solid {C_LINE};padding-bottom:10px;margin-bottom:6px;'>"
-        f"<span style='display:inline-block;width:9px;height:9px;background:{C_BRAND};"
-        "border-radius:3px;margin-right:8px;vertical-align:middle;'></span>"
-        f"<span style='font-size:13px;font-weight:700;color:{C_INK};vertical-align:middle;'>資料品質</span></div>"
+        f"<div style='margin-bottom:4px;font-size:16px;font-weight:700;color:{C_INK};'>"
+        f"<span style='color:{C_BRAND};font-size:12px;margin-right:8px;vertical-align:middle;'>●</span>資料品質</div>"
         "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
         f"<td class='quality-col' width='50%' style='vertical-align:top;padding-right:12px;'>{_quality_table(left)}</td>"
         f"<td class='quality-col' width='50%' style='vertical-align:top;padding-left:12px;'>{_quality_table(right)}</td>"
@@ -825,7 +835,7 @@ def _quality_badge(value: str, bg: str, color: str) -> str:
 def _quality_table(rows: list[tuple[str, str]]) -> str:
     out = ["<table width='100%' cellpadding='0' cellspacing='0' border='0'>"]
     for i, (label, value) in enumerate(rows):
-        border = "border-bottom:1px solid #e8ecf3;" if i < len(rows) - 1 else ""
+        border = "border-bottom:1px solid #e6e5e0;" if i < len(rows) - 1 else ""
         out.append(
             "<tr>"
             f"<td style='font-size:12px;color:{C_MUTED};padding:5px 0;{border}'>{_html(label)}</td>"
@@ -840,11 +850,9 @@ def _section_start(title: str) -> str:
     accent = _section_accent(title)
     return (
         "<tr><td class='mobile-pad' style='padding:26px 28px 0;'>"
-        f"<div style='border-bottom:1px solid {C_LINE};padding-bottom:10px;margin-bottom:6px;'>"
-        f"<span style='display:inline-block;width:9px;height:9px;background:{accent};"
-        "border-radius:3px;margin-right:8px;vertical-align:middle;'></span>"
-        f"<span style='font-size:13px;font-weight:700;color:{C_INK};letter-spacing:.01em;"
-        f"vertical-align:middle;'>{_html(title)}</span></div>"
+        f"<div style='margin-bottom:4px;font-size:16px;font-weight:700;color:{C_INK};'>"
+        f"<span style='color:{accent};font-size:12px;margin-right:8px;vertical-align:middle;'>●</span>"
+        f"{_html(title)}</div>"
         "<table class='data-table' width='100%' cellpadding='0' cellspacing='0' border='0'>"
     )
 
@@ -859,13 +867,12 @@ def _section_accent(title: str) -> str:
 
 def _empty_email_section(title: str) -> str:
     message = _empty_message(title)
-    accent = _section_accent(title)
     bg = C_GREEN_BG if "減持" in title else C_SOFT
     color = C_GREEN if "減持" in title else C_MUTED
     return (
         _section_start(title)
         + f"<tr><td style='font-size:13px;color:{color};padding:13px 15px;background:{bg};"
-        + f"border-left:3px solid {accent};border-radius:0 10px 10px 0;'>{_html(message)}</td></tr>"
+        + f"border-radius:10px;'>{_html(message)}</td></tr>"
         + "</table></td></tr>"
     )
 
@@ -887,7 +894,7 @@ def _th(label: str, *, right: bool = False, css_class: str = "") -> str:
     class_attr = f" class='{css_class}'" if css_class else ""
     return (
         f"<td{class_attr} align='{align}' style='font-size:11px;font-weight:700;"
-        f"letter-spacing:.04em;color:{C_MUTED};padding:9px 8px;'>{_html(label)}</td>"
+        f"letter-spacing:.06em;color:{C_MUTED};padding:9px 8px;border-bottom:1px solid {C_LINE_STRONG};'>{_html(label)}</td>"
     )
 
 
@@ -905,8 +912,8 @@ def _td(
     class_attr = f" class='{css_class}'" if css_class else ""
     # style uses double quotes: EMAIL_MONO contains single-quoted family names.
     return (
-        f"<td{class_attr} align='{align}' style=\"font-size:13px;color:{color};{font}"
-        f"padding:9px 8px;{border}\">{_html(value)}</td>"
+        f"<td{class_attr} align='{align}' style=\"font-size:14px;color:{color};{font}"
+        f"padding:12px 8px;{border}\">{_html(value)}</td>"
     )
 
 
@@ -924,8 +931,8 @@ def _td_html(
     class_attr = f" class='{css_class}'" if css_class else ""
     # style uses double quotes: EMAIL_MONO contains single-quoted family names.
     return (
-        f"<td{class_attr} align='{align}' style=\"font-size:13px;color:{color};{font}"
-        f"padding:9px 8px;{border}\">{value_html}</td>"
+        f"<td{class_attr} align='{align}' style=\"font-size:14px;color:{color};{font}"
+        f"padding:12px 8px;{border}\">{value_html}</td>"
     )
 
 
@@ -940,8 +947,8 @@ def _td_stacked(
 ) -> str:
     align = "right" if right else "left"
     return (
-        f"<td align='{align}' style=\"font-size:13px;color:{color};"
-        f"font-family:{EMAIL_MONO};font-weight:500;padding:9px 8px;{border}\">"
+        f"<td align='{align}' style=\"font-size:14px;color:{color};"
+        f"font-family:{EMAIL_MONO};font-weight:500;padding:12px 8px;{border}\">"
         f"<div>{_html(primary)}</div>"
         f"<div style='font-size:11px;color:{sub_color};margin-top:2px;'>{_html(secondary)}</div>"
         "</td>"
@@ -1042,25 +1049,20 @@ def render_no_update_html(
         "<table class='email-outer' width='100%' cellpadding='0' cellspacing='0' border='0' "
         f"style='background:{C_BG};padding:24px 0;'><tr><td align='center'>"
         "<table class='email-container' width='620' cellpadding='0' cellspacing='0' border='0' "
-        f"style='width:620px;max-width:620px;background:{C_PANEL};border-radius:16px;"
-        f"overflow:hidden;border:1px solid {C_LINE};box-shadow:0 12px 32px rgba(15,23,42,.1);'>"
-        f"<tr><td class='mobile-pad' style='{HEADER_BG}padding:26px 28px;'>"
-        "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>"
-        "<td class='header-meta'><span style='font-size:11px;font-weight:700;letter-spacing:.16em;"
-        "color:#aeb6d8;text-transform:uppercase;'>● ETF 持股追蹤</span><br>"
-        f"<span style='font-size:23px;font-weight:700;color:#ffffff;'>{_html(etf_code)}</span>"
-        "<span style='background:#fff7ed;color:#c2410c;font-size:11px;font-weight:700;"
-        "padding:4px 9px;border-radius:999px;margin-left:8px;'>尚無新資料</span></td>"
-        f"<td class='header-date' align='right' valign='bottom'><span style='font-size:12px;color:#aeb6d8;'>檢查日期：{_html(report_date)}</span></td>"
-        "</tr></table>"
-        "<table width='100%' cellpadding='0' cellspacing='0' border='0' "
-        "style='margin-top:14px;border-top:1px solid rgba(255,255,255,.1);padding-top:12px;'><tr>"
-        f"<td style='font-size:11px;color:#aeb6d8;'>資料庫最新：{_html(db_latest_date or 'N/A')}　抓到資料：{_html(scraped_date or 'N/A')}</td>"
-        f"<td align='right' style='font-size:11px;color:#aeb6d8;'>來源：{_html(source_used or 'N/A')}　執行：{_html(run_time)}</td>"
-        "</tr></table></td></tr>"
+        f"style='width:620px;max-width:620px;background:{C_PANEL};border-radius:14px;"
+        f"overflow:hidden;border:1px solid {C_LINE};'>"
+        f"<tr><td class='mobile-pad' style='padding:28px 28px 20px;border-bottom:1px solid {C_LINE};'>"
+        f"<div style='font-family:{EMAIL_MONO};font-size:12px;letter-spacing:.04em;color:{C_MUTED};'>"
+        f"ETF 持股追蹤 · 檢查日期 {_html(report_date)}</div>"
+        f"<div style='margin:8px 0 6px;font-size:28px;line-height:1.25;font-weight:700;color:{C_INK};'>"
+        f"<span style='font-family:{EMAIL_MONO};color:{C_BRAND};margin-right:8px;'>{_html(etf_code)}</span>&nbsp;尚無新資料</div>"
+        f"<div style='font-size:13px;color:{C_MUTED};'>"
+        f"資料庫最新：{_html(db_latest_date or 'N/A')} · 抓到資料：{_html(scraped_date or 'N/A')}"
+        f" · 來源 {_html(source_used or 'N/A')} · 執行 {_html(run_time)}</div>"
+        "</td></tr>"
         "<tr><td class='mobile-pad' style='padding:22px 28px 0;'>"
-        "<div style='background:#fff7ed;border-left:4px solid #f97316;"
-        "border-radius:0 12px 12px 0;padding:16px 18px;'>"
+        "<div style='background:#fff7ed;border:1px solid #f3d3b4;"
+        "border-radius:12px;padding:16px 18px;'>"
         "<div style='font-size:10px;font-weight:700;letter-spacing:.08em;color:#c2410c;"
         "text-transform:uppercase;margin-bottom:5px;'>資料狀態</div>"
         f"<div style='font-size:20px;font-weight:700;color:{C_INK};'>尚無新資料</div>"
@@ -1069,10 +1071,8 @@ def render_no_update_html(
         f"與資料庫最新日期 {_html(db_latest_date or 'N/A')} 相同，因此沒有產生持股變化報告。"
         "</div></div></td></tr>"
         "<tr><td class='mobile-pad' style='padding:26px 28px 0;'>"
-        f"<div style='border-bottom:1px solid {C_LINE};padding-bottom:10px;margin-bottom:6px;'>"
-        f"<span style='display:inline-block;width:9px;height:9px;background:{C_BRAND};"
-        "border-radius:3px;margin-right:8px;vertical-align:middle;'></span>"
-        f"<span style='font-size:13px;font-weight:700;color:{C_INK};vertical-align:middle;'>可能原因</span></div>"
+        f"<div style='margin-bottom:4px;font-size:16px;font-weight:700;color:{C_INK};'>"
+        f"<span style='color:{C_BRAND};font-size:12px;margin-right:8px;vertical-align:middle;'>●</span>可能原因</div>"
         "<table width='100%' cellpadding='0' cellspacing='0' border='0'>"
         f"{_reason_row('今日為非交易日')}"
         f"{_reason_row('ETF 官方或 MoneyDJ 尚未更新')}"
@@ -1090,7 +1090,7 @@ def render_no_update_html(
 def _reason_row(text: str) -> str:
     return (
         f"<tr><td style='font-size:13px;color:{C_INK_SOFT};padding:9px 0;"
-        "border-bottom:1px solid #e8ecf3;'>"
+        "border-bottom:1px solid #e6e5e0;'>"
         f"<span style='display:inline-block;background:{C_BRAND_BG};color:{C_BRAND};"
         "font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;"
         f"margin-right:8px;'>INFO</span>{_html(text)}</td></tr>"

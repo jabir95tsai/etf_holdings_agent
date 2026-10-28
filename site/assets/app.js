@@ -43,12 +43,6 @@ const compactMoney = (value) => {
   return `${sign}${amount.toLocaleString("zh-TW")}`;
 };
 
-const signedCount = (value, sign) => {
-  const count = Number(value || 0);
-  if (count === 0) return "0";
-  return `${sign}${count}`;
-};
-
 const signedClass = (value) => {
   if (Number(value) > 0) return "up";
   if (Number(value) < 0) return "down";
@@ -184,7 +178,7 @@ function renderTabs() {
 
 function renderHeader() {
   const { etf, dates, source, quality, brief } = state.data;
-  $("etfTitle").textContent = `${etf.code} ${etf.name}`;
+  $("etfTitle").innerHTML = `<span class="code">${escapeHtml(etf.code)}</span>${escapeHtml(etf.name)}`;
   $("reportMeta").textContent = `報告日期 ${dates.current || "-"} · 比較 ${dates.previous || "-"}`;
   $("brief").textContent = brief || "目前沒有摘要。";
   $("sourceBadge").textContent = `來源 ${source.source_used || "-"}`;
@@ -194,36 +188,38 @@ function renderHeader() {
 }
 
 function renderKpis() {
-  const summary = state.data.summary;
-  const cards = [
-    ["今日持股", summary.current_count, `前次 ${summary.previous_count} 檔`, ""],
-    ["新建倉", signedCount(summary.new_count, "+"), "檔新增", "up"],
-    ["清倉", signedCount(summary.sold_count, "-"), "檔出清", "down"],
-    [
-      "增 / 減持",
-      `<span class="up">增 ${summary.increased_count}</span> <span class="down">減 ${summary.decreased_count}</span>`,
-      "檔異動",
-      "",
-    ],
+  const s = state.data.summary;
+  const unchanged = Math.max(0, s.previous_count - s.sold_count - s.increased_count - s.decreased_count);
+  const segments = [
+    ["減持", s.decreased_count, "dec"],
+    ["清倉", s.sold_count, "sold"],
+    ["持平", unchanged, "flat"],
+    ["增持", s.increased_count, "inc"],
+    ["新建倉", s.new_count, "new"],
   ];
-
-  $("kpis").innerHTML = cards
-    .map(([label, value, note, cls]) => `
-      <article class="kpi">
-        <p>${escapeHtml(label)}</p>
-        <strong class="${cls}">${value}</strong>
-        <span>${escapeHtml(note)}</span>
-      </article>
-    `)
+  const bar = segments
+    .filter(([, count]) => count > 0)
+    .map(([label, count, cls]) => `<i class="seg ${cls}" style="flex:${count}" title="${label} ${count}"></i>`)
     .join("");
+  const legend = segments
+    .map(([label, count, cls]) => `<span><i class="dot ${cls}"></i>${label} <b>${count}</b></span>`)
+    .join("");
+
+  $("kpis").innerHTML = `
+    <div class="kpi-main"><strong>${s.current_count}</strong><span>檔持股　前次 ${s.previous_count} 檔</span></div>
+    ${bar ? `<div class="kpi-bar">${bar}</div>` : ""}
+    <div class="kpi-legend">${legend}</div>
+  `;
 }
 
 function renderHighlight(prefix, row) {
-  const name = row ? `${row.stock_code || "-"} ${row.stock_name || ""}` : "-";
-  const amount = row?.estimated_change_amount_label || compactMoney(row?.estimated_change_amount);
+  $(`${prefix}Name`).closest(".highlight").classList.toggle("empty", !row);
+  const side = prefix === "topBuy" ? "買進" : "賣出";
+  const name = row ? `${row.stock_code || "-"} ${row.stock_name || ""}` : `今日無${side}`;
+  const amount = row ? row.estimated_change_amount_label || compactMoney(row.estimated_change_amount) : "—";
   const meta = row
     ? `股數 ${row.delta_shares_label || formatInt(row.delta_shares)} · 權重 ${formatPct(row.current_weight_pct ?? row.previous_weight_pct)}`
-    : "-";
+    : `尚無${side}資料`;
   $(`${prefix}Name`).textContent = name;
   $(`${prefix}Amount`).textContent = amount;
   $(`${prefix}Meta`).textContent = meta;
@@ -347,6 +343,7 @@ function rankBadge(row) {
 }
 
 function renderTopHoldings(rows) {
+  const maxWeight = Math.max(...rows.map((row) => Number(row.current_weight_pct) || 0), 1);
   const body = rows
     .map((row) => `
       <tr>
@@ -354,7 +351,7 @@ function renderTopHoldings(rows) {
         <td>${rankBadge(row)}</td>
         <td>${escapeHtml(row.stock_code)}</td>
         <td>${escapeHtml(row.stock_name)}</td>
-        <td class="num">${formatPct(row.current_weight_pct)}</td>
+        <td class="num"><span class="bar"><i style="width:${Math.round(((Number(row.current_weight_pct) || 0) / maxWeight) * 100)}%"></i></span>${formatPct(row.current_weight_pct)}</td>
         <td class="num">${formatPct(row.previous_weight_pct)}</td>
         <td class="num ${signedClass(row.delta_weight_bp)}">${formatBp(row.delta_weight_bp)}</td>
       </tr>

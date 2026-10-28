@@ -3,21 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0b1120" />
+    <meta name="theme-color" content="#fcfcfa" />
     <title>ETF 持股變化 Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&family=Roboto+Mono:wght@500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+TC:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/styles.css" />
   </head>
   <body>
     <header class="topbar">
-      <div>
-        <p class="eyebrow">ETF Holdings</p>
-        <h1>持股變化 Dashboard</h1>
+      <div class="brand">
+        <span class="mark"><i></i></span>
+        <h1>ETF Holdings <small>持股變化</small></h1>
       </div>
       <div class="topbar-actions">
         <span id="authStatus" class="auth-status">本機收藏</span>
@@ -43,7 +43,7 @@
         </div>
       </section>
 
-      <section id="kpis" class="kpi-grid" aria-label="關鍵指標"></section>
+      <section id="kpis" class="kpi-card" aria-label="關鍵指標"></section>
 
       <section class="highlight-grid" aria-label="今日亮點">
         <article class="highlight buy">
