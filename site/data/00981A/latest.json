@@ -1,14 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-03T22:50:17",
+  "generated_at": "2026-11-04T23:02:08",
   "etf": {
     "code": "00981A",
     "name": "統一台灣高息動能"
   },
   "dates": {
-    "current": "2026-11-03",
-    "previous": "2026-11-02",
+    "current": "2026-11-04",
+    "previous": "2026-11-03",
     "available": [
+      "2026-11-04",
       "2026-11-03",
       "2026-11-02",
       "2026-10-30",
@@ -52,59 +53,48 @@
   "source": {
     "source_used": "moneydj",
     "last_run": {
-      "run_at": "2026-11-03T22:50:03",
+      "run_at": "2026-11-04T23:02:06",
       "status": "ok",
-      "message": "new=1 sold=0 inc=1 dec=2",
+      "message": "new=0 sold=0 inc=7 dec=0",
       "source_used": "moneydj",
-      "data_date": "2026-11-03",
+      "data_date": "2026-11-04",
       "rows_count": 52,
-      "report_file": "00981A_diff_2026-11-03.md"
+      "report_file": "00981A_diff_2026-11-04.md"
     }
   },
   "summary": {
     "current_count": 52,
-    "previous_count": 53,
-    "new_count": 1,
+    "previous_count": 54,
+    "new_count": 0,
     "sold_count": 0,
-    "increased_count": 1,
-    "decreased_count": 2,
-    "top_increased_weight": "2330 台積電 (+119.0 bp)",
-    "top_decreased_weight": "3376 新日興 (-2.0 bp)",
-    "top_increased_shares": "2330 台積電 (+736,000)",
-    "top_decreased_shares": "3376 新日興 (-300,000)"
+    "increased_count": 7,
+    "decreased_count": 0,
+    "top_increased_weight": "3711 日月光投控 (+36.0 bp)",
+    "top_decreased_weight": "-",
+    "top_increased_shares": "3711 日月光投控 (+1,463,000)",
+    "top_decreased_shares": "-"
   },
-  "brief": "今日持股 52 檔，新建倉 1 檔、清倉 0 檔，增持 1 檔、減持 2 檔。最大買進為 2330 台積電（+16.89 億）；最大賣出為 8210 勤誠（-6470 萬）。",
+  "brief": "今日持股 52 檔，新建倉 0 檔、清倉 0 檔，增持 7 檔、減持 0 檔。最大買進為 2330 台積電（+18.19 億）；今日無明顯賣出金額。",
   "highlights": {
     "top_buy": {
       "stock_code": "2330",
       "stock_name": "台積電",
-      "delta_shares": 736000,
-      "delta_shares_label": "+736,000",
-      "current_weight_pct": 13.05,
-      "previous_weight_pct": 11.86,
-      "delta_weight_bp": 119.00000000000013,
-      "estimated_change_amount": 1689120000.0,
-      "estimated_change_amount_label": "+16.89 億",
-      "close_price": 2295.0
+      "delta_shares": 805000,
+      "delta_shares_label": "+805,000",
+      "current_weight_pct": 13.36,
+      "previous_weight_pct": 13.05,
+      "delta_weight_bp": 30.999999999999872,
+      "estimated_change_amount": 1819300000.0,
+      "estimated_change_amount_label": "+18.19 億",
+      "close_price": 2260.0
     },
-    "top_sell": {
-      "stock_code": "8210",
-      "stock_name": "勤誠",
-      "delta_shares": -100000,
-      "delta_shares_label": "-100,000",
-      "current_weight_pct": 0.04,
-      "previous_weight_pct": 0.06,
-      "delta_weight_bp": -1.9999999999999998,
-      "estimated_change_amount": -64700000.0,
-      "estimated_change_amount_label": "-6470 萬",
-      "close_price": 647.0
-    }
+    "top_sell": null
   },
   "quality": {
     "scrape_ok": true,
     "is_new_data": true,
     "rows_count": 52,
-    "weight_total": 96.74,
+    "weight_total": 96.84,
     "weight_total_ok": true,
     "missing_codes": 1,
     "missing_names": 0,
@@ -117,175 +107,227 @@
     ]
   },
   "sections": {
-    "new_positions": [
-      {
-        "stock_code": "1802",
-        "stock_name": "台玻",
-        "previous_shares": null,
-        "current_shares": 8479000,
-        "delta_shares": null,
-        "previous_weight_pct": null,
-        "current_weight_pct": 0.23,
-        "delta_weight_pct": null,
-        "delta_weight_bp": null,
-        "change_type": "New Position",
-        "close_price": 67.7,
-        "estimated_change_amount": 574028300.0,
-        "abs_delta_weight_rank": 30,
-        "abs_delta_shares_rank": 4,
-        "delta_shares_label": null,
-        "estimated_change_amount_label": "+5.74 億"
-      }
-    ],
+    "new_positions": [],
     "sold_out": [],
     "increased": [
       {
-        "stock_code": "2330",
-        "stock_name": "台積電",
-        "previous_shares": 13728000,
-        "current_shares": 14464000,
-        "delta_shares": 736000,
-        "previous_weight_pct": 11.86,
-        "current_weight_pct": 13.05,
-        "delta_weight_pct": 1.1900000000000013,
-        "delta_weight_bp": 119.00000000000013,
+        "stock_code": "3711",
+        "stock_name": "日月光投控",
+        "previous_shares": 15442000,
+        "current_shares": 16905000,
+        "delta_shares": 1463000,
+        "previous_weight_pct": 3.74,
+        "current_weight_pct": 4.1,
+        "delta_weight_pct": 0.35999999999999943,
+        "delta_weight_bp": 35.99999999999994,
         "change_type": "Increased",
-        "close_price": 2295.0,
-        "estimated_change_amount": 1689120000.0,
-        "abs_delta_weight_rank": 1,
+        "close_price": 627.0,
+        "estimated_change_amount": 917301000.0,
+        "abs_delta_weight_rank": 2,
         "abs_delta_shares_rank": 1,
-        "delta_shares_label": "+736,000",
-        "estimated_change_amount_label": "+16.89 億"
-      }
-    ],
-    "decreased": [
-      {
-        "stock_code": "3376",
-        "stock_name": "新日興",
-        "previous_shares": 1345000,
-        "current_shares": 1045000,
-        "delta_shares": -300000,
-        "previous_weight_pct": 0.07,
-        "current_weight_pct": 0.05,
-        "delta_weight_pct": -0.020000000000000004,
-        "delta_weight_bp": -2.0000000000000004,
-        "change_type": "Decreased",
-        "close_price": 127.0,
-        "estimated_change_amount": -38100000.0,
-        "abs_delta_weight_rank": 23,
-        "abs_delta_shares_rank": 2,
-        "delta_shares_label": "-300,000",
-        "estimated_change_amount_label": "-3810 萬"
+        "delta_shares_label": "+1,463,000",
+        "estimated_change_amount_label": "+9.17 億"
       },
       {
-        "stock_code": "8210",
-        "stock_name": "勤誠",
-        "previous_shares": 241000,
-        "current_shares": 141000,
-        "delta_shares": -100000,
-        "previous_weight_pct": 0.06,
-        "current_weight_pct": 0.04,
-        "delta_weight_pct": -0.019999999999999997,
-        "delta_weight_bp": -1.9999999999999998,
-        "change_type": "Decreased",
-        "close_price": 647.0,
-        "estimated_change_amount": -64700000.0,
-        "abs_delta_weight_rank": 24,
+        "stock_code": "2330",
+        "stock_name": "台積電",
+        "previous_shares": 14464000,
+        "current_shares": 15269000,
+        "delta_shares": 805000,
+        "previous_weight_pct": 13.05,
+        "current_weight_pct": 13.36,
+        "delta_weight_pct": 0.3099999999999987,
+        "delta_weight_bp": 30.999999999999872,
+        "change_type": "Increased",
+        "close_price": 2260.0,
+        "estimated_change_amount": 1819300000.0,
+        "abs_delta_weight_rank": 4,
+        "abs_delta_shares_rank": 2,
+        "delta_shares_label": "+805,000",
+        "estimated_change_amount_label": "+18.19 億"
+      },
+      {
+        "stock_code": "2454",
+        "stock_name": "聯發科",
+        "previous_shares": 5478000,
+        "current_shares": 5615000,
+        "delta_shares": 137000,
+        "previous_weight_pct": 7.91,
+        "current_weight_pct": 8.07,
+        "delta_weight_pct": 0.16000000000000014,
+        "delta_weight_bp": 16.000000000000014,
+        "change_type": "Increased",
+        "close_price": 3715.0,
+        "estimated_change_amount": 508955000.0,
+        "abs_delta_weight_rank": 7,
         "abs_delta_shares_rank": 3,
-        "delta_shares_label": "-100,000",
-        "estimated_change_amount_label": "-6470 萬"
+        "delta_shares_label": "+137,000",
+        "estimated_change_amount_label": "+5.09 億"
+      },
+      {
+        "stock_code": "6271",
+        "stock_name": "同欣電",
+        "previous_shares": 2240000,
+        "current_shares": 2340000,
+        "delta_shares": 100000,
+        "previous_weight_pct": 0.17,
+        "current_weight_pct": 0.18,
+        "delta_weight_pct": 0.009999999999999981,
+        "delta_weight_bp": 0.9999999999999981,
+        "change_type": "Increased",
+        "close_price": 201.5,
+        "estimated_change_amount": 20150000.0,
+        "abs_delta_weight_rank": 29,
+        "abs_delta_shares_rank": 4,
+        "delta_shares_label": "+100,000",
+        "estimated_change_amount_label": "+2015 萬"
+      },
+      {
+        "stock_code": "6274",
+        "stock_name": "台燿",
+        "previous_shares": 7292000,
+        "current_shares": 7342000,
+        "delta_shares": 50000,
+        "previous_weight_pct": 3.12,
+        "current_weight_pct": 3.17,
+        "delta_weight_pct": 0.04999999999999982,
+        "delta_weight_bp": 4.999999999999982,
+        "change_type": "Increased",
+        "close_price": 1115.0,
+        "estimated_change_amount": 55750000.0,
+        "abs_delta_weight_rank": 16,
+        "abs_delta_shares_rank": 5,
+        "delta_shares_label": "+50,000",
+        "estimated_change_amount_label": "+5575 萬"
+      },
+      {
+        "stock_code": "3017",
+        "stock_name": "奇鋐",
+        "previous_shares": 6616000,
+        "current_shares": 6655000,
+        "delta_shares": 39000,
+        "previous_weight_pct": 7.63,
+        "current_weight_pct": 7.26,
+        "delta_weight_pct": -0.3700000000000001,
+        "delta_weight_bp": -37.000000000000014,
+        "change_type": "Increased",
+        "close_price": 2820.0,
+        "estimated_change_amount": 109980000.0,
+        "abs_delta_weight_rank": 1,
+        "abs_delta_shares_rank": 6,
+        "delta_shares_label": "+39,000",
+        "estimated_change_amount_label": "+1.10 億"
+      },
+      {
+        "stock_code": "3443",
+        "stock_name": "創意",
+        "previous_shares": 923000,
+        "current_shares": 950000,
+        "delta_shares": 27000,
+        "previous_weight_pct": 2.47,
+        "current_weight_pct": 2.62,
+        "delta_weight_pct": 0.1499999999999999,
+        "delta_weight_bp": 14.999999999999991,
+        "change_type": "Increased",
+        "close_price": 7115.0,
+        "estimated_change_amount": 192105000.0,
+        "abs_delta_weight_rank": 8,
+        "abs_delta_shares_rank": 7,
+        "delta_shares_label": "+27,000",
+        "estimated_change_amount_label": "+1.92 億"
       }
     ],
+    "decreased": [],
     "top_holdings": [
       {
         "current_rank": 1,
         "previous_rank": 1,
         "stock_code": "2330",
         "stock_name": "台積電",
-        "current_weight_pct": 13.05,
-        "previous_weight_pct": 11.86,
-        "delta_weight_bp": 119.00000000000013
+        "current_weight_pct": 13.36,
+        "previous_weight_pct": 13.05,
+        "delta_weight_bp": 30.999999999999872
       },
       {
         "current_rank": 2,
         "previous_rank": 2,
         "stock_code": "2454",
         "stock_name": "聯發科",
-        "current_weight_pct": 7.91,
-        "previous_weight_pct": 8.06,
-        "delta_weight_bp": -15.000000000000036
+        "current_weight_pct": 8.07,
+        "previous_weight_pct": 7.91,
+        "delta_weight_bp": 16.000000000000014
       },
       {
         "current_rank": 3,
         "previous_rank": 4,
-        "stock_code": "3017",
-        "stock_name": "奇鋐",
+        "stock_code": "2383",
+        "stock_name": "台光電",
         "current_weight_pct": 7.63,
-        "previous_weight_pct": 7.5,
-        "delta_weight_bp": 12.99999999999999
+        "previous_weight_pct": 7.48,
+        "delta_weight_bp": 14.999999999999947
       },
       {
         "current_rank": 4,
         "previous_rank": 3,
-        "stock_code": "2383",
-        "stock_name": "台光電",
-        "current_weight_pct": 7.48,
-        "previous_weight_pct": 7.55,
-        "delta_weight_bp": -6.99999999999994
+        "stock_code": "3017",
+        "stock_name": "奇鋐",
+        "current_weight_pct": 7.26,
+        "previous_weight_pct": 7.63,
+        "delta_weight_bp": -37.000000000000014
       },
       {
         "current_rank": 5,
         "previous_rank": 5,
         "stock_code": "3037",
         "stock_name": "欣興",
-        "current_weight_pct": 7.0,
-        "previous_weight_pct": 7.29,
-        "delta_weight_bp": -29.000000000000004
+        "current_weight_pct": 6.78,
+        "previous_weight_pct": 7.0,
+        "delta_weight_bp": -21.999999999999975
       },
       {
         "current_rank": 6,
         "previous_rank": 6,
         "stock_code": "3653",
         "stock_name": "健策",
-        "current_weight_pct": 5.96,
-        "previous_weight_pct": 5.88,
-        "delta_weight_bp": 8.000000000000007
+        "current_weight_pct": 6.27,
+        "previous_weight_pct": 5.96,
+        "delta_weight_bp": 30.99999999999996
       },
       {
         "current_rank": 7,
-        "previous_rank": 7,
-        "stock_code": "2327",
-        "stock_name": "國巨*",
-        "current_weight_pct": 4.19,
-        "previous_weight_pct": 4.35,
-        "delta_weight_bp": -15.999999999999925
+        "previous_rank": 11,
+        "stock_code": "3711",
+        "stock_name": "日月光投控",
+        "current_weight_pct": 4.1,
+        "previous_weight_pct": 3.74,
+        "delta_weight_bp": 35.99999999999994
       },
       {
         "current_rank": 8,
-        "previous_rank": 8,
-        "stock_code": "6223",
-        "stock_name": "旺矽",
-        "current_weight_pct": 4.12,
-        "previous_weight_pct": 4.32,
-        "delta_weight_bp": -20.000000000000018
+        "previous_rank": 7,
+        "stock_code": "2327",
+        "stock_name": "國巨*",
+        "current_weight_pct": 4.09,
+        "previous_weight_pct": 4.19,
+        "delta_weight_bp": -10.000000000000053
       },
       {
         "current_rank": 9,
-        "previous_rank": 9,
-        "stock_code": "8046",
-        "stock_name": "南電",
-        "current_weight_pct": 3.78,
-        "previous_weight_pct": 3.95,
-        "delta_weight_bp": -17.000000000000036
+        "previous_rank": 8,
+        "stock_code": "6223",
+        "stock_name": "旺矽",
+        "current_weight_pct": 4.01,
+        "previous_weight_pct": 4.12,
+        "delta_weight_bp": -11.000000000000032
       },
       {
         "current_rank": 10,
-        "previous_rank": 11,
-        "stock_code": "2308",
-        "stock_name": "台達電",
-        "current_weight_pct": 3.78,
-        "previous_weight_pct": 3.81,
-        "delta_weight_bp": -3.000000000000025
+        "previous_rank": 9,
+        "stock_code": "8046",
+        "stock_name": "南電",
+        "current_weight_pct": 3.76,
+        "previous_weight_pct": 3.78,
+        "delta_weight_bp": -2.0000000000000018
       }
     ]
   },
@@ -294,253 +336,253 @@
       "rank": 1,
       "stock_code": "2330",
       "stock_name": "台積電",
-      "weight_pct": 13.05,
-      "shares": 14464000,
+      "weight_pct": 13.36,
+      "shares": 15269000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 2,
       "stock_code": "2454",
       "stock_name": "聯發科",
-      "weight_pct": 7.91,
-      "shares": 5478000,
+      "weight_pct": 8.07,
+      "shares": 5615000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 3,
-      "stock_code": "3017",
-      "stock_name": "奇鋐",
+      "stock_code": "2383",
+      "stock_name": "台光電",
       "weight_pct": 7.63,
-      "shares": 6616000,
+      "shares": 4328000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 4,
-      "stock_code": "2383",
-      "stock_name": "台光電",
-      "weight_pct": 7.48,
-      "shares": 4328000,
+      "stock_code": "3017",
+      "stock_name": "奇鋐",
+      "weight_pct": 7.26,
+      "shares": 6655000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 5,
       "stock_code": "3037",
       "stock_name": "欣興",
-      "weight_pct": 7.0,
+      "weight_pct": 6.78,
       "shares": 19739000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 6,
       "stock_code": "3653",
       "stock_name": "健策",
-      "weight_pct": 5.96,
+      "weight_pct": 6.27,
       "shares": 2512000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 7,
-      "stock_code": "2327",
-      "stock_name": "國巨*",
-      "weight_pct": 4.19,
-      "shares": 23519000,
+      "stock_code": "3711",
+      "stock_name": "日月光投控",
+      "weight_pct": 4.1,
+      "shares": 16905000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 8,
-      "stock_code": "6223",
-      "stock_name": "旺矽",
-      "weight_pct": 4.12,
-      "shares": 2504000,
+      "stock_code": "2327",
+      "stock_name": "國巨*",
+      "weight_pct": 4.09,
+      "shares": 23519000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 9,
-      "stock_code": "8046",
-      "stock_name": "南電",
-      "weight_pct": 3.78,
-      "shares": 8987000,
+      "stock_code": "6223",
+      "stock_name": "旺矽",
+      "weight_pct": 4.01,
+      "shares": 2504000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 10,
-      "stock_code": "2308",
-      "stock_name": "台達電",
-      "weight_pct": 3.78,
-      "shares": 7582000,
+      "stock_code": "8046",
+      "stock_name": "南電",
+      "weight_pct": 3.76,
+      "shares": 8987000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 11,
-      "stock_code": "3711",
-      "stock_name": "日月光投控",
-      "weight_pct": 3.74,
-      "shares": 15442000,
+      "stock_code": "2345",
+      "stock_name": "智邦",
+      "weight_pct": 3.63,
+      "shares": 6331000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 12,
-      "stock_code": "2345",
-      "stock_name": "智邦",
-      "weight_pct": 3.72,
-      "shares": 6331000,
+      "stock_code": "2308",
+      "stock_name": "台達電",
+      "weight_pct": 3.58,
+      "shares": 7582000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 13,
       "stock_code": "2303",
       "stock_name": "聯電",
-      "weight_pct": 3.22,
+      "weight_pct": 3.25,
       "shares": 79618000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 14,
       "stock_code": "6274",
       "stock_name": "台燿",
-      "weight_pct": 3.12,
-      "shares": 7292000,
+      "weight_pct": 3.17,
+      "shares": 7342000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 15,
       "stock_code": "2368",
       "stock_name": "金像電",
-      "weight_pct": 2.94,
+      "weight_pct": 2.88,
       "shares": 7708000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 16,
       "stock_code": "3443",
       "stock_name": "創意",
-      "weight_pct": 2.47,
-      "shares": 923000,
+      "weight_pct": 2.62,
+      "shares": 950000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 17,
-      "stock_code": null,
-      "stock_name": "台指期貨 2026/11(FITXN*1.TF)",
-      "weight_pct": 2.31,
-      "shares": 679,
+      "stock_code": "6669",
+      "stock_name": "緯穎",
+      "weight_pct": 2.27,
+      "shares": 3281561,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 18,
-      "stock_code": "6669",
-      "stock_name": "緯穎",
-      "weight_pct": 2.28,
-      "shares": 3281561,
+      "stock_code": null,
+      "stock_name": "台指期貨 2026/11(FITXN*1.TF)",
+      "weight_pct": 2.27,
+      "shares": 679,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 19,
       "stock_code": "3665",
       "stock_name": "貿聯-KY",
-      "weight_pct": 1.79,
+      "weight_pct": 1.75,
       "shares": 2887848,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 20,
       "stock_code": "5274",
       "stock_name": "信驊",
-      "weight_pct": 1.38,
+      "weight_pct": 1.3,
       "shares": 238900,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 21,
       "stock_code": "6805",
       "stock_name": "富世達",
-      "weight_pct": 1.2,
+      "weight_pct": 1.14,
       "shares": 1412000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 22,
       "stock_code": "2449",
       "stock_name": "京元電子",
-      "weight_pct": 0.77,
+      "weight_pct": 0.75,
       "shares": 7756450,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 23,
       "stock_code": "8996",
       "stock_name": "高力",
-      "weight_pct": 0.52,
+      "weight_pct": 0.54,
       "shares": 981000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 24,
       "stock_code": "6510",
       "stock_name": "精測",
-      "weight_pct": 0.48,
+      "weight_pct": 0.5,
       "shares": 470000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 25,
       "stock_code": "3231",
       "stock_name": "緯創",
-      "weight_pct": 0.42,
+      "weight_pct": 0.41,
       "shares": 6003000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 26,
       "stock_code": "3264",
       "stock_name": "欣銓",
-      "weight_pct": 0.39,
+      "weight_pct": 0.38,
       "shares": 5027000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 27,
       "stock_code": "1802",
       "stock_name": "台玻",
-      "weight_pct": 0.23,
+      "weight_pct": 0.22,
       "shares": 8479000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 28,
       "stock_code": "6271",
       "stock_name": "同欣電",
-      "weight_pct": 0.17,
-      "shares": 2240000,
+      "weight_pct": 0.18,
+      "shares": 2340000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 29,
@@ -549,7 +591,7 @@
       "weight_pct": 0.14,
       "shares": 957000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 30,
@@ -558,7 +600,7 @@
       "weight_pct": 0.12,
       "shares": 3921000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 31,
@@ -567,16 +609,16 @@
       "weight_pct": 0.11,
       "shares": 69000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 32,
       "stock_code": "8358",
       "stock_name": "金居",
-      "weight_pct": 0.1,
+      "weight_pct": 0.09,
       "shares": 654000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 33,
@@ -585,7 +627,7 @@
       "weight_pct": 0.05,
       "shares": 121000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 34,
@@ -594,7 +636,7 @@
       "weight_pct": 0.05,
       "shares": 1045000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 35,
@@ -603,7 +645,7 @@
       "weight_pct": 0.04,
       "shares": 5163000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 36,
@@ -612,16 +654,16 @@
       "weight_pct": 0.04,
       "shares": 501000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 37,
       "stock_code": "8210",
       "stock_name": "勤誠",
-      "weight_pct": 0.04,
+      "weight_pct": 0.03,
       "shares": 141000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 38,
@@ -630,7 +672,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 39,
@@ -639,7 +681,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 40,
@@ -648,7 +690,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 41,
@@ -657,7 +699,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 42,
@@ -666,7 +708,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 43,
@@ -675,7 +717,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 44,
@@ -684,7 +726,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 45,
@@ -693,7 +735,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 46,
@@ -702,7 +744,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 47,
@@ -711,7 +753,7 @@
       "weight_pct": 0.0,
       "shares": 5000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 48,
@@ -720,7 +762,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 49,
@@ -729,7 +771,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 50,
@@ -738,7 +780,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 51,
@@ -747,7 +789,7 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     },
     {
       "rank": 52,
@@ -756,16 +798,23 @@
       "weight_pct": 0.0,
       "shares": 1000,
       "raw_source": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
     }
   ],
   "history": [
     {
-      "date": "2026-11-03",
+      "date": "2026-11-04",
       "rows_count": 52,
-      "weight_total": 96.74,
+      "weight_total": 96.84,
       "source_used": "moneydj",
-      "scraped_at": "2026-11-03T22:49:37"
+      "scraped_at": "2026-11-04T23:01:54"
+    },
+    {
+      "date": "2026-11-03",
+      "rows_count": 54,
+      "weight_total": 101.36,
+      "source_used": "moneydj",
+      "scraped_at": "2026-11-04T04:00:36"
     },
     {
       "date": "2026-11-02",
@@ -1030,18 +1079,17 @@
   "ai_analysis": {
     "provider": "rule_based",
     "model": null,
-    "generated_at": "2026-11-03T22:50:17",
-    "headline": "00981A 今日持股 52 檔，新建倉 1、清倉 0，增持 1、減持 2。",
+    "generated_at": "2026-11-04T23:02:08",
+    "headline": "00981A 今日持股 52 檔，新建倉 0、清倉 0，增持 7、減持 0。",
     "bullets": [
-      "最大買進觀察為 2330 台積電，估值變化 +16.89 億。",
-      "最大賣出觀察為 8210 勤誠，估值變化 -6470 萬。",
-      "前十大中權重變化最大的是 2330 台積電，變化 +119.0 bp。"
+      "最大買進觀察為 2330 台積電，估值變化 +18.19 億。",
+      "今日沒有明顯賣出金額。",
+      "前十大中權重變化最大的是 3017 奇鋐，變化 -37.0 bp。"
     ],
     "watchlist": [
       "2330 台積電",
-      "8210 勤誠",
       "2454 聯發科",
-      "3017 奇鋐"
+      "2383 台光電"
     ],
     "risk_notes": [
       "1 檔缺股票代號",
