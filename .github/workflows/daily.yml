@@ -201,9 +201,8 @@ jobs:
     needs: run-agent
     if: needs.run-agent.result == 'success'
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      pages_artifact_id: ${{ steps.upload_pages.outputs.artifact_id }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -246,12 +245,20 @@ jobs:
           enablement: true
 
       - name: Upload Pages artifact
+        id: upload_pages
         if: steps.commit_site_data.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
+  deploy-pages:
+    needs: publish-site-data
+    if: needs.publish-site-data.outputs.pages_artifact_id != ''
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
-        if: steps.commit_site_data.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch'
         id: deployment
         uses: actions/deploy-pages@v4
